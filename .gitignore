@@ -1,0 +1,32 @@
+# Dependencias de Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de configuración del Editor/IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Archivos temporales y cachés del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Recursos temporales de desarrollo (GEMS / Descargas)
+scratch/gems.zip
+scratch/gems_veo.zip
+scratch/gems_text.txt
+scratch/gems_veo_text.txt
+scratch/unzipped_gems/
+scratch/unzipped_gems_veo/
+scratch/server.js  # Servidor local de desarrollo
+scratch/validate.js
+
+# Copias de seguridad
+*.bak
+*.tmp

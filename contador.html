@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="donjuwe">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#040406">
+  <meta name="color-scheme" content="dark">
+  <title>⚔ donjuwe - App Life Magic</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="icon" href="./icon-192.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@900&family=Outfit:wght@300;400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./style.css">
+  <script>
+    window.onerror = function(msg, url, line, col, error) {
+      const errStr = "⚠️ Error detectado:\n" + msg + "\nEn: " + url + ":" + line + (col ? ":" + col : "");
+      console.error(errStr, error);
+      alert(errStr);
+    };
+  </script>
+</head>
+
+<body>
+
+  <!-- ── Lienzo WebGL (Three.js) ── -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- ── Fondo de Respaldo Estático Fallback ── -->
+  <div id="fallback-bg"></div>
+
+  <!-- ── Marco PNG del tema activo (Regreso al Futuro, etc.) ── -->
+  <div id="theme-frame">
+    <!-- Diales y luces interactivas del tema Simpsons -->
+    <div class="simpsons-interactive-console">
+      <!-- Luces de Alarma (parpadean en peligro o con daño) -->
+      <div class="simp-alarm top-alarm-left" id="simpAlarmTopL"></div>
+      <div class="simp-alarm top-alarm-right" id="simpAlarmTopR"></div>
+      <div class="simp-alarm panic-btn-light" id="simpPanicLight"></div>
+      
+      <!-- Agujas de Diales (Jugador 1 - Arriba) -->
+      <div class="simp-gauge top-gauge-left" id="simpGaugeT1"><div class="simp-needle" id="simpNeedleT1"></div></div>
+      <div class="simp-gauge top-gauge-right" id="simpGaugeT2"><div class="simp-needle" id="simpNeedleT2"></div></div>
+      
+      <!-- Agujas de Diales (Jugador 2 - Abajo) -->
+      <div class="simp-gauge bot-gauge-left" id="simpGaugeB1"><div class="simp-needle" id="simpNeedleB1"></div></div>
+      <div class="simp-gauge bot-gauge-right" id="simpGaugeB2"><div class="simp-needle" id="simpNeedleB2"></div></div>
+      
+      <!-- Símbolo nuclear giratorio (consola inferior) -->
+      <div class="simp-nuclear-logo" id="simpNuclearLogo"></div>
+    </div>
+  </div>
+
+  <!-- ── Pantalla de Carga (Splash) ── -->
+  <div id="loading-screen">
+    <!-- Rejilla de Perspectiva 3D de fondo -->
+    <div class="matrix-grid"></div>
+    <div class="loader-content">
+      <div class="loader-logo-wrap">
+        <video id="splash-video" src="./assets/logo.mp4" autoplay muted playsinline loop preload="auto" class="loader-logo-video" style="display: none;"></video>
+        <img src="./assets/logo.jpeg" id="splash-img" class="loader-logo-img" alt="donjuwe Logo">
+      </div>
+      <div class="loader-progress-bar">
+        <div class="loader-progress" id="loadProgress"></div>
+      </div>
+      <p class="loader-status" id="loadStatus">CONECTANDO...</p>
+    </div>
+  </div>
+
+  <!-- ── Pantalla de Bloqueo ── -->
+  <div id="lock-screen">
+    <div class="lock-ring-wrap" id="lockRing">
+      <svg class="lock-ring-svg" viewBox="0 0 130 130">
+        <circle class="lock-ring-bg" cx="65" cy="65" r="60"></circle>
+        <circle class="lock-ring-fill" id="lockRingFill" cx="65" cy="65" r="60"></circle>
+      </svg>
+      <div class="lock-icon" id="lockIcon">🔒</div>
+    </div>
+    <span class="lock-txt">BLOQUEADO</span>
+    <span class="lock-hint">mantén pulsado para liberar</span>
+  </div>
+
+  <!-- ── Pantalla de Carga de Batalla (Pre-combate con Vídeo) ── -->
+  <div id="battle-loader" class="hidden">
+    <video id="battle-loader-video" autoplay loop muted playsinline></video>
+    <div class="battle-loader-overlay"></div>
+    <div class="battle-loader-content">
+      <div class="battle-vs-logo">VS</div>
+      <div class="battle-status" id="battleStatusTxt">Cargando escenario de lucha...</div>
+      <div class="battle-progress-bar">
+        <div class="battle-progress-fill" id="battleProgressFill"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── Modal Reanudar Partida ── -->
+  <div id="resume-modal">
+    <div class="modal-box">
+      <h3 class="modal-title">¿REANUDAR PARTIDA?</h3>
+      <p style="color: rgba(255,255,255,0.7); font-size: 13px; line-height: 1.6; margin: 12px 0 24px; font-family: 'Outfit', sans-serif;">
+        Se ha detectado una partida guardada en curso. ¿Deseas continuar jugando o prefieres empezar un encuentro completamente nuevo?
+      </p>
+      <button class="btn-modal-save" id="btnResumeContinue" style="background: linear-gradient(135deg, #00f0ff, #0088ff) !important; color: #fff !important; margin-bottom: 12px; font-weight: bold;">CONTINUAR ANTERIOR</button>
+      <button class="btn-modal-save" id="btnResumeNew" style="background: rgba(255, 255, 255, 0.08) !important; color: rgba(255,255,255,0.8) !important; border: 1px solid rgba(255,255,255,0.1) !important;">NUEVA PARTIDA</button>
+    </div>
+  </div>
+
+  <!-- ── Modal Config Perfil ── -->
+  <div id="profile-modal">
+    <div class="modal-box">
+      <h3 class="modal-title">EDITAR PERFIL</h3>
+      <input type="text" class="modal-input" id="modalNameInput" placeholder="Nombre del jugador" maxlength="14" autocomplete="off">
+      <div class="color-label">Elige tu maná / clase</div>
+      <div class="color-grid" id="modalColorGrid"></div>
+      <button class="btn-modal-save" id="btnModalSave">GUARDAR</button>
+    </div>
+  </div>
+
+  <!-- ── Modal Historial de Match ── -->
+  <div id="history-modal">
+    <div class="modal-box history-box">
+      <h3 class="modal-title">HISTORIAL DEL MATCH</h3>
+      <div class="history-log" id="historyLogList">
+        <div style="text-align: center; color: #555566; padding: 20px;">Sin historial todavía</div>
+      </div>
+      <button class="btn-modal-save" onclick="runDiagnostics()" style="background: #ff6a00; color: #fff; margin-bottom: 8px;">🧪 EJECUTAR AUTODIAGNÓSTICO</button>
+      <button class="btn-modal-save" id="btnHistoryClose">CERRAR</button>
+    </div>
+  </div>
+
+  <!-- ── Modal Selector de Temas ── -->
+  <div id="theme-modal">
+    <div class="modal-box">
+      <h3 class="modal-title">SELECCIONAR TEMA</h3>
+      <div class="theme-grid">
+        <div class="theme-opt-btn" id="to-default" onclick="selectTheme('')">
+          <span class="to-icon">🌌</span>
+          <span class="to-name">Nebula (Estándar)</span>
+        </div>
+        <div class="theme-opt-btn" id="to-bttf" onclick="selectTheme('bttf')">
+          <span class="to-icon">🚗</span>
+          <span class="to-name">Back to the Future</span>
+        </div>
+        <div class="theme-opt-btn" id="to-bleach" onclick="selectTheme('bleach')">
+          <span class="to-icon">⚔️</span>
+          <span class="to-name">Bleach</span>
+        </div>
+        <div class="theme-opt-btn" id="to-simpsons" onclick="selectTheme('simpsons')">
+          <span class="to-icon">🍩</span>
+          <span class="to-name">Los Simpsons</span>
+        </div>
+        <div class="theme-opt-btn" id="to-rickmorty" onclick="selectTheme('rickmorty')">
+          <span class="to-icon">🌀</span>
+          <span class="to-name">Rick y Morty</span>
+        </div>
+        <div class="theme-opt-btn" id="to-streetfighter" onclick="selectTheme('streetfighter')">
+          <span class="to-icon">🕹️</span>
+          <span class="to-name">Street Fighter II</span>
+        </div>
+      </div>
+
+      <button class="btn-modal-save" id="btnThemeClose">CERRAR</button>
+    </div>
+  </div>
+
+
+
+
+  <!-- ── Capa de Interfaz Principal ── -->
+
+  <!-- ── BARRA INFERIOR DE DADOS (PRO FEATURES) ── -->
+  <div id="dice-bar">
+    <button class="dice-btn" onclick="rollItem('coin')">🪙 Moneda</button>
+    <button class="dice-btn" onclick="rollItem('d6')">🎲 D6</button>
+    <button class="dice-btn" onclick="rollItem('d20')">icosaedro D20</button>
+  </div>
+
+  <!-- ── OVERLAY DE RESULTADO DE DADO ── -->
+  <div id="dice-overlay" class="hidden">
+    <div class="dice-result-box" id="diceResultBox">
+      <div id="diceSpinner">🎲</div>
+      <div id="diceValue">--</div>
+    </div>
+  </div>
+
+  
+  <!-- ── PANTALLA DE LOBBY / MAIN MENU ── -->
+  <div id="lobby-screen" class="lobby-active">
+    <div class="lobby-container">
+      <!-- Logo Crest donjuwe Life Magic -->
+      <div class="lobby-logo-crest-img-wrap">
+        <img src="./assets/logo.jpeg" class="lobby-logo-img" alt="donjuwe Logo">
+      </div>
+      
+      <div class="lobby-section">
+        <h3>MODO DE JUEGO</h3>
+        <div class="mode-selector">
+          <button class="mode-btn active" id="btnModeBO3">Standard BO3<br><small>20 Vidas</small></button>
+          <button class="mode-btn" id="btnModeCommander">Commander<br><small>40 Vidas + Daño</small></button>
+        </div>
+      </div>
+
+      <div class="lobby-section">
+        <h3>TEMA VISUAL</h3>
+        <div class="theme-slider" id="lobbyThemeSlider">
+          <button class="theme-card active" data-theme="">
+            <div class="theme-card-glow"></div>
+            <div class="theme-card-bg-preview" style="background: radial-gradient(circle, rgba(255, 26, 64, 0.15), rgba(255, 106, 0, 0.12));"></div>
+            <span class="theme-card-badge">CYBER</span>
+            <span class="theme-card-icon">🌌</span>
+            <div class="theme-card-info">
+              <span class="theme-card-title">OLED Nebula</span>
+              <span class="theme-card-desc">Predeterminado</span>
+            </div>
+            <div class="theme-card-palette">
+              <span class="palette-dot" style="background: #00f0ff; box-shadow: 0 0 8px #00f0ff;"></span>
+              <span class="palette-dot" style="background: #ff0055; box-shadow: 0 0 8px #ff0055;"></span>
+            </div>
+          </button>
+          <button class="theme-card" data-theme="simpsons">
+            <div class="theme-card-glow"></div>
+            <div class="theme-card-bg-preview" style="background-image: url('./themes/simpsons/top.png'); background-size: cover; background-position: center;"></div>
+            <span class="theme-card-badge">CARTOON</span>
+            <span class="theme-card-icon">🍩</span>
+            <div class="theme-card-info">
+              <span class="theme-card-title">Los Simpsons</span>
+              <span class="theme-card-desc">Consola Nuclear</span>
+            </div>
+            <div class="theme-card-palette">
+              <span class="palette-dot" style="background: #ffd90f; box-shadow: 0 0 8px #ffd90f;"></span>
+              <span class="palette-dot" style="background: #3b82f6; box-shadow: 0 0 8px #3b82f6;"></span>
+            </div>
+          </button>
+          <button class="theme-card" data-theme="rickmorty">
+            <div class="theme-card-glow"></div>
+            <div class="theme-card-bg-preview" style="background-image: url('./themes/rickmorty/top.png'); background-size: cover; background-position: center;"></div>
+            <span class="theme-card-badge">SCI-FI</span>
+            <span class="theme-card-icon">🌀</span>
+            <div class="theme-card-info">
+              <span class="theme-card-title">Rick & Morty</span>
+              <span class="theme-card-desc">Portal Multiverso</span>
+            </div>
+            <div class="theme-card-palette">
+              <span class="palette-dot" style="background: #39ff14; box-shadow: 0 0 8px #39ff14;"></span>
+              <span class="palette-dot" style="background: #9d00ff; box-shadow: 0 0 8px #9d00ff;"></span>
+            </div>
+          </button>
+          <button class="theme-card" data-theme="bleach">
+            <div class="theme-card-glow"></div>
+            <div class="theme-card-bg-preview" style="background-image: url('./themes/bleach/top.jpeg'); background-size: cover; background-position: center;"></div>
+            <span class="theme-card-badge">ANIME</span>
+            <span class="theme-card-icon">⚔️</span>
+            <div class="theme-card-info">
+              <span class="theme-card-title">Bleach</span>
+              <span class="theme-card-desc">Shinigami Duelo</span>
+            </div>
+            <div class="theme-card-palette">
+              <span class="palette-dot" style="background: #9d00ff; box-shadow: 0 0 8px #9d00ff;"></span>
+              <span class="palette-dot" style="background: #ffaa00; box-shadow: 0 0 8px #ffaa00;"></span>
+            </div>
+          </button>
+          <button class="theme-card" data-theme="bttf">
+            <div class="theme-card-glow"></div>
+            <div class="theme-card-bg-preview" style="background-image: url('./themes/bttf/top.png'); background-size: cover; background-position: center;"></div>
+            <span class="theme-card-badge">SCI-FI</span>
+            <span class="theme-card-icon">🚗</span>
+            <div class="theme-card-info">
+              <span class="theme-card-title">Regreso al Futuro</span>
+              <span class="theme-card-desc">Condensador Fluzo</span>
+            </div>
+            <div class="theme-card-palette">
+              <span class="palette-dot" style="background: #ffaa00; box-shadow: 0 0 8px #ffaa00;"></span>
+              <span class="palette-dot" style="background: #00f0ff; box-shadow: 0 0 8px #00f0ff;"></span>
+            </div>
+          </button>
+          <button class="theme-card" data-theme="streetfighter">
+            <div class="theme-card-glow"></div>
+            <div class="theme-card-bg-preview" style="background-image: url('./themes/streetfighter/top.jpg'); background-size: cover; background-position: center;"></div>
+            <span class="theme-card-badge">ARCADE</span>
+            <span class="theme-card-icon">🕹️</span>
+            <div class="theme-card-info">
+              <span class="theme-card-title">Street Fighter II</span>
+              <span class="theme-card-desc">Combate 2D Clásico</span>
+            </div>
+            <div class="theme-card-palette">
+              <span class="palette-dot" style="background: #ff2255; box-shadow: 0 0 8px #ff2255;"></span>
+              <span class="palette-dot" style="background: #00aaff; box-shadow: 0 0 8px #00aaff;"></span>
+            </div>
+          </button>
+
+        </div>
+      </div>
+
+      <div class="lobby-section">
+        <h3>CONTADORES Y EXTRAS</h3>
+        <div class="lobby-switches">
+          <div class="lobby-switch-item">
+            <span class="switch-label">☠ Contadores de Veneno</span>
+            <label class="switch-control">
+              <input type="checkbox" id="chkLobbyPoison" checked>
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <button id="btnStartGame" class="btn-start-massive">INICIAR PARTIDA</button>
+    </div>
+  </div>
+
+  <div id="game-screen" style="display: none; position: absolute; inset: 0; z-index: 10; flex-direction: column;">
+
+  <div id="ui-layer">
+    
+    <!-- ═══ JUGADOR 1 (Arriba, rotado 180°) ═══ -->
+    <div class="player" id="p1">
+      <div class="flash" id="fl1"></div>
+
+      <div class="victory-banner" id="vb1">
+        ⚔️ CAMPEÓN BO3 ⚔️
+        <span class="vsub" id="vbSub1">JUGADOR 1 HA GANADO LA RONDA</span>
+        <span class="vsub" style="color: var(--gold-dim); font-size: 8px; margin-top: 15px;">toca para reiniciar todo</span>
+      </div>
+      <div class="top-bar">
+        <div class="rounds">
+          <div class="rdot" id="r1a"></div>
+          <div class="rdot" id="r1b"></div>
+        </div>
+        <div class="pname-wrap" onclick="openProfileEdit(1)">
+          <div class="pname" id="pn1">JUGADOR 1</div>
+          <div class="avatar-ph" id="av1">✦</div>
+        </div>
+
+      </div>
+      <div class="rival-bar">
+        <span class="rival-label">VS:</span>
+        <input class="rival-in" id="ri1" type="text" placeholder="mazo rival..." maxlength="25" autocomplete="off">
+      </div>
+      <div class="life-area" id="la1">
+        <div class="life-num-wrap">
+          <div class="life-num" id="ln1">20</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="lifebtn lminus" data-p="1" data-v="-5">−5</button>
+        <button class="lifebtn lminus" data-p="1" data-v="-1">−1</button>
+        <button class="lifebtn lplus" data-p="1" data-v="1">+1</button>
+        <button class="lifebtn lplus" data-p="1" data-v="5">+5</button>
+      </div>
+      <div class="undo-row">
+        <button class="btn-undo" data-p="1">↩</button>
+        <div class="hist-pills" id="hist1"></div>
+      </div>
+      <div class="poison-row">
+        <span class="poison-lbl">☠</span>
+        <button class="btn-pois minus" data-p="1" data-v="-1">−</button>
+        <span class="poison-num" id="poi1">0</span>
+        <button class="btn-pois" data-p="1" data-v="1">+</button>
+      </div>
+
+    </div>
+
+    <!-- ═══ DIVISOR TÁCTICO CENTRAL BO3 ═══ -->
+    <div class="divider">
+      <div class="clock-wrap">
+        <button class="btn-clk" id="clkPlay">▶</button>
+        <span class="clk-disp" id="clkDisp">50:00</span>
+        <button class="btn-clk" id="clkRst">↺</button>
+      </div>
+      
+      <div class="hud-phase-wrap">
+        <span id="matchPhaseDisp">JUEGO 1</span>
+        <button class="btn-first" id="btnFirst">⚔ PRIMERO</button>
+      </div>
+      
+      <div class="utility-btns">
+        <button class="btn-ut active" id="btnMute" title="Mute/Unmute">🔊</button>
+        <button class="btn-ut" id="btnThemeSelector" title="Cambiar Tema">🎨</button>
+        <button class="btn-ut" id="btnDiceSelector" title="Lanzar Dado/Moneda">🎲</button>
+        <button class="btn-ut" id="btnHistory" title="Historial del Match">📋</button>
+        <button class="btn-ut" id="btnLock" title="Bloquear Pantalla">🔓</button>
+        <button class="btn-ut" id="btnExitLobby" title="Salir al Lobby">🏠</button>
+      </div>
+      
+      <button class="btn-rst" id="rstBtn">✦ RESET ✦</button>
+    </div>
+
+    <!-- ═══ JUGADOR 2 (Abajo) ═══ -->
+    <div class="player" id="p2">
+      <div class="flash" id="fl2"></div>
+
+      <div class="victory-banner" id="vb2">
+        ⚔️ CAMPEÓN BO3 ⚔️
+        <span class="vsub" id="vbSub2">JUGADOR 2 HA GANADO LA RONDA</span>
+        <span class="vsub" style="color: var(--gold-dim); font-size: 8px; margin-top: 15px;">toca para reiniciar todo</span>
+      </div>
+      <div class="top-bar">
+
+        <div class="pname-wrap" onclick="openProfileEdit(2)">
+          <div class="avatar-ph" id="av2">✦</div>
+          <div class="pname" id="pn2">JUGADOR 2</div>
+        </div>
+        <div class="rounds">
+          <div class="rdot" id="r2a"></div>
+          <div class="rdot" id="r2b"></div>
+        </div>
+      </div>
+      <div class="rival-bar">
+        <span class="rival-label">VS:</span>
+        <input class="rival-in" id="ri2" type="text" placeholder="mazo rival..." maxlength="25" autocomplete="off">
+      </div>
+      <div class="life-area" id="la2">
+        <div class="life-num-wrap">
+          <div class="life-num" id="ln2">20</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="lifebtn lminus" data-p="2" data-v="-5">−5</button>
+        <button class="lifebtn lminus" data-p="2" data-v="-1">−1</button>
+        <button class="lifebtn lplus" data-p="2" data-v="1">+1</button>
+        <button class="lifebtn lplus" data-p="2" data-v="5">+5</button>
+      </div>
+      <div class="undo-row">
+        <button class="btn-undo" data-p="2">↩</button>
+        <div class="hist-pills" id="hist2"></div>
+      </div>
+      <div class="poison-row">
+        <span class="poison-lbl">☠</span>
+        <button class="btn-pois minus" data-p="2" data-v="-1">−</button>
+        <span class="poison-num" id="poi2">0</span>
+        <button class="btn-pois" data-p="2" data-v="1">+</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CARGA DINÁMICA DE LIBRERÍAS CON FALLBACK OFFLINE ── -->
+  <script>
+    window.THREE = null;
+    window.anime = null;
+
+    function loadLibrary(url) {
+      return new Promise((resolve) => {
+        const timeout = setTimeout(() => {
+          console.warn("Library loading timed out: " + url);
+          resolve(false);
+        }, 1500);
+
+        try {
+          const script = document.createElement('script');
+          script.src = url;
+          script.onload = () => {
+            clearTimeout(timeout);
+            resolve(true);
+          };
+          script.onerror = () => {
+            clearTimeout(timeout);
+            resolve(false);
+          };
+          document.head.appendChild(script);
+        } catch (e) {
+          clearTimeout(timeout);
+          console.error("Error loading library: " + url, e);
+          resolve(false);
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Control del vídeo de carga inicial con fallback robusto para móviles
+      const splashVideo = document.getElementById('splash-video');
+      const splashImg = document.getElementById('splash-img');
+      if (splashVideo) {
+        const showVideo = () => {
+          splashVideo.style.display = 'block';
+          splashImg.style.display = 'none';
+        };
+
+        // Si empieza a reproducirse de forma normal
+        splashVideo.addEventListener('playing', showVideo);
+        splashVideo.addEventListener('loadeddata', showVideo);
+
+        // Intentar iniciar la reproducción
+        splashVideo.play().then(showVideo).catch((e) => {
+          console.warn("Autoplay bloqueado o demorado en móvil:", e);
+          // Escuchar interacciones para reproducir si está bloqueado por política del móvil
+          const resumeOnTouch = () => {
+            splashVideo.play().then(() => {
+              showVideo();
+              document.removeEventListener('touchstart', resumeOnTouch);
+              document.removeEventListener('click', resumeOnTouch);
+            }).catch(() => {});
+          };
+          document.addEventListener('touchstart', resumeOnTouch);
+          document.addEventListener('click', resumeOnTouch);
+        });
+      }
+
+      const progress = document.getElementById('loadProgress');
+      const status = document.getElementById('loadStatus');
+
+      const updateProgressWidth = (pct) => {
+        progress.style.width = pct + '%';
+      };
+
+      const typeText = (element, text, speed = 15) => {
+        return new Promise((resolve) => {
+          let i = 0;
+          element.textContent = "";
+          const timer = setInterval(() => {
+            if (i < text.length) {
+              element.textContent += text.charAt(i);
+              i++;
+            } else {
+              clearInterval(timer);
+              resolve();
+            }
+          }, speed);
+        });
+      };
+
+      // Paso 1: Conexión inicial
+      updateProgressWidth(10);
+      await typeText(status, '>> [CONECTANDO] CONECTANDO AL NÚCLEO JUWE...');
+      await new Promise(r => setTimeout(r, 150));
+
+      // Paso 2: Carga de librerías
+      updateProgressWidth(35);
+      await typeText(status, '>> [CARGANDO] ACOPLANDO MÓDULO GRÁFICO WEBGL (THREE.JS)...');
+      
+      const libsLoaded = await Promise.all([
+        loadLibrary('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'),
+        loadLibrary('https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js')
+      ]);
+
+      // Paso 3: Sintonización de rejilla y PWA offline
+      updateProgressWidth(65);
+      await typeText(status, '>> [INICIALIZANDO] SINTONIZANDO REJILLA CIBERNÉTICA DE ENERGÍA...');
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js').then(reg => {
+          reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.log("Nueva versión detectada. Recargando...");
+                  window.location.reload();
+                }
+              });
+            }
+          });
+        }).catch(() => {});
+      }
+      await new Promise(r => setTimeout(r, 200));
+
+      // Paso 4: Carga de voces e interfaz
+      updateProgressWidth(85);
+      await typeText(status, '>> [COMPILANDO] PREPARANDO EFECTOS MÁGICOS Y VOCES EN JAPONÉS...');
+      await new Promise(r => setTimeout(r, 250));
+
+      // Paso 5: Listo
+      updateProgressWidth(100);
+      await typeText(status, '>> [READY] NÚCLEO ACTIVO. ¡INICIA EL COMBATE!');
+      await new Promise(r => setTimeout(r, 350));
+
+      document.getElementById('loading-screen').classList.add('fade-out');
+      initAppEngine();
+    });
+  </script>
+
+  <!-- ── CÓDIGO CORE BO3 ENCUENTRO ── -->
+  <script src="./engine.js"></script>
+  </div>
+</body>
+</html>
