@@ -275,7 +275,7 @@
 
     /* ══════════════════════════════════════════════════════════════════
        SISTEMA DE TEMAS
-       - Marco PNG generado por IA en /themes/<id>/frame.png
+       - Marco PNG generado por IA en /themes/<id>/frame.webp
        - Cada tema cambia color, botones, frases pop-up y ambiente
        ══════════════════════════════════════════════════════════════════ */
     #theme-frame {
@@ -315,12 +315,12 @@
       display: none !important;
     }
     body[data-theme="bttf"] #p1 {
-      background-image: url('./themes/bttf/top.png') !important;
+      background-image: url('./themes/bttf/top.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
     body[data-theme="bttf"] #p2 {
-      background-image: url('./themes/bttf/bottom.png') !important;
+      background-image: url('./themes/bttf/bottom.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
@@ -661,7 +661,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url('./themes/bleach/top.jpeg') !important;
+      background-image: url('./themes/bleach/top.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
       transform: rotate(180deg);
@@ -669,7 +669,7 @@
       pointer-events: none;
     }
     body[data-theme="bleach"] #p2 {
-      background-image: url('./themes/bleach/bottom.jpeg') !important;
+      background-image: url('./themes/bleach/bottom.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
@@ -757,12 +757,12 @@
       display: none !important;
     }
     body[data-theme="simpsons"] #p1 {
-      background-image: url('./themes/simpsons/top.png') !important;
+      background-image: url('./themes/simpsons/top.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
     body[data-theme="simpsons"] #p2 {
-      background-image: url('./themes/simpsons/bottom.png') !important;
+      background-image: url('./themes/simpsons/bottom.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
@@ -913,12 +913,12 @@
       display: none !important;
     }
     body[data-theme="rickmorty"] #p1 {
-      background-image: url('./themes/rickmorty/top.png') !important;
+      background-image: url('./themes/rickmorty/top.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
     body[data-theme="rickmorty"] #p2 {
-      background-image: url('./themes/rickmorty/bottom.png') !important;
+      background-image: url('./themes/rickmorty/bottom.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
@@ -1007,7 +1007,7 @@
       display: none !important;
     }
     body[data-theme="streetfighter"] #p1 {
-      background-image: url('./themes/streetfighter/top.jpg') !important;
+      background-image: url('./themes/streetfighter/top.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
       border-bottom: 2px solid #ff2255 !important;
@@ -1016,7 +1016,7 @@
         0 10px 30px rgba(0, 0, 0, 0.4) !important;
     }
     body[data-theme="streetfighter"] #p2 {
-      background-image: url('./themes/streetfighter/bottom.jpg') !important;
+      background-image: url('./themes/streetfighter/bottom.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
       background-size: cover !important;
@@ -3684,8 +3684,8 @@ body[data-theme="streetfighter"] .player::after {
 
 
 body[data-theme="bleach_local"] #p1 { background-image: none !important; }
-body[data-theme="bleach_local"] #p1::after { content: ""; position: absolute; inset: 0; background-image: url('./themes/bleach_local/top.jpeg') !important; background-position: center center !important; background-size: cover !important; transform: rotate(180deg); z-index: -2; pointer-events: none; }
-body[data-theme="bleach_local"] #p2 { background-image: url('./themes/bleach_local/bottom.jpeg') !important; background-position: center center !important; background-size: cover !important; }
+body[data-theme="bleach_local"] #p1::after { content: ""; position: absolute; inset: 0; background-image: url('./themes/bleach_local/top.webp') !important; background-position: center center !important; background-size: cover !important; transform: rotate(180deg); z-index: -2; pointer-events: none; }
+body[data-theme="bleach_local"] #p2 { background-image: url('./themes/bleach_local/bottom.webp') !important; background-position: center center !important; background-size: cover !important; }
 
 /* ── ESTILOS ESPECÍFICOS DE LA PANTALLA DE CARGA DE BLEACH ── */
 body[data-theme="bleach"] .battle-vs-logo,
