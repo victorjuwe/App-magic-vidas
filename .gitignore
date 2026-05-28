@@ -30,3 +30,7 @@ scratch/validate.js
 # Copias de seguridad
 *.bak
 *.tmp
+
+# Instaladores de IDE (pesados)
+ide_installers/
+
