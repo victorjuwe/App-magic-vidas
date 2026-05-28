@@ -874,6 +874,15 @@
         playSynthSound('reset');
       });
 
+      // Evento para cerrar sideboard y continuar al siguiente juego
+      const sbCloseBtn = $('btnSideboardAlertClose');
+      if (sbCloseBtn) {
+        sbCloseBtn.addEventListener('pointerdown', e => {
+          e.preventDefault();
+          startNextBO3Game();
+        });
+      }
+
       // Evento para Salir al Lobby
       $('btnExitLobby').addEventListener('pointerdown', e => {
         e.preventDefault();
@@ -1864,9 +1873,8 @@
         // GANADOR TOTAL DEL MATCH BO3 (2-0 o 2-1)
         triggerGrandMatchVictory(winnerPlayer);
       } else {
-        // Avanzar directamente al siguiente juego del BO3
-        S.currentGame++;
-        startNextBO3Game();
+        // Ir a fase de sideboard entre rondas (triggerSideboardPhase hace S.currentGame++)
+        triggerSideboardPhase();
       }
     }
 
@@ -1881,12 +1889,17 @@
       S.clock.running = false;
 
       // 1. Desplegar cartel central informativo de Sideboard
-      $('sideboard-alert-banner').style.display = 'block';
-      $('btnSideboardAlertClose').textContent = `INICIAR JUEGO ${S.currentGame}`;
+      const sbBanner = $('sideboard-alert-banner');
+      if (sbBanner) sbBanner.style.display = 'flex';
+      const sbBtn = $('btnSideboardAlertClose');
+      if (sbBtn) sbBtn.textContent = `INICIAR JUEGO ${S.currentGame}`;
       
       // 2. Cambiar HUD central
-      $('matchPhaseDisp').textContent = `SIDEBOARD G${S.currentGame - 1}`;
-      $('matchPhaseDisp').className = 'sideboard';
+      const phaseDisp = $('matchPhaseDisp');
+      if (phaseDisp) {
+        phaseDisp.textContent = `SIDEBOARD G${S.currentGame - 1}`;
+        phaseDisp.className = 'sideboard';
+      }
 
       // 3. ACTIVAR AUTOMÁTICAMENTE SIDEBOARDS DE AMBOS JUGADORES
       [1, 2].forEach(p => {
@@ -2124,9 +2137,11 @@
     }
 
     function renderMulligan(p) {
+      const el = $('mgc' + p);
+      if (!el) return;
       const n = S.mulligans[p - 1];
-      $('mgc' + p).textContent = n;
-      $('mgc' + p).classList.toggle('on', n > 0);
+      el.textContent = n;
+      el.classList.toggle('on', n > 0);
     }
 
     // Turno Primero
@@ -2383,11 +2398,7 @@
     $('btnFirst').addEventListener('pointerdown', e => { e.preventDefault(); toggleFirst(); });
 
     function initTouchProtections() {
-      // Usamos touch-action: manipulation en CSS para prevenir el zoom de doble toque de forma nativa sin bloquear clicks rápidos.
-      document.addEventListener('touchmove', e => {
-        if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
-        e.preventDefault();
-      }, { passive: false });
+      // El zoom y comportamiento táctil se manejan mediante CSS (touch-action, overscroll-behavior)
     }
 
 // LOBBY LOGIC

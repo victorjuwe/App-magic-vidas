@@ -1,7 +1,7 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
 
-const CACHE = 'magic-bo3-v19';
+const CACHE = 'magic-bo3-v25';
 
 // Activos críticos para arrancar 100% offline
 const CORE_ASSETS = [
@@ -48,6 +48,18 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
+
+  // Evitar interceptar esquemas no HTTP/HTTPS (como extensiones del navegador)
+  if (!req.url.startsWith('http')) return;
+
+  // Evitar interceptar vídeos o audios para prevenir fallos con Range Requests en iOS Safari
+  if (
+    req.destination === 'video' ||
+    req.destination === 'audio' ||
+    req.url.match(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i)
+  ) {
+    return;
+  }
 
   event.respondWith((async () => {
     try {

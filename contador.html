@@ -63,8 +63,8 @@
     <div class="matrix-grid"></div>
     <div class="loader-content">
       <div class="loader-logo-wrap">
-        <video id="splash-video" src="./assets/logo.mp4" autoplay muted playsinline loop preload="auto" class="loader-logo-video" style="display: none;"></video>
-        <img src="./assets/logo.webp" id="splash-img" class="loader-logo-img" alt="donjuwe Logo">
+        <video id="splash-video" src="./assets/logo.mp4" autoplay muted playsinline webkit-playsinline preload="auto" class="loader-logo-video"></video>
+        <img src="./assets/logo.webp" id="splash-img" class="loader-logo-img" alt="donjuwe Logo" style="display: none;">
       </div>
       <div class="loader-progress-bar">
         <div class="loader-progress" id="loadProgress"></div>
@@ -99,6 +99,15 @@
     </div>
   </div>
 
+  <!-- ── Banner de Sideboard / Entre Rondas BO3 ── -->
+  <div id="sideboard-alert-banner" style="display:none;">
+    <div class="sb-banner-inner">
+      <div class="sb-banner-icon">⚔️</div>
+      <div class="sb-banner-title">FASE DE SIDEBOARD</div>
+      <div class="sb-banner-sub" id="sbBannerSub">3 minutos para ajustar tu mazo</div>
+      <button id="btnSideboardAlertClose" class="sb-banner-btn">INICIAR JUEGO 2</button>
+    </div>
+  </div>
 
   <!-- ── Modal Reanudar Partida ── -->
   <div id="resume-modal">
@@ -209,94 +218,94 @@
 
       <div class="lobby-section">
         <h3>TEMA VISUAL</h3>
-        <div class="theme-slider" id="lobbyThemeSlider">
-          <button class="theme-card active" data-theme="">
-            <div class="theme-card-glow"></div>
-            <div class="theme-card-bg-preview" style="background: radial-gradient(circle, rgba(255, 26, 64, 0.15), rgba(255, 106, 0, 0.12));"></div>
-            <span class="theme-card-badge">CYBER</span>
-            <span class="theme-card-icon">🌌</span>
-            <div class="theme-card-info">
-              <span class="theme-card-title">OLED Nebula</span>
-              <span class="theme-card-desc">Predeterminado</span>
-            </div>
-            <div class="theme-card-palette">
-              <span class="palette-dot" style="background: #00f0ff; box-shadow: 0 0 8px #00f0ff;"></span>
-              <span class="palette-dot" style="background: #ff0055; box-shadow: 0 0 8px #ff0055;"></span>
-            </div>
-          </button>
-          <button class="theme-card" data-theme="simpsons">
-            <div class="theme-card-glow"></div>
-            <div class="theme-card-bg-preview" style="background-image: url('./themes/simpsons/top.webp'); background-size: cover; background-position: center;"></div>
-            <span class="theme-card-badge">CARTOON</span>
-            <span class="theme-card-icon">🍩</span>
-            <div class="theme-card-info">
-              <span class="theme-card-title">Los Simpsons</span>
-              <span class="theme-card-desc">Consola Nuclear</span>
-            </div>
-            <div class="theme-card-palette">
-              <span class="palette-dot" style="background: #ffd90f; box-shadow: 0 0 8px #ffd90f;"></span>
-              <span class="palette-dot" style="background: #3b82f6; box-shadow: 0 0 8px #3b82f6;"></span>
-            </div>
-          </button>
-          <button class="theme-card" data-theme="rickmorty">
-            <div class="theme-card-glow"></div>
-            <div class="theme-card-bg-preview" style="background-image: url('./themes/rickmorty/top.webp'); background-size: cover; background-position: center;"></div>
-            <span class="theme-card-badge">SCI-FI</span>
-            <span class="theme-card-icon">🌀</span>
-            <div class="theme-card-info">
-              <span class="theme-card-title">Rick & Morty</span>
-              <span class="theme-card-desc">Portal Multiverso</span>
-            </div>
-            <div class="theme-card-palette">
-              <span class="palette-dot" style="background: #39ff14; box-shadow: 0 0 8px #39ff14;"></span>
-              <span class="palette-dot" style="background: #9d00ff; box-shadow: 0 0 8px #9d00ff;"></span>
-            </div>
-          </button>
-          <button class="theme-card" data-theme="bleach">
-            <div class="theme-card-glow"></div>
-            <div class="theme-card-bg-preview" style="background-image: url('./themes/bleach/top.webp'); background-size: cover; background-position: center;"></div>
-            <span class="theme-card-badge">ANIME</span>
-            <span class="theme-card-icon">⚔️</span>
-            <div class="theme-card-info">
-              <span class="theme-card-title">Bleach</span>
-              <span class="theme-card-desc">Shinigami Duelo</span>
-            </div>
-            <div class="theme-card-palette">
-              <span class="palette-dot" style="background: #9d00ff; box-shadow: 0 0 8px #9d00ff;"></span>
-              <span class="palette-dot" style="background: #ffaa00; box-shadow: 0 0 8px #ffaa00;"></span>
-            </div>
-          </button>
-          <button class="theme-card" data-theme="bttf">
-            <div class="theme-card-glow"></div>
-            <div class="theme-card-bg-preview" style="background-image: url('./themes/bttf/top.webp'); background-size: cover; background-position: center;"></div>
-            <span class="theme-card-badge">SCI-FI</span>
-            <span class="theme-card-icon">🚗</span>
-            <div class="theme-card-info">
-              <span class="theme-card-title">Regreso al Futuro</span>
-              <span class="theme-card-desc">Condensador Fluzo</span>
-            </div>
-            <div class="theme-card-palette">
-              <span class="palette-dot" style="background: #ffaa00; box-shadow: 0 0 8px #ffaa00;"></span>
-              <span class="palette-dot" style="background: #00f0ff; box-shadow: 0 0 8px #00f0ff;"></span>
-            </div>
-          </button>
-          <button class="theme-card" data-theme="streetfighter">
-            <div class="theme-card-glow"></div>
-            <div class="theme-card-bg-preview" style="background-image: url('./themes/streetfighter/top.webp'); background-size: cover; background-position: center;"></div>
-            <span class="theme-card-badge">ARCADE</span>
-            <span class="theme-card-icon">🕹️</span>
-            <div class="theme-card-info">
-              <span class="theme-card-title">Street Fighter II</span>
-              <span class="theme-card-desc">Combate 2D Clásico</span>
-            </div>
-            <div class="theme-card-palette">
-              <span class="palette-dot" style="background: #ff2255; box-shadow: 0 0 8px #ff2255;"></span>
-              <span class="palette-dot" style="background: #00aaff; box-shadow: 0 0 8px #00aaff;"></span>
-            </div>
-          </button>
+        <div class="theme-slider-wrapper">
+          <button class="theme-slider-arrow theme-slider-arrow--left" id="themeArrowLeft" aria-label="Anterior tema">&#8249;</button>
+          <div class="theme-slider" id="lobbyThemeSlider">
 
+            <!-- OLED Nebula (default) -->
+            <button class="theme-card active" data-theme="">
+              <div class="theme-card-bg-preview" style="background: linear-gradient(135deg, #0a0a14 0%, #12001a 50%, #001a2a 100%);"></div>
+              <div class="theme-card-overlay"></div>
+              <div class="theme-card-check">✓</div>
+              <span class="theme-card-badge">CYBER</span>
+              <div class="theme-card-bottom">
+                <span class="theme-card-icon">🌌</span>
+                <span class="theme-card-title">OLED Nebula</span>
+                <span class="theme-card-desc">Predeterminado</span>
+              </div>
+            </button>
+
+            <!-- Simpsons -->
+            <button class="theme-card" data-theme="simpsons">
+              <div class="theme-card-bg-preview" style="background-image: url('./themes/simpsons/top.webp'); background-size: cover; background-position: center;"></div>
+              <div class="theme-card-overlay"></div>
+              <div class="theme-card-check">✓</div>
+              <span class="theme-card-badge">CARTOON</span>
+              <div class="theme-card-bottom">
+                <span class="theme-card-icon">🍩</span>
+                <span class="theme-card-title">Simpsons</span>
+                <span class="theme-card-desc">Consola Nuclear</span>
+              </div>
+            </button>
+
+            <!-- Rick & Morty -->
+            <button class="theme-card" data-theme="rickmorty">
+              <div class="theme-card-bg-preview" style="background-image: url('./themes/rickmorty/top.webp'); background-size: cover; background-position: center;"></div>
+              <div class="theme-card-overlay"></div>
+              <div class="theme-card-check">✓</div>
+              <span class="theme-card-badge">SCI-FI</span>
+              <div class="theme-card-bottom">
+                <span class="theme-card-icon">🌀</span>
+                <span class="theme-card-title">Rick & Morty</span>
+                <span class="theme-card-desc">Portal Multiverso</span>
+              </div>
+            </button>
+
+            <!-- Bleach -->
+            <button class="theme-card" data-theme="bleach">
+              <div class="theme-card-bg-preview" style="background-image: url('./themes/bleach/top.webp'); background-size: cover; background-position: center;"></div>
+              <div class="theme-card-overlay"></div>
+              <div class="theme-card-check">✓</div>
+              <span class="theme-card-badge">ANIME</span>
+              <div class="theme-card-bottom">
+                <span class="theme-card-icon">⚔️</span>
+                <span class="theme-card-title">Bleach</span>
+                <span class="theme-card-desc">Shinigami Duelo</span>
+              </div>
+            </button>
+
+            <!-- Back to the Future -->
+            <button class="theme-card" data-theme="bttf">
+              <div class="theme-card-bg-preview" style="background-image: url('./themes/bttf/top.webp'); background-size: cover; background-position: center;"></div>
+              <div class="theme-card-overlay"></div>
+              <div class="theme-card-check">✓</div>
+              <span class="theme-card-badge">SCI-FI</span>
+              <div class="theme-card-bottom">
+                <span class="theme-card-icon">🚗</span>
+                <span class="theme-card-title">Back to Future</span>
+                <span class="theme-card-desc">Condensador Fluzo</span>
+              </div>
+            </button>
+
+            <!-- Street Fighter -->
+            <button class="theme-card" data-theme="streetfighter">
+              <div class="theme-card-bg-preview" style="background-image: url('./themes/streetfighter/top.webp'); background-size: cover; background-position: center;"></div>
+              <div class="theme-card-overlay"></div>
+              <div class="theme-card-check">✓</div>
+              <span class="theme-card-badge">ARCADE</span>
+              <div class="theme-card-bottom">
+                <span class="theme-card-icon">🕹️</span>
+                <span class="theme-card-title">Street Fighter</span>
+                <span class="theme-card-desc">Combate 2D Clásico</span>
+              </div>
+            </button>
+
+          </div>
+          <button class="theme-slider-arrow theme-slider-arrow--right" id="themeArrowRight" aria-label="Siguiente tema">&#8250;</button>
         </div>
+        <div class="theme-slider-dots" id="themeSliderDots"></div>
       </div>
+
 
       <div class="lobby-section">
         <h3>CONTADORES Y EXTRAS</h3>
@@ -372,27 +381,31 @@
 
     <!-- ═══ DIVISOR TÁCTICO CENTRAL BO3 ═══ -->
     <div class="divider">
-      <div class="clock-wrap">
-        <button class="btn-clk" id="clkPlay">▶</button>
-        <span class="clk-disp" id="clkDisp">50:00</span>
-        <button class="btn-clk" id="clkRst">↺</button>
+      <!-- Fila 1: Reloj + Fase del juego + Quién va primero -->
+      <div class="divider-row1">
+        <div class="clock-wrap">
+          <button class="btn-clk" id="clkPlay">▶</button>
+          <span class="clk-disp" id="clkDisp">50:00</span>
+          <button class="btn-clk" id="clkRst">↺</button>
+        </div>
+        <div class="hud-phase-wrap">
+          <span id="matchPhaseDisp">JUEGO 1</span>
+          <button class="btn-first" id="btnFirst">⚔ PRIMERO</button>
+        </div>
+        <!-- Reset: botón principal, siempre visible -->
+        <button class="btn-rst" id="rstBtn">✦ RESET</button>
       </div>
-      
-      <div class="hud-phase-wrap">
-        <span id="matchPhaseDisp">JUEGO 1</span>
-        <button class="btn-first" id="btnFirst">⚔ PRIMERO</button>
+      <!-- Fila 2: Utilidades -->
+      <div class="divider-row2">
+        <div class="utility-btns">
+          <button class="btn-ut active" id="btnMute" title="Mute/Unmute">🔊</button>
+          <button class="btn-ut" id="btnThemeSelector" title="Cambiar Tema">🎨</button>
+          <button class="btn-ut" id="btnDiceSelector" title="Lanzar Dado/Moneda">🎲</button>
+          <button class="btn-ut" id="btnHistory" title="Historial del Match">📋</button>
+          <button class="btn-ut" id="btnLock" title="Bloquear Pantalla">🔓</button>
+          <button class="btn-ut" id="btnExitLobby" title="Salir al Lobby">🏠</button>
+        </div>
       </div>
-      
-      <div class="utility-btns">
-        <button class="btn-ut active" id="btnMute" title="Mute/Unmute">🔊</button>
-        <button class="btn-ut" id="btnThemeSelector" title="Cambiar Tema">🎨</button>
-        <button class="btn-ut" id="btnDiceSelector" title="Lanzar Dado/Moneda">🎲</button>
-        <button class="btn-ut" id="btnHistory" title="Historial del Match">📋</button>
-        <button class="btn-ut" id="btnLock" title="Bloquear Pantalla">🔓</button>
-        <button class="btn-ut" id="btnExitLobby" title="Salir al Lobby">🏠</button>
-      </div>
-      
-      <button class="btn-rst" id="rstBtn">✦ RESET ✦</button>
     </div>
 
     <!-- ═══ JUGADOR 2 (Abajo) ═══ -->
@@ -477,33 +490,91 @@
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
-      // Control del vídeo de carga inicial con fallback robusto para móviles
+      // ── Video splash: sin loop, pausa en último frame si termina antes que la carga ──
       const splashVideo = document.getElementById('splash-video');
-      const splashImg = document.getElementById('splash-img');
+      const splashImg   = document.getElementById('splash-img');
+
       if (splashVideo) {
-        const showVideo = () => {
-          splashVideo.style.display = 'block';
-          splashImg.style.display = 'none';
+        const showFallback = () => {
+          if (splashVideo.style.display === 'none') return; // ya aplicado
+          splashVideo.style.display = 'none';
+          splashImg.style.display = 'block';
         };
 
-        // Si empieza a reproducirse de forma normal
-        splashVideo.addEventListener('playing', showVideo);
-        splashVideo.addEventListener('loadeddata', showVideo);
+        // Timeout agresivo: si en 2.5s no arrancó → imagen
+        const fallbackTimer = setTimeout(showFallback, 2500);
 
-        // Intentar iniciar la reproducción
-        splashVideo.play().then(showVideo).catch((e) => {
-          console.warn("Autoplay bloqueado o demorado en móvil:", e);
-          // Escuchar interacciones para reproducir si está bloqueado por política del móvil
-          const resumeOnTouch = () => {
-            splashVideo.play().then(() => {
-              showVideo();
-              document.removeEventListener('touchstart', resumeOnTouch);
-              document.removeEventListener('click', resumeOnTouch);
-            }).catch(() => {});
-          };
-          document.addEventListener('touchstart', resumeOnTouch);
-          document.addEventListener('click', resumeOnTouch);
+        // Si el video puede reproducirse, cancelar el timer
+        splashVideo.addEventListener('canplay', () => {
+          clearTimeout(fallbackTimer);
+        }, { once: true });
+
+        splashVideo.addEventListener('playing', () => {
+          clearTimeout(fallbackTimer);
+        }, { once: true });
+
+        // Si el video falla definitivamente → imagen
+        splashVideo.addEventListener('error', showFallback);
+        splashVideo.addEventListener('stalled', () => setTimeout(showFallback, 1500), { once: true });
+
+        // Cuando el video termina, pausar en el último frame
+        splashVideo.addEventListener('ended', () => {
+          splashVideo.pause();
+          try { splashVideo.currentTime = splashVideo.duration - 0.05; } catch(e) {}
         });
+
+        // Intentar reproducir
+        const playPromise = splashVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((e) => {
+            console.warn('Autoplay bloqueado:', e);
+            // En iOS: reproducir al primer toque
+            const resumeOnTouch = () => {
+              splashVideo.play().catch(showFallback);
+              document.removeEventListener('touchstart', resumeOnTouch);
+              document.removeEventListener('click',      resumeOnTouch);
+            };
+            document.addEventListener('touchstart', resumeOnTouch);
+            document.addEventListener('click',      resumeOnTouch);
+          });
+        }
+      }
+
+      // ── Carrusel de Temas: flechas + dots ──
+      const slider = document.getElementById('lobbyThemeSlider');
+      const dotsContainer = document.getElementById('themeSliderDots');
+      const arrowLeft = document.getElementById('themeArrowLeft');
+      const arrowRight = document.getElementById('themeArrowRight');
+
+      if (slider && dotsContainer) {
+        const cards = slider.querySelectorAll('.theme-card');
+        const CARD_W = 140; // card width + gap approx
+
+        // Crear dots
+        cards.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'theme-dot';
+          dot.setAttribute('aria-label', 'Tema ' + (i + 1));
+          dot.addEventListener('click', () => {
+            slider.scrollTo({ left: i * CARD_W, behavior: 'smooth' });
+          });
+          dotsContainer.appendChild(dot);
+        });
+
+        const updateDots = () => {
+          const idx = Math.round(slider.scrollLeft / CARD_W);
+          dotsContainer.querySelectorAll('.theme-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+          });
+          if (arrowLeft) arrowLeft.style.opacity = slider.scrollLeft < 10 ? '0.3' : '1';
+          if (arrowRight) arrowRight.style.opacity = slider.scrollLeft >= slider.scrollWidth - slider.clientWidth - 10 ? '0.3' : '1';
+        };
+
+        slider.addEventListener('scroll', updateDots, { passive: true });
+        updateDots();
+
+        if (arrowLeft) arrowLeft.addEventListener('click', () => slider.scrollBy({ left: -CARD_W, behavior: 'smooth' }));
+        if (arrowRight) arrowRight.addEventListener('click', () => slider.scrollBy({ left: CARD_W, behavior: 'smooth' }));
       }
 
       const progress = document.getElementById('loadProgress');
