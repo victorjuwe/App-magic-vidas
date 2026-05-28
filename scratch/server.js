@@ -1,79 +1,116 @@
 const http = require('http');
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
-const os = require('os');
+const os   = require('os');
 
 const PORT = 8081;
-const MIME_TYPES = {
-  '.html': 'text/html',
-  '.css': 'text/css',
-  '.js': 'text/javascript',
-  '.json': 'application/json',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.gif': 'image/gif',
-  '.svg': 'image/svg+xml',
-  '.mp3': 'audio/mpeg',
-  '.wav': 'audio/wav',
+
+const MIME = {
+  '.html'  : 'text/html; charset=utf-8',
+  '.css'   : 'text/css',
+  '.js'    : 'text/javascript',
+  '.json'  : 'application/json',
+  '.png'   : 'image/png',
+  '.jpg'   : 'image/jpeg',
+  '.jpeg'  : 'image/jpeg',
+  '.gif'   : 'image/gif',
+  '.webp'  : 'image/webp',
+  '.svg'   : 'image/svg+xml',
+  '.mp4'   : 'video/mp4',         // ← crítico para iOS
+  '.webm'  : 'video/webm',
+  '.mp3'   : 'audio/mpeg',
+  '.wav'   : 'audio/wav',
+  '.woff'  : 'font/woff',
+  '.woff2' : 'font/woff2',
+  '.ttf'   : 'font/ttf',
+  '.ico'   : 'image/x-icon',
 };
 
+const ROOT = path.join(__dirname, '..');
+
 const server = http.createServer((req, res) => {
-  // Evitar rutas maliciosas fuera del workspace
-  let safePath = path.normalize(req.url).replace(/^(\.\.[\/\\])+/, '');
-  if (safePath === '/' || safePath === '\\' || safePath.startsWith('/?')) {
-    safePath = '/contador.html';
+  // Solo GET/HEAD
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.writeHead(405); res.end(); return;
   }
 
-  const filePath = path.join(__dirname, '..', safePath);
-  const extname = String(path.extname(filePath)).toLowerCase();
-  const contentType = MIME_TYPES[extname] || 'application/octet-stream';
+  // Sanitizar ruta
+  let urlPath = req.url.split('?')[0].split('#')[0];
+  urlPath = decodeURIComponent(urlPath);
+  if (urlPath === '/' || urlPath === '') urlPath = '/contador.html';
 
-  fs.readFile(filePath, (error, content) => {
-    if (error) {
-      if (error.code === 'ENOENT') {
-        console.warn(`[404] No encontrado: ${req.url}`);
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('Archivo no encontrado');
-      } else {
-        console.error(`[500] Error leyendo ${req.url}: ${error.code}`);
-        res.writeHead(500);
-        res.end('Error interno del servidor: ' + error.code);
-      }
-    } else {
-      console.log(`[200] OK: ${req.url}`);
-      res.writeHead(200, { 
-        'Content-Type': contentType,
-        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0'
+  const filePath = path.normalize(path.join(ROOT, urlPath));
+
+  // Seguridad: no salir del ROOT
+  if (!filePath.startsWith(ROOT)) {
+    res.writeHead(403); res.end('Forbidden'); return;
+  }
+
+  const ext = path.extname(filePath).toLowerCase();
+  const contentType = MIME[ext] || 'application/octet-stream';
+  const isVideo = contentType.startsWith('video/');
+
+  fs.stat(filePath, (err, stat) => {
+    if (err || !stat.isFile()) {
+      console.warn(`[404] ${req.url}`);
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('Not found');
+      return;
+    }
+
+    const total = stat.size;
+    const rangeHeader = req.headers['range'];
+
+    // ── Range request (necesario para video en iOS/Android) ──
+    if (isVideo && rangeHeader) {
+      const parts = rangeHeader.replace(/bytes=/, '').split('-');
+      const start = parseInt(parts[0], 10);
+      const end   = parts[1] ? parseInt(parts[1], 10) : total - 1;
+      const chunkSize = end - start + 1;
+
+      res.writeHead(206, {
+        'Content-Range'  : `bytes ${start}-${end}/${total}`,
+        'Accept-Ranges'  : 'bytes',
+        'Content-Length' : chunkSize,
+        'Content-Type'   : contentType,
+        'Cache-Control'  : 'no-store',
       });
-      res.end(content, 'utf-8');
+      const stream = fs.createReadStream(filePath, { start, end });
+      stream.pipe(res);
+      console.log(`[206] ${req.url} bytes=${start}-${end}`);
+    } else {
+      // Respuesta normal
+      const headers = {
+        'Content-Type'   : contentType,
+        'Content-Length' : total,
+        'Accept-Ranges'  : 'bytes',
+        'Cache-Control'  : isVideo ? 'public, max-age=3600' : 'no-store, no-cache, must-revalidate',
+      };
+      res.writeHead(200, headers);
+      if (req.method === 'HEAD') { res.end(); return; }
+      fs.createReadStream(filePath).pipe(res);
+      console.log(`[200] ${req.url}`);
     }
   });
 });
 
-// Detectar dirección IP local del ordenador en la red Wi-Fi
+// Detectar IP local
 const interfaces = os.networkInterfaces();
 let localIP = 'localhost';
 for (const devName in interfaces) {
-  const iface = interfaces[devName];
-  for (let i = 0; i < iface.length; i++) {
-    const alias = iface[i];
+  for (const alias of interfaces[devName]) {
     if (alias.family === 'IPv4' && !alias.internal) {
-      localIP = alias.address;
-      break;
+      localIP = alias.address; break;
     }
   }
 }
 
-server.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`  SERVIDOR INICIADO: MTG Counter Premium Mobile Test`);
-  console.log(`=======================================================`);
-  console.log(`\n* En tu ordenador puedes abrir:`);
-  console.log(`  http://localhost:${PORT}/`);
-  console.log(`\n* Para probar en tu MÓVIL/TABLET:`);
-  console.log(`  1. Asegúrate de estar en la misma red Wi-Fi.`);
-  console.log(`  2. Abre el navegador de tu móvil e introduce la dirección:`);
-  console.log(`     http://${localIP}:${PORT}/`);
-  console.log(`\n=======================================================`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`\n╔═══════════════════════════════════════╗`);
+  console.log(`║   MTG Counter — Servidor Premium       ║`);
+  console.log(`╠═══════════════════════════════════════╣`);
+  console.log(`║  PC:   http://localhost:${PORT}           ║`);
+  console.log(`║  MOVIL: http://${localIP}:${PORT}  ║`);
+  console.log(`╚═══════════════════════════════════════╝\n`);
+  console.log('✅ Soporte Range requests (video iOS/Android) ACTIVO');
 });
