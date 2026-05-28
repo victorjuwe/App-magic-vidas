@@ -265,6 +265,7 @@
     }
 
     .loader-status {
+      display: none;
       font-size: 10px;
       font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
       letter-spacing: 0.12em;
