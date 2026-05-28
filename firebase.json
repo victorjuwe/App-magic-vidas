@@ -1,0 +1,23 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "scratch/**",
+      "documentacion/**",
+      "ide_installers/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/",
+        "destination": "/contador.html"
+      },
+      {
+        "source": "**",
+        "destination": "/contador.html"
+      }
+    ]
+  }
+}
