@@ -295,16 +295,16 @@
 
     const THEME_METADATA = [
       { id: '', name: 'Nebula Standard', icon: '🌌', desc: 'Espacio y constelaciones', badge: 'CLASSIC', bg: './assets/logo.webp' },
-      { id: 'streetfighter', name: 'Street Fighter II', icon: '🥋', desc: 'Hadouken & KO Arcade', badge: 'RETRO', bg: './themes/streetfighter/preview.webp' },
-      { id: 'simpsons', name: 'Los Simpsons', icon: '🍩', desc: 'Consola nuclear y rosquillas', badge: 'CARTOON', bg: './themes/simpsons/top.webp' },
-      { id: 'rickmorty', name: 'Rick y Morty', icon: '🌀', desc: 'Portales y multiverso', badge: 'SCI-FI', bg: './themes/rickmorty/top.webp' },
+      { id: 'streetfighter', name: 'Street Fighter II', icon: '🥋', desc: 'Hadouken & KO Arcade', badge: 'RETRO', bg: './themes/streetfighter/preview.jpeg' },
+      { id: 'simpsons', name: 'Los Simpsons', icon: '🍩', desc: 'Consola nuclear y rosquillas', badge: 'CARTOON', bg: './themes/simpsons/preview.png' },
+      { id: 'rickmorty', name: 'Rick y Morty', icon: '🌀', desc: 'Portales y multiverso', badge: 'SCI-FI', bg: './themes/rickmorty/top.jfif' },
       { id: 'bttf', name: 'Regreso al Futuro', icon: '⚡', desc: 'Viajes temporales y 1.21 gigavatios', badge: 'SCI-FI', bg: './themes/bttf/preview.webp' },
-      { id: 'bleach', name: 'Bleach Shinigami', icon: '⚔️', desc: 'Getsuga Tenshō & Duelo de Espadas', badge: 'ANIME', bg: './themes/bleach/preview.webp' },
+      { id: 'bleach', name: 'Bleach Shinigami', icon: '⚔️', desc: 'Getsuga Tenshō & Duelo de Espadas', badge: 'ANIME', bg: './themes/bleach/preview.jpeg' },
       { id: 'onepiece', name: 'One Piece (Mugiwara)', icon: '🏴‍☠️', desc: 'Gomu Gomu & Duelo Pirata', badge: 'ANIME', bg: './themes/onepiece/preview.webp' },
-      { id: 'naruto', name: 'Naruto Shippuden', icon: '🍥', desc: 'Rasengan vs Chidori', badge: 'ANIME', bg: './themes/naruto/top.webp' },
-      { id: 'dragonball', name: 'Dragon Ball Z', icon: '🐉', desc: 'Kamehameha & Saiyans', badge: 'ANIME', bg: './themes/dragonball/preview.webp' },
-      { id: 'mario', name: 'Super Mario Retro', icon: '🍄', desc: 'Mundo 1-1 y Castillo de Bowser', badge: 'RETRO', bg: './themes/mario/preview.webp' },
-      { id: 'demonslayer', name: 'Demon Slayer', icon: '⚔️', desc: 'Respiración de Agua y Castillo Infinito', badge: 'ANIME', bg: './themes/demonslayer/preview.webp' }
+      { id: 'naruto', name: 'Naruto Shippuden', icon: '🍥', desc: 'Rasengan vs Chidori', badge: 'ANIME', bg: './themes/naruto/preview.jpeg' },
+      { id: 'dragonball', name: 'Dragon Ball Z', icon: '🐉', desc: 'Kamehameha & Saiyans', badge: 'ANIME', bg: './themes/dragonball/preview.jpeg' },
+      { id: 'mario', name: 'Super Mario Retro', icon: '🍄', desc: 'Mundo 1-1 y Castillo de Bowser', badge: 'RETRO', bg: './themes/mario/preview.jpeg' },
+      { id: 'demonslayer', name: 'Demon Slayer', icon: '⚔️', desc: 'Respiración de Agua y Castillo Infinito', badge: 'ANIME', bg: './themes/demonslayer/preview.jpeg' }
     ];
 
     function updateSFHealthBarNames() {
@@ -3463,17 +3463,28 @@ $('btnStartGame').addEventListener('click', () => {
     // Configurar imagen del tema estándar
     if (loaderImg) {
       if (selectedLobbyTheme) {
+        const attempts = [
+          `./themes/${selectedLobbyTheme}/loading.webp`,
+          `./themes/${selectedLobbyTheme}/loading.jpeg`,
+          `./themes/${selectedLobbyTheme}/loading.jpg`,
+          `./themes/${selectedLobbyTheme}/loading.png`,
+          `./themes/${selectedLobbyTheme}/top.webp`,
+          `./themes/${selectedLobbyTheme}/top.jpeg`,
+          `./themes/${selectedLobbyTheme}/top.jfif`,
+          `./themes/${selectedLobbyTheme}/top.png`
+        ];
+        let attemptIdx = 0;
+
         loaderImg.onerror = () => {
-          // Si falla loading.webp, intentar con top.webp
-          if (loaderImg.src.includes('loading.webp')) {
-            loaderImg.src = `./themes/${selectedLobbyTheme}/top.webp`;
+          attemptIdx++;
+          if (attemptIdx < attempts.length) {
+            loaderImg.src = attempts[attemptIdx];
           } else {
-            // Si también falla, ocultarla
             loaderImg.style.display = 'none';
             loaderImg.onerror = null;
           }
         };
-        loaderImg.src = `./themes/${selectedLobbyTheme}/loading.webp`;
+        loaderImg.src = attempts[0];
         loaderImg.style.display = 'block';
       } else {
         loaderImg.src = '';
