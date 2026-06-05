@@ -1712,50 +1712,73 @@
         }
         else if (theme === 'demonslayer') {
           if (type === 'dmg') {
-            // Sonido de tajo rápido y metálico
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            const filter = audioCtx.createBiquadFilter();
+            // Sonido mítico: Tajo de katana seguido de un fuerte golpe de Taiko (Tambor japonés)
             
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(2000, now);
-            osc.frequency.exponentialRampToValueAtTime(100, now + 0.15);
+            // 1. Tajo Metálico (Katana Slash)
+            const oscSlash = audioCtx.createOscillator();
+            const filterSlash = audioCtx.createBiquadFilter();
+            const gainSlash = audioCtx.createGain();
             
-            filter.type = 'highpass';
-            filter.frequency.setValueAtTime(1000, now);
-            filter.frequency.linearRampToValueAtTime(100, now + 0.15);
+            oscSlash.type = 'sawtooth';
+            oscSlash.frequency.setValueAtTime(3000, now);
+            oscSlash.frequency.exponentialRampToValueAtTime(100, now + 0.15);
             
-            gain.gain.setValueAtTime(0, now);
-            gain.gain.linearRampToValueAtTime(0.15, now + 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+            filterSlash.type = 'bandpass';
+            filterSlash.frequency.setValueAtTime(1500, now);
+            filterSlash.frequency.linearRampToValueAtTime(300, now + 0.15);
+            filterSlash.Q.value = 5;
             
-            osc.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioCtx.destination);
+            gainSlash.gain.setValueAtTime(0, now);
+            gainSlash.gain.linearRampToValueAtTime(0.4, now + 0.02);
+            gainSlash.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
             
-            osc.start(now);
-            osc.stop(now + 0.16);
+            oscSlash.connect(filterSlash);
+            filterSlash.connect(gainSlash);
+            gainSlash.connect(audioCtx.destination);
+            
+            // 2. Golpe de Taiko (Sub-bass impact)
+            const oscTaiko = audioCtx.createOscillator();
+            const gainTaiko = audioCtx.createGain();
+            
+            oscTaiko.type = 'sine';
+            oscTaiko.frequency.setValueAtTime(150, now);
+            oscTaiko.frequency.exponentialRampToValueAtTime(30, now + 0.4);
+            
+            gainTaiko.gain.setValueAtTime(0, now);
+            gainTaiko.gain.linearRampToValueAtTime(0.8, now + 0.03);
+            gainTaiko.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            
+            oscTaiko.connect(gainTaiko);
+            gainTaiko.connect(audioCtx.destination);
+            
+            oscSlash.start(now);
+            oscSlash.stop(now + 0.16);
+            oscTaiko.start(now);
+            oscTaiko.stop(now + 0.45);
             return;
           }
           else if (type === 'heal') {
-            // Latido / Respiración profunda
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+            // Sonido mítico: Shakuhachi (Flauta de bambú) y aura de agua
+            const oscFlute = audioCtx.createOscillator();
+            const gainFlute = audioCtx.createGain();
             
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(60, now);
-            osc.frequency.linearRampToValueAtTime(80, now + 0.1);
-            osc.frequency.linearRampToValueAtTime(60, now + 0.3);
+            oscFlute.type = 'triangle';
+            // Melodía rápida pentatónica japonesa (Sakura / Anime aura)
+            oscFlute.frequency.setValueAtTime(587.33, now); // D5
+            oscFlute.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+            oscFlute.frequency.setValueAtTime(880.00, now + 0.2); // A5
+            oscFlute.frequency.exponentialRampToValueAtTime(783.99, now + 0.4); // G5
             
-            gain.gain.setValueAtTime(0, now);
-            gain.gain.linearRampToValueAtTime(0.2, now + 0.1);
-            gain.gain.linearRampToValueAtTime(0, now + 0.3);
+            gainFlute.gain.setValueAtTime(0, now);
+            gainFlute.gain.linearRampToValueAtTime(0.15, now + 0.1);
+            gainFlute.gain.linearRampToValueAtTime(0.1, now + 0.2);
+            gainFlute.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
             
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+            oscFlute.connect(gainFlute);
+            gainFlute.connect(audioCtx.destination);
             
-            osc.start(now);
-            osc.stop(now + 0.35);
+            oscFlute.start(now);
+            oscFlute.stop(now + 0.65);
             return;
           }
         }
