@@ -706,7 +706,6 @@
       background-image: url('./themes/bleach/top.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
-      transform: rotate(180deg);
       z-index: -2;
       pointer-events: none;
     }
@@ -1088,7 +1087,6 @@
       background-image: url('./themes/streetfighter/top.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
-      transform: rotate(180deg);
       z-index: -2;
       pointer-events: none;
     }
@@ -4746,7 +4744,6 @@ body[data-theme="onepiece"] #p1::after {
   background-image: url('./themes/onepiece/top.webp') !important;
   background-position: center center !important;
   background-size: cover !important;
-  transform: rotate(180deg);
   z-index: -2;
   pointer-events: none;
 }
@@ -4826,7 +4823,6 @@ body[data-theme="naruto"] #p1::after {
   background-image: url('./themes/naruto/top.webp') !important;
   background-position: center center !important;
   background-size: cover !important;
-  transform: rotate(180deg);
   z-index: -2;
   pointer-events: none;
 }
@@ -4902,7 +4898,6 @@ body[data-theme="dragonball"] #p1::after {
   background-image: url('./themes/dragonball/top.webp') !important;
   background-position: center center !important;
   background-size: cover !important;
-  transform: rotate(180deg);
   z-index: -2;
   pointer-events: none;
 }
@@ -5249,7 +5244,6 @@ body[data-theme="mario"] #p1::after {
   background-image: url('./themes/mario/top.webp') !important;
   background-position: center center !important;
   background-size: cover !important;
-  transform: rotate(180deg);
   z-index: -2;
   pointer-events: none;
 }
@@ -6487,7 +6481,6 @@ body[data-theme="demonslayer"] #p1::after {
   background-image: url('./themes/demonslayer/top.webp') !important;
   background-position: center center !important;
   background-size: cover !important;
-  transform: rotate(180deg);
   z-index: -2;
   pointer-events: none;
 }
