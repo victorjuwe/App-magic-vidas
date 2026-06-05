@@ -979,7 +979,7 @@
         }
 
         // Intentar reproducir MP3 local para temas con audio externo
-        const themesWithAudio = ['simpsons', 'rickmorty', 'bttf', 'bleach', 'onepiece', 'naruto', 'dragonball', 'mario'];
+        const themesWithAudio = ['simpsons', 'rickmorty', 'bttf', 'bleach', 'onepiece', 'naruto', 'dragonball', 'mario', 'demonslayer'];
         if (currentTheme && themesWithAudio.includes(currentTheme) && (type === 'dmg' || type === 'heal' || type === 'victory')) {
           let audioPath = `./themes/${currentTheme}/${type}.mp3`;
           if (playerNum && (type === 'dmg' || type === 'heal')) {
@@ -1679,6 +1679,54 @@
               osc.start(now + note.t);
               osc.stop(now + note.t + note.d);
             });
+          }
+        }
+        else if (theme === 'demonslayer') {
+          if (type === 'dmg') {
+            // Sonido de tajo rápido y metálico
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+            
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(2000, now);
+            osc.frequency.exponentialRampToValueAtTime(100, now + 0.15);
+            
+            filter.type = 'highpass';
+            filter.frequency.setValueAtTime(1000, now);
+            filter.frequency.linearRampToValueAtTime(100, now + 0.15);
+            
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.15, now + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+            
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start(now);
+            osc.stop(now + 0.16);
+            return;
+          }
+          else if (type === 'heal') {
+            // Latido / Respiración profunda
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(60, now);
+            osc.frequency.linearRampToValueAtTime(80, now + 0.1);
+            osc.frequency.linearRampToValueAtTime(60, now + 0.3);
+            
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.2, now + 0.1);
+            gain.gain.linearRampToValueAtTime(0, now + 0.3);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start(now);
+            osc.stop(now + 0.35);
             return;
           }
         }
