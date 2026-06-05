@@ -1810,6 +1810,7 @@
         $('resume-modal').classList.remove('active');
         $('lobby-screen').classList.add('hidden');
         $('game-screen').style.display = 'flex';
+        document.body.dataset.mode = S.lives[0] > 20 ? 'commander' : 'bo3';
         playSynthSound('lock');
       });
 
@@ -3601,6 +3602,7 @@ $('btnStartGame').addEventListener('click', () => {
 
       $('lobby-screen').classList.add('hidden');
       $('game-screen').style.display = 'flex';
+      document.body.dataset.mode = selectedMode;
 
       // Set lives based on mode
       if (selectedMode === 'commander') {

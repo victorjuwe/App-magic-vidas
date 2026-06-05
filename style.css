@@ -1483,7 +1483,6 @@
 
     /* Borde ultra-fino brillante con el color de mana de cada jugador */
     #p1 {
-      transform: rotate(180deg);
       border-bottom: 1px solid color-mix(in srgb, var(--p1-glow) 25%, transparent);
       box-shadow:
         inset 0 -16px 32px color-mix(in srgb, var(--p1-glow) 6%, transparent),
@@ -6918,4 +6917,8 @@ body[data-theme="simpsons"] .rounds::after {
   border-radius: 2px;
   border: 1px solid #ffd90f;
   margin-top: 5px;
+}
+
+body[data-mode="commander"] #p1 {
+  transform: rotate(180deg);
 }

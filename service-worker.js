@@ -1,7 +1,7 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
 
-const CACHE = 'magic-bo3-v46';
+const CACHE = 'magic-bo3-v47';
 
 // Activos críticos para arrancar 100% offline
 const CORE_ASSETS = [
