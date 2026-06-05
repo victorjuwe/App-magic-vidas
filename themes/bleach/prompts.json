@@ -1,21 +1,21 @@
 {
   "theme": "bleach",
-  "actualizado": "2026-06-05 11:27",
+  "actualizado": "2026-06-05 13:51",
   "logica": {
-    "top": "Protagonistas (Ichigo + Rukia)",
-    "bottom": "Antagonistas (Aizen + Hollow)",
+    "top": "Protagonistas (Ichigo + Urahara)",
+    "bottom": "Antagonistas (Aizen + Grimmjow)",
     "loader": "Ichigo vs Aizen jugando Magic: The Gathering (toque cómico)",
     "preview": "Icono épico del tema sin texto (Ichigo Shinigami bajo luna sangrienta)"
   },
   "top": {
     "filename": "top.webp",
-    "description": "Player 1 background (Ichigo + Rukia). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
-    "prompt": "A stunning 2D anime illustration in the classic Bleach cel-shaded style, square format 1:1. A single continuous, seamless, and unified landscape of the traditional tiled rooftops of Seireitei under a warm orange dusk sky, spanning the entire width. On the left side of this same landscape stands Ichigo Kurosaki in black Shinigami robes, resting his massive black Zangetsu sword on his shoulder, surrounded by a dark red and black spiritual pressure aura. On the right side of this same landscape stands Rukia Kuchiki in black Shinigami robes, holding her white katana Sode no Shirayuki, surrounded by a swirling white frost and ice crystal aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the rooftops is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+    "description": "Player 1 background (Ichigo + Urahara). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning 2D anime illustration in the classic Bleach cel-shaded style, square format 1:1. A single continuous, seamless, and unified landscape of Kisuke Urahara's traditional wooden shop front and training courtyard under a starry night sky, spanning the entire width. On the left side of this same landscape stands Ichigo Kurosaki in black Shinigami robes, wielding his massive black Zangetsu sword, surrounded by a dark red and black spiritual pressure aura. On the right side of this same landscape stands Kisuke Urahara in his dark green coat and green-and-white striped bucket hat, holding his cane sword Benihime emitting a crimson aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the courtyard is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
   },
   "bottom": {
     "filename": "bottom.webp",
-    "description": "Player 2 background (Aizen + Hollow). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
-    "prompt": "A stunning dark 2D anime illustration in the classic Bleach cel-shaded style, square format 1:1. A single continuous, seamless, and unified landscape of the white sand desert of Hueco Mundo under a dark purple night sky with a crescent moon, spanning the entire width. On the left side of this same landscape stands Sosuke Aizen in his Captain's white coat, smiling sinisterly as his sword Kyoka Suigetsu points downward with a swirling purple illusion aura. On the right side of this same landscape stands a massive Menos Grande Hollow with a bone-white mask and black hollow cloak, charging a bright red Cero energy beam in its mouth. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the white sand desert is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+    "description": "Player 2 background (Aizen + Grimmjow). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning dark 2D anime illustration in the classic Bleach cel-shaded style, square format 1:1. A single continuous, seamless, and unified landscape of the white sand desert of Hueco Mundo under a dark purple night sky with a crescent moon, spanning the entire width. On the left side of this same landscape stands Sosuke Aizen in his white Espada leader coat, smiling condescendingly as his sword Kyoka Suigetsu points downward with a swirling purple illusion aura. On the right side of this same landscape stands Grimmjow Jaegerjaquez with his spiky blue hair and wild, cocky grin, in a dynamic combat stance surrounded by a crackling light blue energy aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the white sand desert is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
   },
   "loader": {
     "filename": "loading.webp",
