@@ -295,16 +295,16 @@
 
     const THEME_METADATA = [
       { id: '', name: 'Nebula Standard', icon: '🌌', desc: 'Espacio y constelaciones', badge: 'CLASSIC', bg: './assets/logo.webp' },
-      { id: 'streetfighter', name: 'Street Fighter II', icon: '🥋', desc: 'Hadouken & KO Arcade', badge: 'RETRO', bg: './themes/streetfighter/preview.jpeg' },
-      { id: 'simpsons', name: 'Los Simpsons', icon: '🍩', desc: 'Consola nuclear y rosquillas', badge: 'CARTOON', bg: './themes/simpsons/preview.png' },
-      { id: 'rickmorty', name: 'Rick y Morty', icon: '🌀', desc: 'Portales y multiverso', badge: 'SCI-FI', bg: './themes/rickmorty/top.jfif' },
+      { id: 'streetfighter', name: 'Street Fighter II', icon: '🥋', desc: 'Hadouken & KO Arcade', badge: 'RETRO', bg: './themes/streetfighter/preview.webp' },
+      { id: 'simpsons', name: 'Los Simpsons', icon: '🍩', desc: 'Consola nuclear y rosquillas', badge: 'CARTOON', bg: './themes/simpsons/preview.webp' },
+      { id: 'rickmorty', name: 'Rick y Morty', icon: '🌀', desc: 'Portales y multiverso', badge: 'SCI-FI', bg: './themes/rickmorty/preview.webp' },
       { id: 'bttf', name: 'Regreso al Futuro', icon: '⚡', desc: 'Viajes temporales y 1.21 gigavatios', badge: 'SCI-FI', bg: './themes/bttf/preview.webp' },
-      { id: 'bleach', name: 'Bleach Shinigami', icon: '⚔️', desc: 'Getsuga Tenshō & Duelo de Espadas', badge: 'ANIME', bg: './themes/bleach/preview.jpeg' },
+      { id: 'bleach', name: 'Bleach Shinigami', icon: '⚔️', desc: 'Getsuga Tenshō & Duelo de Espadas', badge: 'ANIME', bg: './themes/bleach/preview.webp' },
       { id: 'onepiece', name: 'One Piece (Mugiwara)', icon: '🏴‍☠️', desc: 'Gomu Gomu & Duelo Pirata', badge: 'ANIME', bg: './themes/onepiece/preview.webp' },
-      { id: 'naruto', name: 'Naruto Shippuden', icon: '🍥', desc: 'Rasengan vs Chidori', badge: 'ANIME', bg: './themes/naruto/preview.jpeg' },
-      { id: 'dragonball', name: 'Dragon Ball Z', icon: '🐉', desc: 'Kamehameha & Saiyans', badge: 'ANIME', bg: './themes/dragonball/preview.jpeg' },
-      { id: 'mario', name: 'Super Mario Retro', icon: '🍄', desc: 'Mundo 1-1 y Castillo de Bowser', badge: 'RETRO', bg: './themes/mario/preview.jpeg' },
-      { id: 'demonslayer', name: 'Demon Slayer', icon: '⚔️', desc: 'Respiración de Agua y Castillo Infinito', badge: 'ANIME', bg: './themes/demonslayer/preview.jpeg' }
+      { id: 'naruto', name: 'Naruto Shippuden', icon: '🍥', desc: 'Rasengan vs Chidori', badge: 'ANIME', bg: './themes/naruto/preview.webp' },
+      { id: 'dragonball', name: 'Dragon Ball Z', icon: '🐉', desc: 'Kamehameha & Saiyans', badge: 'ANIME', bg: './themes/dragonball/preview.webp' },
+      { id: 'mario', name: 'Super Mario Retro', icon: '🍄', desc: 'Mundo 1-1 y Castillo de Bowser', badge: 'RETRO', bg: './themes/mario/preview.webp' },
+      { id: 'demonslayer', name: 'Demon Slayer', icon: '⚔️', desc: 'Respiración de Agua y Castillo Infinito', badge: 'ANIME', bg: './themes/demonslayer/preview.webp' }
     ];
 
     function updateSFHealthBarNames() {
