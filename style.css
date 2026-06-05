@@ -827,11 +827,17 @@
       background-position: center center !important;
       background-size: cover !important;
     }
-    body[data-theme="simpsons"] .lifebtn {
+    body[data-theme="simpsons"] .lifebtn,
+    body[data-theme="simpsons"] .btn-pois,
+    body[data-theme="simpsons"] .btn-undo {
       font-family: 'Lilita One', cursive !important;
       border: 3px solid #000;
       background: #ffd90f;
-      color: #000;
+      background-image: url('./themes/simpsons/donut.png') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      color: #fff !important;
+      text-shadow: 0 0 5px #000, -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000 !important;
       box-shadow: 0 4px 0 0 #000;
       transition: transform 75ms ease, box-shadow 75ms ease;
     }
@@ -3548,6 +3554,33 @@ body[data-theme="streetfighter"] .speech-bubble {
   box-shadow: 6px 6px 0px #000000 !important;
   max-width: 88% !important;
   top: 18% !important;
+}
+
+body[data-theme="dragonball"] .lifebtn {
+  background-size: cover !important;
+  background-position: center !important;
+  border-radius: 50% !important;
+  aspect-ratio: 1 / 1 !important;
+  color: #000 !important;
+  text-shadow: 0 0 4px #fff, 0 0 8px #ff0 !important;
+  border: 2px solid rgba(255,165,0,0.8) !important;
+  box-shadow: 0 5px 15px rgba(255, 69, 0, 0.6) !important;
+  width: clamp(50px, 15vw, 75px) !important;
+  height: clamp(50px, 15vw, 75px) !important;
+  padding: 0 !important;
+  margin: auto !important;
+}
+
+body[data-theme="dragonball"] .lifebtn[data-v="1"],
+body[data-theme="dragonball"] .lifebtn[data-v="-1"],
+body[data-theme="dragonball"] .btn-pois[data-v="-1"] {
+  background-image: url('./themes/dragonball/1star.png') !important;
+}
+
+body[data-theme="dragonball"] .lifebtn[data-v="5"],
+body[data-theme="dragonball"] .lifebtn[data-v="-5"],
+body[data-theme="dragonball"] .btn-pois[data-v="1"] {
+  background-image: url('./themes/dragonball/5star.png') !important;
 }
 
 /* Rick y Morty */
