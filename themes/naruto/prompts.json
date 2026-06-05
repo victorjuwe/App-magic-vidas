@@ -1,0 +1,91 @@
+{
+  "theme": "naruto",
+  "logica": {
+    "top": "Protagonistas (Naruto + Sasuke)",
+    "bottom": "Antagonistas (Pain + Itachi)",
+    "loader": "Naruto vs Pain jugando Magic: The Gathering (toque cómico)",
+    "preview": "Icono épico del tema sin texto (Naruto Modo Sabio bajo cielo épico)"
+  },
+  "top": {
+    "filename": "top.webp",
+    "description": "Player 1 background (Naruto + Sasuke). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning, epic 2D anime illustration in the classic Naruto Shippuden Toei animation style, square format 1:1. A single continuous, seamless, and unified landscape of the Valley of the End's roaring waterfall between the colossal stone statues of Hashirama and Madara under a dramatic dark cloudy sky with golden sun rays, spanning the entire width. On the left side of this same landscape stands Naruto Uzumaki (Shippuden teenager version, orange and black jacket) in a dynamic combat stance, enveloped in a swirling blue and orange chakra aura, charging a Rasengan. On the right side of this same landscape stands Sasuke Uchiha (Shippuden teenager version, grey shirt) in an agile sword stance, surrounded by crackling purple Chidori lightning. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom": {
+    "filename": "bottom.webp",
+    "description": "Player 2 background (Pain + Itachi). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning, dark and epic 2D anime illustration in the classic Naruto Shippuden Toei animation style, square format 1:1. A single continuous, seamless, and unified dark cityscape landscape of the metallic skyscrapers and giant pipes of Amegakure under a heavy pouring rainstorm and dark purple thunderclouds, spanning the entire width. On the left side of this same landscape stands Pain (Tendo path with Rinnegan eyes) in his black Akatsuki cloak, extending his hand as loose rubble and rain droplets float upward in a gravity-defying swirl. On the right side of this same landscape stands Itachi Uchiha (with red Mangekyou Sharingan eyes) in his black Akatsuki cloak, surrounded by a swirling storm of black crows and faint crimson embers. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the cityscape is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Naruto vs Pain jugando una partida REAL y correcta de Magic. Vertical 9:16 mobile.",
+    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Naruto Shippuden style, vertical portrait composition, aspect ratio 9:16. Naruto Uzumaki (Shippuden teenager version) and Pain (Tendo path) are seated properly and facing each other across the wooden bar of the Ichiraku Ramen shop, playing a game of Magic. Naruto is concentrating intensely over his cards with a bead of sweat, while Pain has a calm, sinister smile. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table, between two steaming bowls of ramen, is a detailed Magic: The Gathering card layout: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, and a glowing blue chakra die. Warm, cozy ramen shop lighting, vibrant cel-shading. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Naruto vs Pain jugando una partida de Magic en Ichiraku. Horizontal 16:9.",
+    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Naruto Shippuden style, wide landscape composition, aspect ratio 16:9. Naruto Uzumaki (Shippuden teenager version) and Pain (Tendo path) are seated properly and facing each other across the wooden bar of the Ichiraku Ramen shop. Naruto is concentrating intensely over his cards with a bead of sweat on his face, while Pain has a calm, sinister smile studying his hand. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table, between two steaming bowls of ramen, is a detailed Magic: The Gathering card layout: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, and a glowing blue chakra die. Warm, cozy ramen shop lighting, vibrant cel-shading. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "ui": {
+    "banda_ninja_intacta": {
+      "filename": "ui/banda_ninja_intacta.webp",
+      "description": "Banda ninja de la Hoja, intacta. Estado 4/4 — vida llena.",
+      "prompt": "2D anime style sprite of the classic Hidden Leaf forehead protector: a horizontal metal plate with the engraved spiral leaf symbol tied to a navy blue cloth strap. Pristine and undamaged, wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    },
+    "banda_ninja_rasguno_1": {
+      "filename": "ui/banda_ninja_rasguno_1.webp",
+      "description": "Banda ninja con un rasguño diagonal. Estado 3/4.",
+      "prompt": "2D anime style sprite of the Hidden Leaf forehead protector: a metal plate with a single deep diagonal scratch running through the spiral leaf symbol, navy blue cloth strap slightly frayed. Wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    },
+    "banda_ninja_rasguno_2": {
+      "filename": "ui/banda_ninja_rasguno_2.webp",
+      "description": "Banda ninja con varios rasguños. Estado 2/4.",
+      "prompt": "2D anime style sprite of the Hidden Leaf forehead protector: showing multiple deep scratches and dents on the metal plate, leaf symbol partially obscured, cloth strap torn and frayed. Wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    },
+    "banda_ninja_rota": {
+      "filename": "ui/banda_ninja_rota.webp",
+      "description": "Banda ninja partida en dos cayendo. Estado 1/4 — vida crítica.",
+      "prompt": "2D anime style sprite of the Hidden Leaf forehead protector shattered: split into two metal pieces falling apart with severe damage, cloth strap shredded. Wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    },
+    "rango_genin": {
+      "filename": "ui/rango_genin.webp",
+      "description": "Insignia de rango Genin (recién graduado). Sistema de progresión por victorias.",
+      "prompt": "2D anime style sprite of a Genin rank badge: a simple circular wooden plaque with engraved symbols, rustic brown wood finish. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "rango_chunin": {
+      "filename": "ui/rango_chunin.webp",
+      "description": "Insignia de rango Chunin (intermedio).",
+      "prompt": "2D anime style sprite of a Chunin rank badge: a circular bronze metallic badge with engraved symbols and a green tassel attached. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "rango_jonin": {
+      "filename": "ui/rango_jonin.webp",
+      "description": "Insignia de rango Jonin (avanzado).",
+      "prompt": "2D anime style sprite of a Jonin rank badge: a circular silver metallic badge with intricate engraved symbols and a blue tassel. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "rango_hokage": {
+      "filename": "ui/rango_hokage.webp",
+      "description": "Insignia de rango Hokage (máximo).",
+      "prompt": "2D anime style sprite of a Hokage rank badge: a circular golden medal with the elegant kanji character for Fire carved in the center, decorated with flame patterns and a red tassel. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "sharingan_1_tomoe": {
+      "filename": "ui/sharingan_1_tomoe.webp",
+      "description": "Sharingan con 1 tomoe (estado inicial).",
+      "prompt": "2D anime style sprite of a Sharingan eye: a glowing crimson red iris with one black comma tomoe symbol next to the black pupil, against the white sclera, soft energy glow. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "sharingan_3_tomoe": {
+      "filename": "ui/sharingan_3_tomoe.webp",
+      "description": "Sharingan con 3 tomoes (estado avanzado).",
+      "prompt": "2D anime style sprite of a mature Sharingan eye: a glowing crimson red iris with three black comma tomoe symbols arranged evenly around the pupil. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "sello_kurama": {
+      "filename": "ui/sello_kurama.webp",
+      "description": "Sello del Zorro de 9 Colas. A vida crítica el sello 'se rompe' por código.",
+      "prompt": "2D anime style sprite of the Eight Trigrams Sealing mark: an intricate black ink spiral seal with trigram symbols drawn in sumi-e style on a circular patch of pale skin, glowing with faint red light from underneath. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "medidor_chakra": {
+      "filename": "ui/medidor_chakra.webp",
+      "description": "Barra vertical de chakra azul. Estado lleno.",
+      "prompt": "2D anime style vertical energy bar, showing a tall thin gauge filled with swirling blue chakra energy and soft white wisps, dark gray border. Vertical layout, isolated on a solid black background. --ar 1:5 --no text, watermark, signature"
+    }
+  }
+}

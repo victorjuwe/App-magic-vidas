@@ -1,0 +1,51 @@
+{
+  "theme": "mario",
+  "logica": {
+    "top": "Mundo 1-1 moderno y estilizado, Mario y Luigi a los lados (P1)",
+    "bottom": "Castillo de lava moderno, Bowser y torre a los lados (P2)",
+    "loader": "Mario y Bowser jugando a MTG de forma cómica (pantalla de carga)",
+    "preview": "Castillo de Peach con bloque ? flotando (lobby)"
+  },
+  "top": {
+    "filename": "top.webp",
+    "description": "Player 1 background (Mario + Luigi). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A beautiful modern 2D digital illustration, square format 1:1. A single continuous, seamless, and unified landscape of the Mushroom Kingdom showing lush green grassy hills under a clear blue sky, spanning the entire width. On the left side of this same landscape, Mario (red cap, blue overalls) leaps dynamically with one arm raised in his victory jump. On the right side of this same landscape, Luigi (green cap, blue overalls) stands waving. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the grassy hills is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom": {
+    "filename": "bottom.webp",
+    "description": "Player 2 background (Bowser + torre). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A dramatic modern 2D digital illustration, square format 1:1. A single continuous, seamless, and unified volcanic landscape showing a wide stone bridge over a glowing river of orange lava under a dark volcanic sky, spanning the entire width. On the left side of this same bridge stands Bowser, a massive green-shelled spike monster roaring and breathing small orange flames. On the right side of this same bridge stands a dark stone fortress tower with glowing lava cracks. Both elements are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the stone bridge is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Mario y Bowser jugando a MTG de forma cómica. Estilo ilustración digital 2D suave.",
+    "prompt": "A humorous modern 2D cartoon illustration of a card match in the classic Super Mario style, vertical portrait composition, aspect ratio 9:16. Mario and Bowser are seated properly and facing each other across a table made of green warp pipes and brick blocks, playing a game of Magic. Mario has a highly concentrated, funny expression holding his cards, while Bowser looks frustrated trying to pick up a tiny card with his large claws. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a red Super Mushroom and a green 1-Up Mushroom. Peach's Castle visible through a window in the background. Smooth vector outlines, polished cel-shading. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Mario y Bowser jugando a MTG. Horizontal 16:9.",
+    "prompt": "A humorous modern 2D cartoon illustration of a card match in the classic Super Mario style, wide landscape composition, aspect ratio 16:9. Mario and Bowser are seated properly and facing each other across a table made of green warp pipes and brick blocks. Mario has a highly concentrated, funny expression holding his cards, while Bowser looks frustrated trying to pick up a tiny card with his large claws. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a red Super Mushroom and a green 1-Up Mushroom. Peach's Castle visible through a window in the background. Smooth vector outlines, polished cel-shading. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "ui": {
+    "super_mushroom": {
+      "filename": "ui/super_mushroom.webp",
+      "description": "Champiñón rojo (Super Mushroom) de Mario. Sprite de UI.",
+      "prompt": "A high-quality 2D digital vector icon of a red mushroom with white spots and a cute cream-colored face with two small vertical eyes, styled in clean modern game art. The object has smooth, curved outlines, a gentle glossy highlight, and subtle gradients. The sprite is centered on a solid, clean black background, optimized as a high-contrast UI asset with no pixelation. --ar 1:1 --no text, watermark, signature"
+    },
+    "poison_mushroom": {
+      "filename": "ui/poison_mushroom.webp",
+      "description": "Champiñón venenoso morado (Poison Mushroom). Sprite de UI.",
+      "prompt": "A high-quality 2D digital vector icon of a purple mushroom with pink spots and angry, stylized eyes, styled in clean modern game art. The object has smooth, curved outlines, a gentle glossy highlight, and subtle gradients. The sprite is centered on a solid, clean black background, optimized as a high-contrast UI asset with no pixelation. --ar 1:1 --no text, watermark, signature"
+    },
+    "fire_flower": {
+      "filename": "ui/fire_flower.webp",
+      "description": "Flor de fuego (Fire Flower). Sprite de UI.",
+      "prompt": "A high-quality 2D digital vector icon of a Fire Flower with green stem and glowing orange petals, styled in clean modern game art. The object has smooth, curved outlines, a gentle glossy highlight, and subtle gradients. The sprite is centered on a solid, clean black background, optimized as a high-contrast UI asset with no pixelation. --ar 1:1 --no text, watermark, signature"
+    },
+    "super_star": {
+      "filename": "ui/super_star.webp",
+      "description": "Estrella de poder (Super Star). Sprite de UI.",
+      "prompt": "A high-quality 2D digital vector icon of a bright yellow power star with small black eyes, styled in clean modern game art. The object has smooth, curved outlines, a gentle glossy highlight, and subtle gradients. The sprite is centered on a solid, clean black background, optimized as a high-contrast UI asset with no pixelation. --ar 1:1 --no text, watermark, signature"
+    }
+  }
+}

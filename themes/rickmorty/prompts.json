@@ -1,0 +1,81 @@
+{
+  "theme": "rickmorty",
+  "logica": {
+    "top": "Protagonistas (Rick Sanchez + Morty)",
+    "bottom": "Antagonistas (Evil Morty + Rick Prime)",
+    "loader": "Rick vs Evil Morty jugando Magic: The Gathering (toque cómico ácido)",
+    "preview": "Icono épico del tema sin texto (portal verde gigante en cielo cósmico)"
+  },
+  "top": {
+    "filename": "top.webp",
+    "description": "Player 1 background (Rick + Morty). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A detailed 2D cartoon illustration in the iconic Rick and Morty art style, square format 1:1. A single continuous, seamless, and unified garage laboratory scenery filled with shelves of glowing experiment jars, wires, and a drawing board, spanning the entire width. On the left side of this same laboratory stands Rick Sanchez with wild blue hair, holding his portal gun, surrounded by a soft green dimensional portal aura. On the right side of this same laboratory stands Morty Smith with an anxious, sweaty expression, holding a laser blaster. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the laboratory is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom": {
+    "filename": "bottom.webp",
+    "description": "Player 2 background (Evil Morty + Rick Prime). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A dark atmospheric 2D cartoon illustration in the classic Rick and Morty art style, square format 1:1. A single continuous, seamless, and unified landscape showing the ruined Citadel of Ricks floating in deep space, with stars and glowing green portal rifts, spanning the entire width. On the left side of this same landscape stands Evil Morty stands on the left with a black eyepatch and a sinister smirk, holding a golden portal gun. On the right side of this same landscape stands Rick Prime with a cold expression, holding a high-tech energy weapon glowing with blue plasma. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the space scene is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Rick vs Morty jugando una partida REAL y correcta de Magic. Vertical 9:16 mobile.",
+    "prompt": "A humorous 2D cartoon scene of a card match in the classic Rick and Morty style, vertical portrait composition, aspect ratio 9:16. Rick Sanchez and Morty Smith are seated properly and facing each other across a wooden workbench in Rick's messy garage laboratory, playing a game of Magic. Rick has a crazy grin, holding his cards and a flask, while Morty looks nervous and sweat-drenched studying his hand. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a glowing green portal gun and sci-fi tools. Warm workbench lighting, green portal glow at the back. Flat cel-shading, bold outlines. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Rick vs Morty jugando una partida de Magic en el garaje. Horizontal 16:9.",
+    "prompt": "A humorous 2D cartoon scene of a card match in the classic Rick and Morty style, wide landscape composition, aspect ratio 16:9. Rick Sanchez and Morty Smith are seated properly and facing each other across a wooden workbench in Rick's messy garage laboratory. Rick has a crazy grin, holding his cards and a flask, while Morty looks nervous and sweat-drenched studying his hand. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a glowing green portal gun and sci-fi tools. Warm workbench lighting, green portal glow at the back. Flat cel-shading, bold outlines. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "ui": {
+    "pickle_rick_intacto": {
+      "filename": "ui/pickle_rick_intacto.webp",
+      "description": "Pickle Rick entero (vidas 20-16). Estado 4/4.",
+      "prompt": "Flat 2D cartoon style sprite of Pickle Rick, a large bright green dill pickle with Rick's face, big eyes, unibrow, and a drooling mouth, full body intact and plump. Bold black outlines, centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "pickle_rick_mediano": {
+      "filename": "ui/pickle_rick_mediano.webp",
+      "description": "Pickle Rick algo más pequeño (vidas 15-11). Estado 3/4.",
+      "prompt": "Flat 2D cartoon style sprite of Pickle Rick slightly shrunken, green dill pickle with Rick's face, body slightly smaller and droopy, tired expression. Bold black outlines, centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "pickle_rick_pequeno": {
+      "filename": "ui/pickle_rick_pequeno.webp",
+      "description": "Pickle Rick pequeño y arrugado (vidas 10-6). Estado 2/4.",
+      "prompt": "Flat 2D cartoon style sprite of Pickle Rick noticeably shrunken, smaller wrinkled green dill pickle with Rick's face, exhausted expression, droopy posture. Bold black outlines, centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "pickle_rick_casi_acabado": {
+      "filename": "ui/pickle_rick_casi_acabado.webp",
+      "description": "Pickle Rick a punto de extinguirse (vidas 5-1). Estado 1/4.",
+      "prompt": "Flat 2D cartoon style sprite of Pickle Rick nearly gone, tiny shriveled wrinkled green pickle remnant with a barely visible face on a small stem. Bold black outlines, centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "plumbus_completo": {
+      "filename": "ui/plumbus_completo.webp",
+      "description": "Plumbus ensamblado. Estado 4/4. Se desensambla por código al perder vida.",
+      "prompt": "Flat 2D cartoon style sprite of a classic Plumbus, showing its strange flesh-colored handle, black wrap, and dingle bop dangle. Bold black outlines, centered, isolated on a solid black background. --ar 2:3 --no text, watermark, signature"
+    },
+    "tag_c137": {
+      "filename": "ui/tag_c137.webp",
+      "description": "Etiqueta de dimensión 'C-137' para Jugador 1 (la dimensión original de Rick).",
+      "prompt": "Flat 2D cartoon style rectangular tag plaque, sleek dark gray futuristic plastic, with a single glowing green portal swirl symbol embossed in the center. Wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    },
+    "tag_dimension_2": {
+      "filename": "ui/tag_dimension_2.webp",
+      "description": "Etiqueta de dimensión variante para Jugador 2.",
+      "prompt": "Flat 2D cartoon style rectangular tag plaque, sleek dark red futuristic plastic, with a single glowing red portal swirl symbol embossed in the center. Wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    },
+    "schwifty_meter": {
+      "filename": "ui/schwifty_meter.webp",
+      "description": "Barra 'Get Schwifty' que se llena al recibir daño. Sprite horizontal.",
+      "prompt": "Flat 2D cartoon style horizontal gauge bar, sleek dark portal border with green energy sparks, showing segmented rainbow progress light bars partially filled. Wide horizontal layout, isolated on a solid black background. --ar 5:1 --no text, watermark, signature"
+    },
+    "caja_meeseeks_cerrada": {
+      "filename": "ui/caja_meeseeks_cerrada.webp",
+      "description": "Caja Meeseeks cerrada con botón rojo. Por código se anima al activarse.",
+      "prompt": "Flat 2D cartoon style sprite of a blue rectangular Meeseeks Box with a single large red round button in the center of its top surface. Bold black outlines, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "meeseeks_chibi": {
+      "filename": "ui/meeseeks_chibi.webp",
+      "description": "Un Mr. Meeseeks pequeño gritando saludando. Aparece al activar continue/mulligan.",
+      "prompt": "Flat 2D cartoon style sprite of a tall, thin blue Mr. Meeseeks waving its arms happily with a wide open mouth and big round eyes. Bold outlines, isolated on a solid black background. --ar 2:3 --no text, watermark, signature"
+    }
+  }
+}

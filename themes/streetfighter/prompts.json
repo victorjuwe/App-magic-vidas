@@ -1,0 +1,65 @@
+{
+  "theme": "streetfighter",
+  "top_4_3": {
+    "filename": "top_4_3.webp",
+    "description": "Player 1 background (Ryu + Ken). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "An anime cel-shaded illustration in the Street Fighter style, square format 1:1. A single continuous, seamless, and unified landscape of the wooden balcony of Suzaku Castle under a dark blue starry night sky with a giant glowing full moon, spanning the entire width. On the left side of this same balcony stands Ryu in his white gi and red headband, surrounded by a massive glowing blue Hadouken energy aura. On the right side of this same balcony stands Ken Masters in his red gi, executing a fiery Shoryuken uppercut. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the balcony is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom_4_3": {
+    "filename": "bottom_4_3.webp",
+    "description": "Player 2 background (Bison + Akuma). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A dark anime cel-shaded illustration in the Street Fighter style, square format 1:1. A single continuous, seamless, and unified landscape of a ruined temple floor under a stormy dark purple sky, spanning the entire width. On the left side of this same temple floor stands M. Bison in his red military uniform and black cape, arms crossed, surrounded by a swirling purple psycho power aura with dark lightning. On the right side of this same temple floor stands Akuma, crouching in a dark gi with glowing red eyes, surrounded by a massive dark red demonic energy aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the temple floor is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "top_16_9": {
+    "filename": "top_16_9.webp",
+    "description": "Player 1 background (Ryu + Ken). Igual que top_4_3 pero proporcion 16:9.",
+    "prompt": "An anime cel-shaded illustration in the Street Fighter style, wide landscape aspect ratio 16:9. A single continuous, seamless, and unified landscape of the wooden balcony of Suzaku Castle under a dark blue starry night sky with a giant glowing full moon, spanning the entire width. On the left side of this same balcony stands Ryu in his white gi and red headband, surrounded by a massive glowing blue Hadouken energy aura. On the right side of this same balcony stands Ken Masters in his red gi, executing a fiery Shoryuken uppercut. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the balcony is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 16:9 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom_16_9": {
+    "filename": "bottom_16_9.webp",
+    "description": "Player 2 background (Bison + Akuma). Igual que bottom_4_3 pero proporcion 16:9.",
+    "prompt": "A dark anime cel-shaded illustration in the Street Fighter style, wide landscape aspect ratio 16:9. A single continuous, seamless, and unified landscape of a ruined temple floor under a stormy dark purple sky, spanning the entire width. On the left side of this same temple floor stands M. Bison in his red military uniform and black cape, arms crossed, surrounded by a swirling purple psycho power aura with dark lightning. On the right side of this same temple floor stands Akuma, crouching in a dark gi with glowing red eyes, surrounded by a massive dark red demonic energy aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the temple floor is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 16:9 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Ryu vs M. Bison jugando una partida REAL y correcta de Magic: The Gathering. Vertical 9:16 mobile.",
+    "prompt": "A humorous and highly detailed 2D anime cel-shaded illustration of a card match in the classic Street Fighter style, vertical portrait composition, aspect ratio 9:16. Ryu and M. Bison are seated properly and facing each other across a wooden table in a traditional Japanese dojo, playing a game of Magic. Ryu sits concentrating intensely on a hand of cards with a focused scowl, while M. Bison sits holding his cards with a smug, evil grin. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a red 20-sided die. A small glowing blue energy Hadouken fireball rises from Ryu's card on the left. Cherry blossom petals drift in from sliding doors in the background. Vibrant cel-shading, polished digital art. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Ryu vs M. Bison jugando una partida de Magic. Horizontal 16:9.",
+    "prompt": "A humorous and highly detailed 2D anime cel-shaded illustration of a card match in the classic Street Fighter style, wide landscape composition, aspect ratio 16:9. Ryu and M. Bison are seated properly and facing each other across a wooden table in a traditional Japanese dojo. Ryu sits concentrating intensely on a hand of cards with a focused scowl, while M. Bison sits holding his cards with a smug, evil grin. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a red 20-sided die. A small glowing blue energy Hadouken fireball rises from Ryu's card on the left. Cherry blossom petals drift in from sliding doors in the background. Vibrant cel-shading, polished digital art. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "ui": {
+    "barra_vida_llena": {
+      "filename": "ui/barra_vida_llena.webp",
+      "description": "Barra de vida arcade SF II llena (estado 100%, amarillo brillante). Sprite horizontal con fondo transparente.",
+      "prompt": "16-bit pixel art sprite of a horizontal health bar from a fighting game, fully filled and solid bright yellow, with a thin black pixel border. Long thin horizontal bar shape, isolated on a solid black background. --ar 8:1 --no text, watermark, signature"
+    },
+    "barra_vida_critica": {
+      "filename": "ui/barra_vida_critica.webp",
+      "description": "Barra de vida en estado crítico (rojo intenso, ≤25%). Para overlay al perder vidas.",
+      "prompt": "16-bit pixel art sprite of a horizontal health bar from a fighting game in critical state, showing only the leftmost 20% filled with bright red, and the rest empty dark gray. Thin black border, isolated on a solid black background. --ar 8:1 --no text, watermark, signature"
+    },
+    "tag_1p": {
+      "filename": "ui/tag_1p.webp",
+      "description": "Etiqueta arcade '1P' para identificar al jugador 1 (sustituye 'Jugador 1').",
+      "prompt": "16-bit pixel art sprite of a player tag showing the character marker '1P', bright blue background with a thin yellow border and a white pixel-font numeral in the center. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "tag_2p": {
+      "filename": "ui/tag_2p.webp",
+      "description": "Etiqueta arcade '2P' para el jugador 2.",
+      "prompt": "16-bit pixel art sprite of a player tag showing the character marker '2P', bright red background with a thin yellow border and a white pixel-font numeral in the center. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "ex_meter": {
+      "filename": "ui/ex_meter.webp",
+      "description": "Barra EX/Super Meter (azul-blanca) que se llena al recibir daño. Sprite horizontal.",
+      "prompt": "16-bit pixel art sprite of an EX super meter bar, showing a long thin horizontal gauge partially filled with glowing cyan and electric blue energy segments, thin metal border. Horizontal layout, isolated on a solid black background. --ar 8:1 --no text, watermark, signature"
+    },
+    "combo_hits_marco": {
+      "filename": "ui/combo_hits_marco.webp",
+      "description": "Marco vacío para el contador 'X HITS' de combos. Solo el marco, el número se renderiza por código.",
+      "prompt": "16-bit pixel art sprite of an arcade combo hit counter frame: a slanted orange-yellow rectangular badge with a thin black border, completely empty in the center. Wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "theme": "bleach",
+  "logica": {
+    "top": "Protagonistas (Ichigo + Rukia)",
+    "bottom": "Antagonistas (Aizen + Hollow)",
+    "loader": "Ichigo vs Aizen jugando Magic: The Gathering (toque cómico)",
+    "preview": "Icono épico del tema sin texto (Ichigo Shinigami bajo luna sangrienta)"
+  },
+  "top": {
+    "filename": "top.webp",
+    "description": "Player 1 background (Ichigo + Rukia). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning 2D anime illustration in the classic Bleach cel-shaded style, square format 1:1. A single continuous, seamless, and unified landscape of the traditional tiled rooftops of Seireitei under a warm orange dusk sky, spanning the entire width. On the left side of this same landscape stands Ichigo Kurosaki in black Shinigami robes, resting his massive black Zangetsu sword on his shoulder, surrounded by a dark red and black spiritual pressure aura. On the right side of this same landscape stands Rukia Kuchiki in black Shinigami robes, holding her white katana Sode no Shirayuki, surrounded by a swirling white frost and ice crystal aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the rooftops is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom": {
+    "filename": "bottom.webp",
+    "description": "Player 2 background (Aizen + Hollow). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning dark 2D anime illustration in the classic Bleach cel-shaded style, square format 1:1. A single continuous, seamless, and unified landscape of the white sand desert of Hueco Mundo under a dark purple night sky with a crescent moon, spanning the entire width. On the left side of this same landscape stands Sosuke Aizen in his Captain's white coat, smiling sinisterly as his sword Kyoka Suigetsu points downward with a swirling purple illusion aura. On the right side of this same landscape stands a massive Menos Grande Hollow with a bone-white mask and black hollow cloak, charging a bright red Cero energy beam in its mouth. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the white sand desert is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Ichigo vs Aizen jugando una partida REAL y correcta de Magic. Vertical 9:16 mobile.",
+    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Bleach style, vertical portrait composition, aspect ratio 9:16. Ichigo Kurosaki (Shinigami robes) and Sosuke Aizen (white Hueco Mundo outfit) are seated properly and facing each other across a stone table in the ruins of Las Noches, playing a game of Magic. Ichigo is concentrated and sweating over a hand of cards, while Aizen smirks condescendingly. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, and a small glowing black and red energy orb. Moonlit night sky visible through ruined stone arches in the background. Vibrant cel-shading. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Ichigo vs Aizen jugando una partida de Magic en las ruinas. Horizontal 16:9.",
+    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Bleach style, wide landscape composition, aspect ratio 16:9. Ichigo Kurosaki (Shinigami robes) and Sosuke Aizen (white Hueco Mundo outfit) are seated properly and facing each other across a stone table in the ruins of Las Noches. Ichigo is concentrated and sweating over a hand of cards, while Aizen smirks condescendingly. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, and a small glowing black and red energy orb. Moonlit night sky visible through ruined stone arches in the background. Vibrant cel-shading. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "ui": {
+    "mascara_hollow_intacta": {
+      "filename": "ui/mascara_hollow_intacta.webp",
+      "description": "Máscara Hollow blanca intacta (vidas 20-16). Estado 0/4 — sin grietas.",
+      "prompt": "2D anime style sprite of a classic Bleach Hollow mask, showing a smooth bone-white skull-like mask with vertical red stripes across the eyes and a menacing mouth, fully intact with no damage. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "mascara_hollow_grieta_1": {
+      "filename": "ui/mascara_hollow_grieta_1.webp",
+      "description": "Máscara con 1 grieta diagonal (vidas 15-11). Estado 1/4.",
+      "prompt": "2D anime style sprite of a classic Bleach Hollow mask, bone-white with red stripes, showing a single diagonal black crack running across the right side of the mask face. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "mascara_hollow_grieta_2": {
+      "filename": "ui/mascara_hollow_grieta_2.webp",
+      "description": "Máscara con 2-3 grietas (vidas 10-6). Estado 2/4.",
+      "prompt": "2D anime style sprite of a classic Bleach Hollow mask, bone-white with red stripes, with two or three deep diagonal cracks and small chips falling off. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "mascara_hollow_rota": {
+      "filename": "ui/mascara_hollow_rota.webp",
+      "description": "Máscara casi destrozada (vidas 5-1). Estado 3/4.",
+      "prompt": "2D anime style sprite of a classic Bleach Hollow mask, severely shattered with large pieces broken off exposing a dark void underneath, a web of cracks covering the remaining surface. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "mascara_hollow_destruida": {
+      "filename": "ui/mascara_hollow_destruida.webp",
+      "description": "Máscara totalmente destruida (vida 0). Estado 4/4.",
+      "prompt": "2D anime style sprite of a classic Bleach Hollow mask completely shattered into floating bone-white fragments flying apart in mid-air. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "insignia_division_1": {
+      "filename": "ui/insignia_division_1.webp",
+      "description": "Insignia kanji 壱番 (Primera División) para Jugador 1.",
+      "prompt": "2D anime style sprite of a Gotei 13 division badge: a rhombus-shaped wooden plaque with a single large brush-painted black kanji character in the center, surrounded by a faint blue lotus flower outline. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "insignia_division_2": {
+      "filename": "ui/insignia_division_2.webp",
+      "description": "Insignia kanji 弐番 (Segunda División) para Jugador 2.",
+      "prompt": "2D anime style sprite of a Gotei 13 division badge: a rhombus-shaped wooden plaque with a single large brush-painted black kanji character in the center, surrounded by a faint red maple leaf outline. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "reiatsu_meter": {
+      "filename": "ui/reiatsu_meter.webp",
+      "description": "Barra vertical de presión espiritual (Reiatsu). Estado lleno, color azul Ichigo.",
+      "prompt": "2D anime style vertical energy bar, showing a tall thin gauge filled with swirling cyan-blue spiritual energy and tiny glowing particles, dark metal border. Vertical layout, isolated on a solid black background. --ar 1:5 --no text, watermark, signature"
+    },
+    "mariposa_infernal": {
+      "filename": "ui/mariposa_infernal.webp",
+      "description": "Mariposa Infernal de Soul Society. Cruza la pantalla en transiciones de fase.",
+      "prompt": "2D anime style sprite of a single Hell Butterfly, showing a delicate black butterfly with purple-violet wing patterns and small red crescent shapes, wings spread wide. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "zanpakuto_sellada": {
+      "filename": "ui/zanpakuto_sellada.webp",
+      "description": "Katana zanpakuto en estado sellado. Por código se le añaden muescas al perder vida.",
+      "prompt": "2D anime style sprite of a classic Japanese katana with a polished steel blade, diamond-pattern wrapped black handle, and a brass guard, held diagonally. Centered, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    }
+  }
+}

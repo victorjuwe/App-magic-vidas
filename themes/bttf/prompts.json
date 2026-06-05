@@ -1,0 +1,66 @@
+{
+  "theme": "bttf",
+  "logica": {
+    "top": "Protagonistas (Marty + Doc Brown)",
+    "bottom": "Antagonistas (Biff Tannen y matones)",
+    "loader": "Marty vs Biff jugando Magic: The Gathering (toque cómico)",
+    "preview": "Icono épico del tema sin texto (DeLorean con estelas de fuego)"
+  },
+  "top": {
+    "filename": "top.webp",
+    "description": "Player 1 background (Marty + Doc). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A detailed cinematic 80s movie style 2D illustration, square format 1:1. A single continuous, seamless, and unified landscape of the Twin Pines Mall asphalt parking lot at night, spanning the entire width under a starry sky. On the left side of this same parking lot stands Marty McFly (red puffy vest, denim jacket). On the right side of this same parking lot stands Doc Emmett Brown (white lab coat, holding a glowing flux capacitor emitting blue electric sparks). Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the parking lot is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom": {
+    "filename": "bottom.webp",
+    "description": "Player 2 background (Biff + matones). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A detailed cinematic 80s movie style illustration, square format 1:1. A single continuous, seamless, and unified landscape of a dim brick-walled alley behind a 50s diner under a flickering streetlamp, spanning the entire width. On the left side of this same alley stands Biff Tannen in his green letterman jacket, holding a baseball bat. On the right side of this same alley stands a younger Biff flanked by his shadowed henchmen. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the alley is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Marty vs Biff jugando una partida REAL y correcta de Magic. Vertical 9:16 mobile.",
+    "prompt": "A humorous scene of a card match in a cinematic 80s movie style, vertical portrait composition, aspect ratio 9:16. Marty McFly and Biff Tannen are seated properly and facing each other across a chrome-trimmed table in a 1950s diner booth, playing a game of Magic. Marty looks nervous and worried, while Biff has a smug, aggressive smirk. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a chocolate milkshake in a tall glass. Outside the large window, the silver DeLorean with its gull-wing door open is parked on the street. In the background, patrons of the diner watch. Warm neon diner lighting. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Marty vs Biff jugando una partida de Magic en el diner. Horizontal 16:9.",
+    "prompt": "A humorous scene of a card match in a cinematic 80s movie style, wide landscape composition, aspect ratio 16:9. Marty McFly and Biff Tannen are seated properly and facing each other across a chrome-trimmed table in a 1950s diner booth. Marty looks nervous and worried, while Biff has a smug, aggressive smirk. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a chocolate milkshake in a tall glass. Outside the large window, the silver DeLorean with its gull-wing door open is parked on the street. In the background, patrons of the diner watch. Warm neon diner lighting. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "ui": {
+    "velocimetro_vacio": {
+      "filename": "ui/velocimetro_vacio.webp",
+      "description": "Velocímetro analógico del DeLorean (aguja a 0 mph). La aguja gira por código según vidas (0→88mph).",
+      "prompt": "A detailed close-up sprite of a DMC DeLorean analog dashboard speedometer dial: a circular black gauge with white tick marks and a thin chrome rim, with a bright orange needle pointing to the leftmost 0 position, glowing with a soft amber backlight. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "time_circuits": {
+      "filename": "ui/time_circuits.webp",
+      "description": "Las 3 pantallas digitales del DeLorean (Destination/Present/Last). Sprite horizontal para mostrar vida max/actual/anterior.",
+      "prompt": "A detailed close-up sprite of the three-line DeLorean Time Circuits display: three stacked horizontal LED segment screens, showing red, green, and amber LED indicators, with empty digit slots, set in a brushed aluminum panel. Wide horizontal layout, isolated on a solid black background. --ar 4:1 --no text, watermark, signature"
+    },
+    "barra_plutonio": {
+      "filename": "ui/barra_plutonio.webp",
+      "description": "Una barra cilíndrica de plutonio brillante. Se renderiza 1 por cada 5 vidas (4 barras max).",
+      "prompt": "A detailed sprite of a single cylindrical industrial fuel canister, containing a rod that glows with intense bright neon green radioactive light, with a dark gray metallic casing around the bottom. Standing vertically, isolated on a solid black background. --ar 1:3 --no text, watermark, signature"
+    },
+    "tag_driver_1": {
+      "filename": "ui/tag_driver_1.webp",
+      "description": "Etiqueta 'Driver 1' en LED rojo digital del salpicadero.",
+      "prompt": "A close-up sprite of an 80s car dashboard LED label panel: a black plastic rectangle showing the red digital 7-segment numeral '1' glowing brightly, with a thin chrome border. Centered, isolated on a solid black background. --ar 2:1 --no text, watermark, signature"
+    },
+    "tag_driver_2": {
+      "filename": "ui/tag_driver_2.webp",
+      "description": "Etiqueta 'Driver 2' en LED rojo del salpicadero.",
+      "prompt": "A close-up sprite of an 80s car dashboard LED label panel: a black plastic rectangle showing the red digital 7-segment numeral '2' glowing brightly, with a thin chrome border. Centered, isolated on a solid black background. --ar 2:1 --no text, watermark, signature"
+    },
+    "condensador_fluzo": {
+      "filename": "ui/condensador_fluzo.webp",
+      "description": "Condensador de fluzo con sus 3 luces alternando. Se anima por código al recibir daño.",
+      "prompt": "A close-up sprite of a Flux Capacitor device: a Y-shaped glass tube component with three glowing light-emitting branches encased in a clear box, glowing with a soft blue-white light. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "matricula_outatime": {
+      "filename": "ui/matricula_outatime.webp",
+      "description": "La icónica matrícula amarilla OUTATIME (única excepción a 'sin texto', es legendaria).",
+      "prompt": "A detailed sprite of the yellow California metal license plate with the embossed black letters reading 'OUTATIME', with slight scratches and weathering. Centered, isolated on a solid black background. --ar 2:1 --no watermark, signature"
+    }
+  }
+}

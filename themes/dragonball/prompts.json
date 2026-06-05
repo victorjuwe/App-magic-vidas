@@ -1,0 +1,91 @@
+{
+  "theme": "dragonball",
+  "logica": {
+    "top": "Protagonistas (Goku + Vegeta)",
+    "bottom": "Antagonistas (Freezer + Cell)",
+    "loader": "Goku vs Freezer jugando Magic: The Gathering (toque cómico)",
+    "preview": "Icono épico del tema sin texto (Goku Super Saiyan con Kamehameha)"
+  },
+  "top": {
+    "filename": "top.webp",
+    "description": "Player 1 background (Goku + Vegeta). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning 2D anime illustration in the classic Dragon Ball Z Toei style, square format 1:1. A single continuous, seamless, and unified landscape of the Gizard Wasteland red canyons under a bright sky, spanning the entire width. On the left side of this same landscape stands Goku in Super Saiyan form, surrounded by a massive flaming golden energy aura. On the right side of this same landscape stands Vegeta in Super Saiyan form, surrounded by an intense flaming blue and golden energy aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the canyon is empty and clean, reflecting their aura glows. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom": {
+    "filename": "bottom.webp",
+    "description": "Player 2 background (Freezer + Cell). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning dark 2D anime illustration in the classic Dragon Ball Z Toei style, square format 1:1. A single continuous, seamless, and unified landscape of the Cell Games Arena with its grey stone tiled platform under a dark green stormy sky, spanning the entire width. On the left side of this same arena stands Frieza in his Final Form, posing with a sinister smirk and charging a tiny purple energy sphere. On the right side of this same arena stands Perfect Cell, surrounded by a massive golden and green aura with yellow bio-electricity sparks. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the stone floor is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Goku vs Freezer jugando una partida REAL y correcta de Magic. Vertical 9:16 mobile.",
+    "prompt": "A humorous and epic 2D anime illustration in the classic Dragon Ball Z style, vertical portrait composition, aspect ratio 9:16. Goku (base form) and Frieza (Final Form) are seated properly and facing each other across a flat stone table, playing a card game of Magic: The Gathering. Goku is concentrated with a funny expression, while Frieza smirks holding a hand of glowing cards. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table is a detailed Magic: The Gathering battlefield: rows of fantasy cards with some cards turned horizontally at a 90-degree angle to indicate they are tapped, and a small blue energy aura hologram. Warm landscape lighting, vibrant cel-shading. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Goku vs Freezer jugando una partida de Magic en el desierto. Horizontal 16:9.",
+    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Dragon Ball Z style, wide landscape composition, aspect ratio 16:9. Goku (base form) and Frieza (Final Form) are seated properly and facing each other across a flat stone table in a rocky desert canyon. Goku is looking intensely focused and scratching his head over a hand of cards, while Frieza smirks confidently holding his hand. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table is a detailed Magic: The Gathering battlefield: rows of fantasy cards, with some cards turned horizontally at a 90-degree angle to show they are tapped, and a glowing orange four-star Dragon Ball sitting next to their decks. Vibrant cel-shading, bright dramatic sky. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "ui": {
+    "scouter_marco": {
+      "filename": "ui/scouter_marco.webp",
+      "description": "Scouter Saiyan (lente verde) sin números — los renderiza el código.",
+      "prompt": "2D anime style sprite of a Saiyan Scouter: a single-lens eyepiece with a transparent glowing green glass screen and a dark gray frame with small red indicators. Centered, isolated on a solid black background. --ar 3:2 --no text, watermark, signature"
+    },
+    "dragon_ball_1_estrella": {
+      "filename": "ui/dragon_ball_1_estrella.webp",
+      "description": "Bola de dragón de 1 estrella.",
+      "prompt": "2D anime style sprite of a single Dragon Ball: a glowing translucent orange sphere containing one red star in its center, radiating a soft golden glow. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "dragon_ball_4_estrellas": {
+      "filename": "ui/dragon_ball_4_estrellas.webp",
+      "description": "Bola de dragón de 4 estrellas (la legendaria de Goku).",
+      "prompt": "2D anime style sprite of the four-star Dragon Ball: a glowing translucent orange sphere containing four red stars in its center, radiating a soft golden glow. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "dragon_ball_7_estrellas": {
+      "filename": "ui/dragon_ball_7_estrellas.webp",
+      "description": "Bola de dragón de 7 estrellas (la última).",
+      "prompt": "2D anime style sprite of the seven-star Dragon Ball: a glowing translucent orange sphere containing seven red stars in its center, radiating a soft golden glow. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "senzu_bean": {
+      "filename": "ui/senzu_bean.webp",
+      "description": "Una Senzu (judía mágica). Aparece al curar +5.",
+      "prompt": "2D anime style sprite of a single Senzu Bean: a small green oblong magical bean, glowing with a soft white aura. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "aura_ki_base": {
+      "filename": "ui/aura_ki_base.webp",
+      "description": "Aura de ki azul (base). Halo que rodea el panel del jugador.",
+      "prompt": "2D anime style sprite of a blue energy aura, showing a flickering flame-like ovoid light column flowing upward with blue electric sparks. Vertical layout, isolated on a solid black background. --ar 3:5 --no text, watermark, signature"
+    },
+    "aura_ki_super_saiyan": {
+      "filename": "ui/aura_ki_super_saiyan.webp",
+      "description": "Aura ki dorada Super Saiyan. Se activa a vida ≤5.",
+      "prompt": "2D anime style sprite of a Super Saiyan aura, showing a massive glowing golden-yellow energy column flowing upward with golden lightning sparks. Vertical layout, isolated on a solid black background. --ar 3:5 --no text, watermark, signature"
+    },
+    "armadura_saiyan_intacta": {
+      "filename": "ui/armadura_saiyan_intacta.webp",
+      "description": "Armadura Saiyan blanca y dorada intacta. Estado 4/4.",
+      "prompt": "2D anime style sprite of Saiyan battle armor: a white chest piece with golden shoulder pads and waist guard, pristine with no damage. Centered, isolated on a solid black background. --ar 3:5 --no text, watermark, signature"
+    },
+    "armadura_saiyan_agrietada": {
+      "filename": "ui/armadura_saiyan_agrietada.webp",
+      "description": "Armadura Saiyan con grietas y daños. Estado 2/4.",
+      "prompt": "2D anime style sprite of damaged Saiyan battle armor: a white chest piece with golden shoulder pads, showing deep cracks across the chest and chipped parts. Centered, isolated on a solid black background. --ar 3:5 --no text, watermark, signature"
+    },
+    "armadura_saiyan_destruida": {
+      "filename": "ui/armadura_saiyan_destruida.webp",
+      "description": "Armadura Saiyan casi destruida. Estado 1/4.",
+      "prompt": "2D anime style sprite of nearly destroyed Saiyan battle armor: showing only fragments of the chest piece, with shoulder pads completely missing and severe burn marks. Centered, isolated on a solid black background. --ar 3:5 --no text, watermark, signature"
+    },
+    "tag_saiyan_1": {
+      "filename": "ui/tag_saiyan_1.webp",
+      "description": "Etiqueta lateral del scouter 'Saiyan 1' (P1).",
+      "prompt": "2D anime style rectangular UI tag panel, showing a dark gray plastic plate with a single small green glowing indicator dot. Wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    },
+    "tag_saiyan_2": {
+      "filename": "ui/tag_saiyan_2.webp",
+      "description": "Etiqueta lateral del scouter 'Saiyan 2' (P2).",
+      "prompt": "2D anime style rectangular UI tag panel, showing a dark red plastic plate with two small green glowing indicator dots. Wide horizontal layout, isolated on a solid black background. --ar 3:1 --no text, watermark, signature"
+    }
+  }
+}

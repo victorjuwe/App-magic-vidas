@@ -1,0 +1,71 @@
+{
+  "theme": "simpsons",
+  "logica": {
+    "top": "Protagonistas (Homer + Bart)",
+    "bottom": "Antagonistas (Mr. Burns + Smithers)",
+    "loader": "Homer vs Mr. Burns jugando Magic: The Gathering (toque cómico clásico Simpsons)",
+    "preview": "Icono épico del tema sin texto (skyline de Springfield con central nuclear)"
+  },
+  "top": {
+    "filename": "top.webp",
+    "description": "Player 1 background (Homer + Bart). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A detailed 2D cartoon illustration in the classic Matt Groening Simpsons art style, square format 1:1. A single continuous, seamless, and unified landscape of the Simpson family living room with the iconic brown TV and the pink wall with the crooked boat painting, spanning the entire width. On the left side of this same living room stands Homer Simpson with a goofy smile, holding a pink-frosted donut and a can of Duff beer. On the right side of this same living room stands Bart Simpson with a mischievous grin, holding a slingshot with his skateboard under his arm. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the living room carpet is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom": {
+    "filename": "bottom.webp",
+    "description": "Player 2 background (Mr. Burns + Smithers). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A detailed 2D cartoon illustration in the classic Matt Groening Simpsons art style, square format 1:1. A single continuous, seamless, and unified landscape of the Springfield nuclear power plant control room with glowing green control panels, spanning the entire width. On the left side of this same control room stands Mr. Burns with a wicked smile, pressing his fingertips together in his iconic 'Excellent' pose. On the right side of this same control room stands Waylon Smithers with a devoted expression, holding a clipboard and a single red rose. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the control room floor is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Homer vs Mr. Burns jugando una partida REAL y correcta de Magic. Vertical 9:16 mobile.",
+    "prompt": "A humorous 2D cartoon scene of a card match in the classic Simpsons art style, vertical portrait composition, aspect ratio 9:16. Homer Simpson and Mr. Burns are seated properly and facing each other across a desk in the nuclear reactor control room, playing a game of Magic. Homer is eating a donut and looking intensely focused on a hand of cards, while Mr. Burns has an evil smirk. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to an open pink donut box and a can of Duff beer. In the background, Waylon Smithers stands looking concerned and taking notes on a notepad. Warm control room lighting, bold outlines, vibrant colors. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Homer vs Mr. Burns jugando una partida de Magic en la central. Horizontal 16:9.",
+    "prompt": "A humorous 2D cartoon scene of a card match in the classic Simpsons art style, wide landscape composition, aspect ratio 16:9. Homer Simpson and Mr. Burns are seated properly and facing each other across a desk in the nuclear reactor control room. Homer is eating a donut and looking intensely focused on a hand of cards, while Mr. Burns has an evil smirk. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to an open pink donut box and a can of Duff beer. In the background, Waylon Smithers stands looking concerned and taking notes on a notepad. Warm control room lighting, bold outlines, vibrant colors. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "ui": {
+    "donut_intacto": {
+      "filename": "ui/donut_intacto.webp",
+      "description": "Donut rosa con virutas, sin mordiscos. Estado 4/4 — vida llena.",
+      "prompt": "Flat 2D cartoon style sprite of a classic pink-frosted donut with rainbow sprinkles, viewed from above, fully intact and round. Bold outlines, centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "donut_mordisco_1": {
+      "filename": "ui/donut_mordisco_1.webp",
+      "description": "Donut con 1 mordisco. Estado 3/4.",
+      "prompt": "Flat 2D cartoon style sprite of a pink-frosted donut with rainbow sprinkles with a single bite taken out of the right side, exposing the brown dough underneath. Bold outlines, centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "donut_mordisco_2": {
+      "filename": "ui/donut_mordisco_2.webp",
+      "description": "Donut con 2 mordiscos. Estado 2/4.",
+      "prompt": "Flat 2D cartoon style sprite of a pink-frosted donut with rainbow sprinkles with two bites taken out of opposite sides. Bold outlines, centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "donut_casi_acabado": {
+      "filename": "ui/donut_casi_acabado.webp",
+      "description": "Donut casi terminado, solo queda un trocito. Estado 1/4.",
+      "prompt": "Flat 2D cartoon style sprite of a pink-frosted donut almost completely eaten, only a small crescent-shaped piece remaining with a few sprinkles. Bold outlines, centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "gafete_empleado_1": {
+      "filename": "ui/gafete_empleado_1.webp",
+      "description": "Gafete de empleado de la central nuclear para Jugador 1 (foto del jugador iría por código).",
+      "prompt": "Flat 2D cartoon style employee ID badge, showing a white rectangular plastic card with a green border and radioactive hazard symbol, clip on top, completely empty photo area. No text. Centered, isolated on a solid black background. --ar 2:3 --no text, watermark, signature"
+    },
+    "gafete_empleado_2": {
+      "filename": "ui/gafete_empleado_2.webp",
+      "description": "Gafete de empleado para Jugador 2 (variante color).",
+      "prompt": "Flat 2D cartoon style employee ID badge, showing a white rectangular plastic card with a red-orange border and radioactive hazard symbol, clip on top, empty photo slot. No text. Centered, isolated on a solid black background. --ar 2:3 --no text, watermark, signature"
+    },
+    "medidor_radiacion": {
+      "filename": "ui/medidor_radiacion.webp",
+      "description": "Medidor de radiación con aguja amarilla-roja. La aguja se anima por código.",
+      "prompt": "Flat 2D cartoon style circular radiation gauge dial, with a yellow-to-red gradient arc indicator and black needle pointing left, dark brass casing, no text. Centered, isolated on a solid black background. --ar 1:1 --no text, watermark, signature"
+    },
+    "blinky_pecera": {
+      "filename": "ui/blinky_pecera.webp",
+      "description": "Blinky (pez de 3 ojos) en pecera. Avatar de jugador.",
+      "prompt": "Flat 2D cartoon style sprite of Blinky the orange three-eyed fish swimming happily inside a round glass fishbowl filled with transparent light green water. Bold outlines, centered, isolated on on a solid black background. --ar 1:1 --no text, watermark, signature"
+    }
+  }
+}
