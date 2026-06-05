@@ -38,6 +38,24 @@ A continuación, el detalle de lo que se añadirá por tema:
 - **CSS (`style.css`):** Animación de la moneda de 8-bits saltando (`.mario-coin-anim`) y el botón rebotando (`.block-bounce`).
 - **JS (`engine.js`):** Instanciar temporalmente un `<div class="mario-coin"></div>` al clicar el botón `+`.
 
+### Prompts para Vídeos Omni (Para tu Experto en IA)
+
+Necesitamos vídeos de unos 4 segundos de duración. **Pídele al experto que se enfoque en transmitir una sensación clara de "DERROTA", "DESTRUCCIÓN" o "GAME OVER"**, dejando espacio visual en el centro para nuestro texto.
+
+Aquí tienes los **Prompts Extendidos, de nivel experto y alta dirección de arte:**
+
+### 1. Dragon Ball (`themes/dragonball/ko.mp4`)
+> **Prompt:** *A hyper-realistic cinematic 3D anime sequence showing utter defeat. In the extreme foreground, a shattered, glowing Saiyan scouter lies on cracked, scorched earth. In the background, a massive, planet-destroying purple energy sphere (like Frieza's Death Ball) slowly descends, engulfing the landscape. The screen shakes violently, rocks float upwards due to anti-gravity energy, and the blinding light of the explosion washes out the center of the frame in pure white and intense yellow heat. 4K resolution, spectacular VFX, dramatic lighting, epic anime finisher.*
+
+### 2. Street Fighter (`themes/streetfighter/ko.mp4`)
+> **Prompt:** *A highly stylized, modern 3D rendition of a cinematic 'Game Over' sequence. In the foreground, a bloodied red martial arts headband falls slowly to the wet concrete floor in slow motion under heavy, dramatic pouring rain. Flickering neon street signs illuminate the dark alleyway. Suddenly, a massive glowing blood-red kanji character flashes violently onto the screen, accompanied by aggressive dark purple electric sparks, simulating a fatal blow that shatters the camera lens. Dark, moody, high-tension atmosphere.*
+
+### 3. Demon Slayer (`themes/demonslayer/ko.mp4`)
+> **Prompt:** *A breathtaking, high-budget 3D anime cinematic render representing a devastating loss. The camera angle is from the ground looking up. A broken Nichirin katana blade is stuck deep in the snow, its metal reflecting a giant, ominous blood-red moon. Suddenly, a relentless flurry of high-contrast fiery slashes (sun breathing style) rips across the entire screen from multiple angles, followed immediately by a rush of dark demonic ink-like tentacles that engulf the camera. High contrast, dynamic flying embers, dramatic depth of field.*
+
+### 4. Naruto (`themes/naruto/ko.mp4`)
+> **Prompt:** *A terrifying, immersive cinematic loop of a psychological Genjutsu nightmare. The camera rapidly pulls back from a spinning red Mangekyou Sharingan eye, instantly transitioning the world into a nightmarish landscape where the sky is blood-red and the moon is pitch black. Suddenly, an explosion of hundreds of black crows rushes aggressively directly at the camera, filling the screen with dark feathers. A massive ethereal purple sword (Susanoo) crashes down, leaving the screen in deep shadows. Ominous, psychological horror anime aesthetic, 8K render.*
+
 ### 6. One Piece (Wanted y Haki)
 - **CSS (`style.css`):** Rediseño sutil de la fuente del jugador a estilo "Wanted".
 - **CSS (`style.css`):** Creación de `.haki-pulse` (animación de halo negro/rojo profundo) que oscurece el panel del rival cuando ganas el juego.

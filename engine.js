@@ -290,6 +290,35 @@
           "¡Koopas al ataque! ¡Cubriéndome!",
           "¡Bowser Cóptero activado! 🚁"
         ]
+      },
+      demonslayer: {
+        name: 'Demon Slayer',
+        p1Dmg: [
+          "¡Hinokami Kagura! 🔥",
+          "¡Respiración del Agua: Décima Postura! 🌊",
+          "¡Danza del Dios del Fuego!",
+          "¡Muzan Kibutsuji... te derrotaré!",
+          "¡Respiración de la Bestia! 🐗"
+        ],
+        p1Heal: [
+          "¡Técnica de Sangre Demoniaca! 🩸",
+          "¡Recuperación total de respiración!",
+          "¡La voluntad de fuego arde!",
+          "¡No me rendiré, Nezuko!"
+        ],
+        p2Dmg: [
+          "¡Respiración de la Luna! 🌙",
+          "¡Muerte Destructiva: Aguja de Brújula!",
+          "¡Arte de Sangre: Hilos de Araña!",
+          "¡Ríndete ante las Lunas Superiores!",
+          "¡Convertiré tu cuerpo en cenizas!"
+        ],
+        p2Heal: [
+          "¡Regeneración Demoniaca Instantánea!",
+          "¡Soy una Luna Superior... soy inmortal!",
+          "¡Más sangre... necesito más sangre!",
+          "¡El poder de Muzan fluye por mis venas!"
+        ]
       }
     };
 
