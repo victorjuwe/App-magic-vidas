@@ -1,5 +1,6 @@
 {
   "theme": "dragonball",
+  "actualizado": "2026-06-05 11:27",
   "logica": {
     "top": "Protagonistas (Goku + Vegeta)",
     "bottom": "Antagonistas (Freezer + Cell)",
@@ -19,12 +20,12 @@
   "loader": {
     "filename": "loading.webp",
     "description": "Pantalla de carga: Goku vs Freezer jugando una partida REAL y correcta de Magic. Vertical 9:16 mobile.",
-    "prompt": "A humorous and epic 2D anime illustration in the classic Dragon Ball Z style, vertical portrait composition, aspect ratio 9:16. Goku (base form) and Frieza (Final Form) are seated properly and facing each other across a flat stone table, playing a card game of Magic: The Gathering. Goku is concentrated with a funny expression, while Frieza smirks holding a hand of glowing cards. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table is a detailed Magic: The Gathering battlefield: rows of fantasy cards with some cards turned horizontally at a 90-degree angle to indicate they are tapped, and a small blue energy aura hologram. Warm landscape lighting, vibrant cel-shading. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+    "prompt": "A humorous and epic 2D anime illustration in the classic Dragon Ball Z style, vertical portrait composition, aspect ratio 9:16. Goku (base form) and Frieza (Final Form) are seated properly and facing each other across a flat stone table, playing a card game of Magic: The Gathering. Goku is concentrated with a funny expression, while Frieza smirks holding a hand of glowing cards. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table is a detailed Magic: The Gathering battlefield: rows of fantasy cards with some cards turned horizontally at 90-degree angle to indicate they are tapped, and a small blue energy aura hologram. Warm landscape lighting, vibrant cel-shading. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
   },
   "preview": {
     "filename": "preview.webp",
     "description": "Lobby: Goku vs Freezer jugando una partida de Magic en el desierto. Horizontal 16:9.",
-    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Dragon Ball Z style, wide landscape composition, aspect ratio 16:9. Goku (base form) and Frieza (Final Form) are seated properly and facing each other across a flat stone table in a rocky desert canyon. Goku is looking intensely focused and scratching his head over a hand of cards, while Frieza smirks confidently holding his hand. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table is a detailed Magic: The Gathering battlefield: rows of fantasy cards, with some cards turned horizontally at a 90-degree angle to show they are tapped, and a glowing orange four-star Dragon Ball sitting next to their decks. Vibrant cel-shading, bright dramatic sky. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Dragon Ball Z style, wide landscape composition, aspect ratio 16:9. Goku (base form) and Frieza (Final Form) are seated properly and facing each other across a flat stone table in a rocky desert canyon. Goku is looking intensely focused and scratching his head over a hand of cards, while Frieza smirks confidently holding his hand. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table is a detailed Magic: The Gathering battlefield: rows of fantasy cards, with some cards turned horizontally at 90-degree angle to show they are tapped, and a glowing orange four-star Dragon Ball sitting next to their decks. Vibrant cel-shading, bright dramatic sky. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
   },
   "ui": {
     "scouter_marco": {
