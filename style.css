@@ -7034,6 +7034,93 @@ body.force-landscape #app {
   overflow: hidden;
 }
 
+/* ══════════════════════════════════════════════
+   K.O. CINEMÁTICO: VÍDEOS Y CSS EXTREMO
+   ══════════════════════════════════════════════ */
+
+#ko-video-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -3;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* 1. Bleach: Tajo Diagonal */
+@keyframes bleachKOCut {
+  0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform: translateX(0); filter: brightness(1); }
+  10% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); filter: brightness(2) contrast(2); }
+  15% { clip-path: polygon(0 0, 48% 0, 0 100%, 0 100%); transform: translateX(-10px); }
+  20% { clip-path: polygon(100% 0, 100% 100%, 52% 100%, 100% 0); transform: translateX(10px); }
+  100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform: translateX(0); filter: brightness(0.8); }
+}
+#sideboard-alert-banner.ko-bleach .sb-banner-inner {
+  animation: bleachKOCut 2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+/* 2. One Piece: Cartel de Bounty Cae */
+@keyframes wantedDrop {
+  0% { transform: translateY(-100vh) scale(1.5) rotate(15deg); opacity: 0; }
+  60% { transform: translateY(0) scale(1) rotate(-2deg); opacity: 1; }
+  70% { transform: translateY(-20px) scale(1.05) rotate(1deg); }
+  100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+#sideboard-alert-banner.ko-onepiece .sb-banner-inner {
+  animation: wantedDrop 1s cubic-bezier(0.5, 1.5, 0.8, 1) forwards;
+  background: rgba(210, 180, 140, 0.9) !important; /* Papel viejo */
+  border: 10px solid #5c4033 !important;
+  color: #3e2723 !important;
+  text-shadow: none !important;
+}
+
+/* 3. Super Mario: Foco Negro Pixelado */
+@keyframes marioGameOver {
+  0% { clip-path: circle(150% at 50% 50%); background: transparent; }
+  100% { clip-path: circle(30% at 50% 50%); background: #000; }
+}
+#sideboard-alert-banner.ko-mario {
+  animation: marioGameOver 2s ease-out forwards;
+}
+#sideboard-alert-banner.ko-mario .sb-banner-inner {
+  font-family: 'Press Start 2P', cursive !important;
+  color: #fff !important;
+  text-shadow: 4px 4px 0 #000 !important;
+}
+
+/* 4. Regreso al Futuro: Pistas de Fuego */
+@keyframes fireTracks {
+  0% { box-shadow: inset 0 100vh 0 rgba(255,100,0,0); filter: brightness(1); }
+  50% { box-shadow: inset 0 0 50px rgba(255,100,0,0.8), inset 0 0 100px rgba(255,200,0,0.5); filter: brightness(2) contrast(1.5); }
+  100% { box-shadow: inset 0 -100vh 0 rgba(255,100,0,0); filter: brightness(1); }
+}
+#sideboard-alert-banner.ko-bttf {
+  animation: fireTracks 2s linear forwards;
+}
+
+/* 5. Los Simpsons: Alarma Nuclear */
+@keyframes nuclearMeltdown {
+  0%, 100% { background: rgba(0,0,0,0.8); }
+  50% { background: rgba(255,0,0,0.6); }
+}
+#sideboard-alert-banner.ko-simpsons {
+  animation: nuclearMeltdown 1s infinite;
+  border: 20px solid transparent;
+  border-image: repeating-linear-gradient(45deg, #ffd90f, #ffd90f 20px, #000 20px, #000 40px) 20;
+}
+
+/* 6. Rick & Morty: Glitch Dimensional */
+@keyframes rickGlitch {
+  0% { filter: hue-rotate(0deg) contrast(1); transform: skew(0deg); }
+  20% { filter: hue-rotate(90deg) contrast(2) invert(1); transform: skew(-10deg); }
+  40% { filter: hue-rotate(180deg) contrast(0.5); transform: skew(10deg); }
+  100% { filter: hue-rotate(0deg) contrast(1); transform: skew(0deg); }
+}
+#sideboard-alert-banner.ko-rickmorty .sb-banner-inner {
+  animation: rickGlitch 0.3s infinite alternate;
+}
+
 @keyframes portalSpinScale {
   0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 0; }
   20% { opacity: 0.8; }

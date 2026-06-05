@@ -2953,7 +2953,29 @@
 
       // 1. Desplegar cartel central informativo de Sideboard
       const sbBanner = $('sideboard-alert-banner');
-      if (sbBanner) sbBanner.style.display = 'flex';
+      const koVideo = $('ko-video-bg');
+      if (sbBanner) {
+        sbBanner.className = ''; // reset classes
+        sbBanner.style.display = 'flex';
+        
+        // Reset video
+        if (koVideo) {
+          koVideo.style.display = 'none';
+          koVideo.src = '';
+        }
+
+        const videoThemes = ['dragonball', 'streetfighter', 'demonslayer', 'naruto'];
+        const cssThemes = ['bleach', 'onepiece', 'mario', 'bttf', 'simpsons', 'rickmorty'];
+
+        if (videoThemes.includes(S.theme)) {
+          koVideo.src = `./themes/${S.theme}/ko.mp4`;
+          koVideo.style.display = 'block';
+          koVideo.play().catch(e => console.warn('Autoplay prevented:', e));
+        } else if (cssThemes.includes(S.theme)) {
+          sbBanner.classList.add(`ko-${S.theme}`);
+        }
+      }
+      
       const sbBtn = $('btnSideboardAlertClose');
       if (sbBtn) sbBtn.textContent = `INICIAR JUEGO ${S.currentGame}`;
       
