@@ -6542,22 +6542,31 @@ body[data-theme="demonslayer"] #theme-frame {
   display: none !important;
 }
 
-body[data-theme="demonslayer"] #p1 {
+body[data-theme="demonslayer"] #p1,
+body[data-theme="demonslayer"] #p2 {
+  box-shadow: none !important;
+  border: none !important;
+  background: #000 !important;
+}
+
+body[data-theme="demonslayer"] #p1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image: url('./themes/demonslayer/top.webp') !important;
   background-position: center center !important;
   background-size: cover !important;
-  box-shadow: none !important;
-  border: none !important;
-  background-color: #000;
+  z-index: -2;
 }
 
-body[data-theme="demonslayer"] #p2 {
+body[data-theme="demonslayer"] #p2::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image: url('./themes/demonslayer/botom.jpeg') !important;
   background-position: center center !important;
   background-size: cover !important;
-  box-shadow: none !important;
-  border: none !important;
-  background-color: #000;
+  z-index: -2;
 }
 
 body[data-theme="demonslayer"] .player {
@@ -6566,12 +6575,35 @@ body[data-theme="demonslayer"] .player {
   -webkit-backdrop-filter: none !important;
 }
 
+@keyframes fireEmbers {
+  0% { background-position: 0% 100%; opacity: 0.3; filter: hue-rotate(0deg); }
+  50% { opacity: 0.6; filter: hue-rotate(15deg); }
+  100% { background-position: 100% 0%; opacity: 0.3; filter: hue-rotate(0deg); }
+}
+
+body[data-theme="demonslayer"] .player::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 69, 0, 0.25) 0%, transparent 70%);
+  background-size: 200% 200%;
+  animation: fireEmbers 6s infinite alternate ease-in-out;
+  pointer-events: none;
+  z-index: -1;
+  mix-blend-mode: screen;
+}
+
+@keyframes breathingFireText {
+  0%, 100% { text-shadow: 0 0 15px #ff1a40, 0 0 30px #000; transform: scale(1); }
+  50% { text-shadow: 0 0 30px #ff6a00, 0 0 50px rgba(255, 26, 64, 0.6); transform: scale(1.03); }
+}
+
 body[data-theme="demonslayer"] .life-num {
   font-family: 'Cinzel Decorative', serif !important;
   font-size: clamp(70px, 18vw, 110px) !important;
   color: #fff !important;
-  text-shadow: 0 0 20px #ff1a40, 0 0 40px #000 !important;
   font-weight: 800 !important;
+  animation: breathingFireText 3s infinite alternate ease-in-out;
 }
 
 body[data-theme="demonslayer"] .lifebtn {
