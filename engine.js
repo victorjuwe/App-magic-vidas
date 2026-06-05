@@ -2690,6 +2690,18 @@
         if (dmg) {
           triggerSwordSlash(p);
         }
+      } else if (currentTheme === 'naruto') {
+        if (dmg && v <= -3) {
+          triggerKunaiSlash(p);
+        }
+      } else if (currentTheme === 'rickmorty') {
+        if (!dmg && v >= 2) {
+          triggerMeeseeks(p);
+        }
+      } else if (currentTheme === 'mario') {
+        if (!dmg) {
+          triggerMarioCoin(p);
+        }
       }
 
       pel.classList.remove('danger', 'dead');
@@ -2786,6 +2798,36 @@
       }, 400);
     }
 
+    function triggerKunaiSlash(p) {
+      const playerEl = document.getElementById('p' + p);
+      if (!playerEl) return;
+      const slash = document.createElement('div');
+      slash.className = 'kunai-slash';
+      playerEl.appendChild(slash);
+      setTimeout(() => slash.remove(), 250);
+    }
+
+    function triggerMeeseeks(p) {
+      const playerEl = document.getElementById('p' + p);
+      if (!playerEl) return;
+      const meeseeks = document.createElement('div');
+      meeseeks.className = 'meeseeks-pop';
+      meeseeks.style.left = Math.random() * 60 + 20 + '%';
+      meeseeks.style.top = Math.random() * 60 + 20 + '%';
+      playerEl.appendChild(meeseeks);
+      setTimeout(() => meeseeks.remove(), 500);
+    }
+
+    function triggerMarioCoin(p) {
+      const playerEl = document.getElementById('p' + p);
+      if (!playerEl) return;
+      const wrap = document.querySelector(`#p${p} .life-num-wrap`);
+      if (!wrap) return;
+      const coin = document.createElement('div');
+      coin.className = 'mario-coin';
+      wrap.appendChild(coin);
+      setTimeout(() => coin.remove(), 600);
+    }
 
     function updateSimpsonsConsole(p, v) {
       if (document.body.dataset.theme !== 'simpsons') return;
