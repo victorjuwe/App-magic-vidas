@@ -6539,39 +6539,55 @@ body[data-theme="naruto"] #p2.danger .life-num-wrap::after {
 
 /* ── TEMA DEMON SLAYER ── */
 body[data-theme="demonslayer"] #theme-frame {
-  background-image: none !important;
-  opacity: 0 !important;
   display: none !important;
 }
+
 body[data-theme="demonslayer"] #p1 {
-  background-image: none !important;
-}
-body[data-theme="demonslayer"] #p1::after {
-  content: "";
-  position: absolute;
-  inset: 0;
   background-image: url('./themes/demonslayer/top.webp') !important;
   background-position: center center !important;
   background-size: cover !important;
-  z-index: -2;
-  pointer-events: none;
+  box-shadow: none !important;
+  border: none !important;
+  background-color: #000;
 }
+
 body[data-theme="demonslayer"] #p2 {
-  background-image: url('./themes/demonslayer/bottom.webp') !important;
+  background-image: url('./themes/demonslayer/botom.jpeg') !important;
   background-position: center center !important;
   background-size: cover !important;
+  box-shadow: none !important;
+  border: none !important;
+  background-color: #000;
 }
+
 body[data-theme="demonslayer"] .player {
   background: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  border: none !important;
-  box-shadow: none !important;
 }
+
+body[data-theme="demonslayer"] .life-num {
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: clamp(70px, 18vw, 110px) !important;
+  color: #fff !important;
+  text-shadow: 0 0 20px #ff1a40, 0 0 40px #000 !important;
+  font-weight: 800 !important;
 }
+
+body[data-theme="demonslayer"] .lifebtn {
+  background: rgba(255, 26, 64, 0.2) !important;
+  border: 1px solid rgba(255, 26, 64, 0.5) !important;
+  backdrop-filter: blur(5px) !important;
+  color: #fff !important;
+  text-shadow: 0 0 10px #ff1a40 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
 body[data-theme="demonslayer"] .pname {
-  font-family: 'Lilita One', cursive !important;
-  font-size: clamp(14px, 4.5vw, 18px) !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: clamp(16px, 5vw, 22px) !important;
+  color: #fff !important;
+  text-shadow: 0 0 10px #ff1a40, 2px 2px 5px #000 !important;
 }
 
 /* ── EFECTOS VISUALES PREMIUM (TODOS LOS TEMAS) ── */
