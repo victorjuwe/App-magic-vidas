@@ -3670,6 +3670,12 @@ $('btnStartGame').addEventListener('click', () => {
     if (progressFill) progressFill.style.width = '0%';
   }
   
+  let introAudio = null;
+  if (selectedLobbyTheme) {
+    introAudio = new Audio(`./themes/${selectedLobbyTheme}/intro.mp3`);
+    introAudio.play().catch(() => {});
+  }
+
   const startTime = Date.now();
   const duration = 4000; // Exactamente 4 segundos
   
@@ -3704,6 +3710,13 @@ $('btnStartGame').addEventListener('click', () => {
 
     if (elapsed >= duration) {
       clearInterval(interval);
+      
+      if (introAudio) {
+        try {
+          introAudio.pause();
+          introAudio.currentTime = 0;
+        } catch(_) {}
+      }
       
       // Fin de la pantalla de carga: Transición al juego
       if (isSF) {

@@ -1465,6 +1465,7 @@
 
     /* ── Jugadores (Glassmorphism cristal templado) ── */
     .player {
+      --base-rot: 0deg;
       flex: 1;
       min-height: 0;
       display: flex;
@@ -1478,11 +1479,12 @@
       backdrop-filter: blur(30px) saturate(140%);
       -webkit-backdrop-filter: blur(30px) saturate(140%);
       transition: border-color 0.5s ease, box-shadow 0.5s ease;
+      transform: rotate(var(--base-rot));
     }
 
     /* Borde ultra-fino brillante con el color de mana de cada jugador */
     #p1 {
-      transform: rotate(180deg);
+      --base-rot: 180deg;
       border-bottom: 1px solid color-mix(in srgb, var(--p1-glow) 25%, transparent);
       box-shadow:
         inset 0 -16px 32px color-mix(in srgb, var(--p1-glow) 6%, transparent),
@@ -3594,12 +3596,12 @@ body[data-theme="bleach"] .speech-bubble,
   animation: shakeAction 0.35s cubic-bezier(.36,.07,.19,.97) both;
 }
 @keyframes shakeAction {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  15% { transform: translate(-4px, -3px) rotate(-1deg); }
-  30% { transform: translate(4px, 3px) rotate(1.5deg); }
-  50% { transform: translate(-2px, 4px) rotate(-0.5deg); }
-  70% { transform: translate(3px, 2px) rotate(1deg); }
-  85% { transform: translate(-2px, -2px) rotate(-0.5deg); }
+  0%, 100% { transform: translate(0, 0) rotate(calc(var(--base-rot) + 0deg)); }
+  15% { transform: translate(-4px, -3px) rotate(calc(var(--base-rot) - 1deg)); }
+  30% { transform: translate(4px, 3px) rotate(calc(var(--base-rot) + 1.5deg)); }
+  50% { transform: translate(-2px, 4px) rotate(calc(var(--base-rot) - 0.5deg)); }
+  70% { transform: translate(3px, 2px) rotate(calc(var(--base-rot) + 1deg)); }
+  85% { transform: translate(-2px, -2px) rotate(calc(var(--base-rot) - 0.5deg)); }
 }
 
 /* ── PANTALLA DE CARGA DE COMBATE (BATTLE LOADER) ── */
