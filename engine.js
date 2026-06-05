@@ -1845,14 +1845,7 @@
         playSynthSound('lock');
       });
 
-      // Evento para rotar manualmente (solo Commander)
-      if ($('btnRotate')) {
-        $('btnRotate').addEventListener('pointerdown', e => {
-          e.preventDefault();
-          document.body.classList.toggle('force-landscape');
-          playSynthSound('lock'); // Sonidito al rotar
-        });
-      }
+
 
       // Theme Selector Modal Event Listeners
       $('btnThemeSelector').addEventListener('pointerdown', e => {

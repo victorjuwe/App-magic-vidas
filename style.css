@@ -7020,19 +7020,7 @@ body[data-theme="demonslayer"] .player {
   box-shadow: none !important;
 }
 
-#btnRotate { display: none !important; }
-body[data-mode="commander"] #btnRotate { display: flex !important; }
 
-body.force-landscape #app {
-  position: absolute;
-  width: 100vh !important;
-  height: 100vw !important;
-  left: calc(50vw - 50vh) !important;
-  top: calc(50vh - 50vw) !important;
-  transform: rotate(90deg);
-  transform-origin: center center;
-  overflow: hidden;
-}
 
 /* ══════════════════════════════════════════════
    K.O. CINEMÁTICO: VÍDEOS Y CSS EXTREMO
