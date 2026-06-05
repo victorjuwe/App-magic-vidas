@@ -3284,6 +3284,10 @@
       addMatchLog(`🧹 Encuentro reiniciado por completo (Nuevo Match BO3)`);
     }
 
+    function updateSFCarState() {
+      // Función placeholder para evitar crash de JS
+    }
+
     // LongPress reset
     function initResetLongPress() {
       let holdT = null, holdFired = false;
