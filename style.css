@@ -6602,17 +6602,32 @@ body[data-theme="demonslayer"] .life-num {
   font-family: 'Cinzel Decorative', serif !important;
   font-size: clamp(70px, 18vw, 110px) !important;
   color: #fff !important;
-  font-weight: 800 !important;
+  font-weight: 900 !important;
   animation: breathingFireText 3s infinite alternate ease-in-out;
+  background: rgba(0,0,0,0.4);
+  border-radius: 20px;
+  padding: 0 20px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
 body[data-theme="demonslayer"] .lifebtn {
-  background: rgba(255, 26, 64, 0.2) !important;
-  border: 1px solid rgba(255, 26, 64, 0.5) !important;
-  backdrop-filter: blur(5px) !important;
+  background: rgba(0, 0, 0, 0.7) !important;
+  border: 1px solid rgba(255, 26, 64, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
   color: #fff !important;
-  text-shadow: 0 0 10px #ff1a40 !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+  text-shadow: 0 0 5px #ff1a40 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8) !important;
+}
+
+body[data-theme="demonslayer"] .btn-pois,
+body[data-theme="demonslayer"] .btn-undo {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border: 1px solid rgba(255, 26, 64, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
 }
 
 body[data-theme="demonslayer"] .pname {
@@ -7018,6 +7033,9 @@ body[data-theme="naruto"] .life-num {
 body[data-theme="demonslayer"] .player {
   filter: none !important;
   box-shadow: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 
