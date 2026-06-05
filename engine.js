@@ -1607,32 +1607,32 @@
             return;
           }
           else if (type === 'dmg') {
-            const pairs = [
-              {h: 523.25, l: 261.63},
-              {h: 392.00, l: 196.00},
-              {h: 329.63, l: 164.81},
-              {h: 261.63, l: 130.81}
-            ];
-            pairs.forEach((pair, idx) => {
-              const delay = idx * 0.08;
-              const oscH = audioCtx.createOscillator();
-              const gainH = audioCtx.createGain();
-              oscH.connect(gainH); gainH.connect(audioCtx.destination);
-              oscH.type = 'square';
-              oscH.frequency.setValueAtTime(pair.h, now + delay);
-              gainH.gain.setValueAtTime(0.06, now + delay);
-              gainH.gain.setValueAtTime(0, now + delay + 0.04);
-              oscH.start(now + delay); oscH.stop(now + delay + 0.041);
-
-              const oscL = audioCtx.createOscillator();
-              const gainL = audioCtx.createGain();
-              oscL.connect(gainL); gainL.connect(audioCtx.destination);
-              oscL.type = 'square';
-              oscL.frequency.setValueAtTime(pair.l, now + delay + 0.04);
-              gainL.gain.setValueAtTime(0.06, now + delay + 0.04);
-              gainL.gain.setValueAtTime(0, now + delay + 0.08);
-              oscL.start(now + delay + 0.04); oscL.stop(now + delay + 0.081);
-            });
+            // Sonido de Mario encogiéndose (recibir daño)
+            const osc = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.type = 'square';
+            osc2.type = 'square';
+            
+            // Frecuencias descendentes rápidas
+            osc.frequency.setValueAtTime(800, now);
+            osc.frequency.exponentialRampToValueAtTime(100, now + 0.5);
+            
+            osc2.frequency.setValueAtTime(1200, now);
+            osc2.frequency.exponentialRampToValueAtTime(150, now + 0.5);
+            
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.linearRampToValueAtTime(0, now + 0.5);
+            
+            osc.connect(gain);
+            osc2.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start(now);
+            osc2.start(now);
+            osc.stop(now + 0.5);
+            osc2.stop(now + 0.5);
             return;
           }
           else if (type === 'victory') {
@@ -2232,10 +2232,8 @@
 
     function initThreeJSEngine() {
       const canvas = $('webgl-canvas');
-      if (!window.THREE) {
-        $('fallback-bg').classList.add('active');
-        return;
-      }
+      if (canvas) canvas.style.display = 'none';
+      return; // 3D disabled by user request
       try {
         isWebGLLive = true;
         scene = new THREE.Scene();

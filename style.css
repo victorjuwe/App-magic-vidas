@@ -1460,7 +1460,6 @@
       flex-direction: column;
       height: 100%;
       width: 100%;
-      background: linear-gradient(180deg, rgba(6, 6, 12, 0.25) 0%, rgba(6, 6, 12, 0) 50%, rgba(6, 6, 12, 0.25) 100%);
       pointer-events: auto;
     }
 
@@ -1483,6 +1482,7 @@
 
     /* Borde ultra-fino brillante con el color de mana de cada jugador */
     #p1 {
+      transform: rotate(180deg);
       border-bottom: 1px solid color-mix(in srgb, var(--p1-glow) 25%, transparent);
       box-shadow:
         inset 0 -16px 32px color-mix(in srgb, var(--p1-glow) 6%, transparent),
@@ -2877,6 +2877,44 @@
   margin-bottom: 26px;
 }
 
+.sb-banner-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(32px, 8vw, 48px);
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 0 25px var(--gold), 0 0 50px rgba(255, 215, 0, 0.4);
+}
+
+.sb-banner-sub {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  color: #e0e0e0;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.sb-banner-btn {
+  background: linear-gradient(135deg, #ff1a40, #ff6a00);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 36px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(255, 26, 64, 0.4);
+  transition: transform 0.2s, filter 0.2s;
+  margin-top: 20px;
+}
+
 .lobby-section {
   margin-bottom: 24px;
   text-align: left;
@@ -3903,15 +3941,10 @@ body[data-theme="streetfighter"] .battle-progress-fill {
 
 
 /* ── ESTILOS ESPECÍFICOS DE LA PANTALLA DE CARGA DE BLEACH ── */
-body[data-theme="bleach"] .battle-vs-logo,
 @keyframes pulseVS-Bleach {
   0%, 100% { transform: scale(1); color: #9d00ff; text-shadow: 0 0 15px #9d00ff, 0 0 30px #ea580c !important; }
   50% { transform: scale(1.05); color: #ea580c; text-shadow: 0 0 15px #ea580c, 0 0 30px #9d00ff !important; }
 }
-
-body[data-theme="bleach"] .battle-status,
-
-body[data-theme="bleach"] .battle-progress-fill,
 
 /* ══════════════════════════════════════════════
    BANNER DE SIDEBOARD (ENTRE RONDAS BO3)
@@ -3938,15 +3971,14 @@ body[data-theme="bleach"] .battle-progress-fill,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 40px 32px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 28px;
-  max-width: 340px;
-  width: 90%;
+  gap: 20px;
+  padding: 40px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  width: 100%;
   text-align: center;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  box-shadow: none;
 }
 
 .sb-banner-icon {
@@ -6921,4 +6953,41 @@ body[data-theme="simpsons"] .rounds::after {
 
 body[data-mode="commander"] #p1 {
   transform: rotate(180deg);
+}
+
+body[data-theme="naruto"] .life-num {
+  font-size: clamp(60px, 15vw, 100px) !important;
+  font-family: 'Outfit', sans-serif !important;
+  text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(255,69,0,0.5) !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+}
+
+.theme-card[data-theme="onepiece"] .theme-card-bg-preview {
+  filter: brightness(1.3) contrast(1.1);
+}
+
+body[data-theme="demonslayer"] .player {
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+@keyframes portalSpinScale {
+  0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1.5) rotate(720deg); opacity: 0; }
+}
+
+body[data-theme="rickmorty"] #sideboard-alert-banner::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 150vmax; height: 150vmax;
+  background: conic-gradient(from 0deg, #39ff14 0deg, #000 45deg, #39ff14 90deg, #000 135deg, #39ff14 180deg, #000 225deg, #39ff14 270deg, #000 315deg, #39ff14 360deg);
+  border-radius: 50%;
+  opacity: 0.2;
+  z-index: -1;
+  animation: portalSpinScale 10s linear infinite;
+  pointer-events: none;
 }
