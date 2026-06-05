@@ -13,24 +13,25 @@ yarn-error.log*
 *.sln
 *.swp
 
+# Caché Python
+__pycache__/
+*.py[cod]
+*$py.class
+
 # Archivos temporales y cachés del sistema operativo
 .DS_Store
 Thumbs.db
 
-# Recursos temporales de desarrollo (GEMS / Descargas)
-scratch/gems.zip
-scratch/gems_veo.zip
-scratch/gems_text.txt
-scratch/gems_veo_text.txt
-scratch/unzipped_gems/
-scratch/unzipped_gems_veo/
-scratch/server.js  # Servidor local de desarrollo
-scratch/validate.js
-
-# Copias de seguridad
+# Copias de seguridad y temporales
 *.bak
 *.tmp
+*.zip
 
 # Instaladores de IDE (pesados)
 ide_installers/
 
+# Sub-proyectos externos (mantenidos como hermanos del repo)
+flow-image-generator/
+
+# Carpetas temporales que pueden aparecer
+scratch/

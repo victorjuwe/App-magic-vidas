@@ -1,7 +1,7 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
 
-const CACHE = 'magic-bo3-v27';
+const CACHE = 'magic-bo3-v43';
 
 // Activos críticos para arrancar 100% offline
 const CORE_ASSETS = [
@@ -11,6 +11,9 @@ const CORE_ASSETS = [
   './engine.js',
   './manifest.json',
   './assets/logo.webp',
+  './assets/lobby_bg.png',
+  './assets/mode_bo3.png',
+  './assets/mode_commander.png',
   './icon-192.png',
   './icon-512.png'
 ];
@@ -19,7 +22,7 @@ const CORE_ASSETS = [
 const CDN_ASSETS = [
   'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js',
-  'https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@900&family=Outfit:wght@300;400;600;800&family=Press+Start+2P&display=swap'
+  'https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@900&family=Lilita+One&family=Orbitron:wght@500;800;900&family=Outfit:wght@300;400;600;800&family=Permanent+Marker&family=Pirata+One&family=Press+Start+2P&family=Russo+One&family=Shojumaru&family=VT323&display=swap'
 ];
 
 self.addEventListener('install', event => {

@@ -1,0 +1,30 @@
+{
+  "theme": "demonslayer",
+  "actualizado": "2026-06-05 11:33",
+  "logica": {
+    "top": "Protagonistas (Tanjiro + Nezuko)",
+    "bottom": "Antagonistas (Muzan + Akaza)",
+    "loader": "Tanjiro vs Muzan jugando Magic: The Gathering (toque épico)",
+    "preview": "Icono épico del tema sin texto (Castillo Infinito)"
+  },
+  "top": {
+    "filename": "top.webp",
+    "description": "Player 1 background (Tanjiro + Nezuko). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning 2D anime illustration in the classic Ufotable Demon Slayer style, square format 1:1. A single continuous, seamless, and unified landscape of a Wisteria forest with glowing purple flowers hanging from branches at night under a starry sky, spanning the entire width. On the left side of this same forest stands Tanjiro Kamado, performing a water breathing style slash with a massive swirling water dragon aura. On the right side of this same forest stands Nezuko Kamado in her demon form, surrounded by a bright pink exploding blood fire aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the forest is empty and clean, with soft purple flower petals drifting. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "bottom": {
+    "filename": "bottom.webp",
+    "description": "Player 2 background (Muzan + Akaza). Formato cuadrado 1:1, personajes a los lados, centro abierto.",
+    "prompt": "A stunning dark 2D anime illustration in the classic Ufotable Demon Slayer style, square format 1:1. A single continuous, seamless, and unified dark interior landscape of the Infinity Castle with its gravity-defying wooden platforms, pillars, and sliding doors, spanning the entire width. On the left side of this same castle stands Muzan Kibutsuji in his elegant black suit and white hat, surrounded by a dark crimson blood whip aura. On the right side of this same castle stands Akaza, in a combat stance surrounded by a brilliant blue snowflake battle aura. Both characters are naturally integrated into the same single-picture scenery and are drawn slightly smaller to fit entirely within the frame with a safe margin from the outer edges. The center of the castle structure is empty and clean. No split screen, no vertical dividers, no black bars, no empty black columns, no black panels. --ar 1:1 --no text, watermark, signature, UI, buttons, cropped characters, split screen, black bars, vertical dividers, black columns, black panels"
+  },
+  "loader": {
+    "filename": "loading.webp",
+    "description": "Pantalla de carga: Tanjiro vs Muzan jugando una partida REAL y correcta de Magic. Vertical 9:16 mobile.",
+    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Demon Slayer style, vertical portrait composition, aspect ratio 9:16. Tanjiro Kamado and Muzan Kibutsuji are seated properly and facing each other across a traditional low wooden table in a tatami room, playing a game of Magic. Tanjiro looks intensely focused with a sweat drop, holding his cards, while Muzan smirks arrogantly. Both characters hold their cards facing themselves (only the card backs are visible to the camera). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a wooden box backpack and a glowing ward talisman. Warm Japanese lantern lighting, wood textures. --ar 9:16 --no text, watermark, signature, UI, buttons, backward cards"
+  },
+  "preview": {
+    "filename": "preview.webp",
+    "description": "Lobby: Tanjiro vs Muzan jugando una partida de Magic. Horizontal 16:9.",
+    "prompt": "A humorous and epic 2D anime scene of a card match in the classic Demon Slayer style, wide landscape composition, aspect ratio 16:9. Tanjiro Kamado and Muzan Kibutsuji are seated properly and facing each other across a traditional low wooden table in a tatami room. Tanjiro looks intensely focused with a sweat drop, holding his cards, while Muzan smirks arrogantly. Both characters hold their cards facing themselves (only the card backs are visible to the camera, no upside-down cards). On the table, a detailed Magic: The Gathering card layout is displayed: rows of fantasy cards with some cards turned horizontally at 90-degrees to indicate they are tapped, next to a wooden box backpack and a glowing ward talisman. Warm Japanese lantern lighting, wood textures. --ar 16:9 --no text, watermark, signature, UI, buttons, backward cards"
+  }
+}

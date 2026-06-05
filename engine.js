@@ -2,6 +2,12 @@
     const $ = id => document.getElementById(id);
     const raf = cb => requestAnimationFrame(cb);
     const pad = n => String(n).padStart(2, '0');
+    const escapeHTML = str => {
+      if (!str) return '';
+      return String(str).replace(/[&<>'"]/g,
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    };
     const vib = pattern => {
       try {
         if (navigator.vibrate) navigator.vibrate(pattern);
@@ -16,39 +22,6 @@
     const THEMES = {
       bleach: {
         name: 'Bleach Shinigami',
-        p1Dmg: [
-          "¡Getsuga Tenshō! [月牙天衝]",
-          "¡Bankai... Tensa Zangetsu! [卍解・天鎖斬月]",
-          "Kudakero, Kyōka Suigetsu... [砕けろ 鏡花水月]",
-          "Hadō no Kyūjū: Kurohitsugi! [黒棺]",
-          "Dispersión... Senbonzakura Kageyoshi [千本桜景厳]",
-          "Ryūjin Jakka... ¡Reduce todo a cenizas! [流刃若火]",
-          "Santen Kesshun, ¡yo rechazo! [三天結盾 私は拒絶する]"
-        ],
-        p1Heal: [
-          "Kaodō! [回道 - Kido médico shinigami]",
-          "Reiatsu ga modotte kuru... [Mi presión espiritual regresa]",
-          "¡Mada da... mada owaranai! [¡Aún no ha terminado!]",
-          "¡Muestra todo tu poder!",
-          "Kore wa subete watashi no keikaku-dōri da [Todo según mi plan]"
-        ],
-        p2Dmg: [
-          "¡Cero Oscuras! [黒虚閃 - Cero Negro]",
-          "¡Lanza del Relámpago! [雷霆 de luz verde]",
-          "¡Gran Rey Cero! [王虚 de luz roja]",
-          "¡Desgarra, Pantera! [軋れ 豹王 - Grimmjow]",
-          "¡Encadénate, Murciélago! [鎖せ 黒翼大魔 - Ulquiorra]",
-          "¡Desintegra, Arrogante! [滅びよ 髑髏大帝 - Barragan]"
-        ],
-        p2Heal: [
-          "Chō-kōsoku Saisei! [超高速再生 - Regeneración Instantánea]",
-          "Hierro! [鋼皮 - Piel de hierro protectora]",
-          "¡Despreciable Shinigami! ¡No me vencerás!",
-          "Reiatsu del Hueco Mundo..."
-        ]
-      },
-      bleach_local: {
-        name: 'Bleach Local AI',
         p1Dmg: [
           "¡Getsuga Tenshō! [月牙天衝]",
           "¡Bankai... Tensa Zangetsu! [卍解・天鎖斬月]",
@@ -188,8 +161,540 @@
           "¡INSERT COIN!",
           "¡CONTINUE? 9, 8..."
         ]
+      },
+      onepiece: {
+        name: 'One Piece',
+        p1Dmg: [
+          "¡Gomu Gomu no Jet Pistol!",
+          "¡Gomu Gomu no Red Hawk!",
+          "¡Santōryū: Senbaki Sekai! [三千世界]",
+          "¡Oni Giri! [鬼斬り]",
+          "¡Diable Jambe: Flambage Shot!",
+          "¡Gomu Gomu no... Elephant Gun!",
+          "¡Di que quieres vivir! [生きたいと言え!]"
+        ],
+        p1Heal: [
+          "¡Mugiwara no Luffy!",
+          "¡Carne! ¡Necesito carne! 🍖",
+          "¡Shishishi! [Risa de Luffy]",
+          "¡Sake de Binks! [ビンクスの酒]",
+          "¡El que tenga más libertad será el Rey de los Piratas!"
+        ],
+        p2Dmg: [
+          "¡Zehahahahaha! [Risa de Barbanegra]",
+          "¡Yami Anago! [Vórtice de Oscuridad]",
+          "¡Gran Muralla de Magma: Inugami Guren!",
+          "¡Dai Funka! [Gran Erupción de Magma]",
+          "¡Tatsu Maki! [Rayo de Dragón de Kaido]",
+          "¡Gura Gura no Mi! [Onda Sísmica]"
+        ],
+        p2Heal: [
+          "¡La era de los sueños no ha terminado!",
+          "¡Justicia Absoluta! [絶対正義]",
+          "¡Un pirata debe ser despiadado!",
+          "¡Kurohige! [Barbanegra]"
+        ]
+      },
+      naruto: {
+        name: 'Naruto Shippuden',
+        p1Dmg: [
+          "¡Rasengan! [螺旋丸]",
+          "¡Futon: Rasenshuriken! [風遁・螺旋手裏剣]",
+          "¡Chidori! [千鳥]",
+          "¡Kirin! [麒麟 - Rayo del destino]",
+          "¡Kage Bunshin no Jutsu! [影分身の術]",
+          "¡Amaterasu! [天照 - Llamas negras]",
+          "¡Este es mi camino ninja! [これが私の忍道だ]"
+        ],
+        p1Heal: [
+          "¡Jutsu Médico de Tsunade!",
+          "¡El poder del Kyubi controlado!",
+          "¡Ramen de Ichiraku! 🍜",
+          "¡Dattebayo! [¡De veras!]",
+          "¡El lazo que nos une no se romperá!"
+        ],
+        p2Dmg: [
+          "¡Shinra Tensei! [神羅天征 - Juicio Divino]",
+          "¡Chibaku Tensei! [地爆天星]",
+          "¡Tsukuyomi Infinito! [無限月読]",
+          "¡Katon: Gōka Mekkyaku! [Gran Aniquilación de Fuego]",
+          "¡Yasaka no Magatama! [Susanoo de Itachi]",
+          "¡El mundo conocerá el dolor...!"
+        ],
+        p2Heal: [
+          "¡Izanagi! [Ilusión que reescribe el destino]",
+          "¡Regeneración Celular de Zetsu!",
+          "¡Kotoamatsukami! [Genjutsu Supremo]",
+          "¡El plan Ojo de Luna avanza!"
+        ]
+      },
+      dragonball: {
+        name: 'Dragon Ball Z',
+        p1Dmg: [
+          "¡KAMEHAMEHA! [かめはめ波]",
+          "¡FINAL FLASH! [ファイナルフラッシュ]",
+          "¡KAIŌKEN AUMENTADO 10 VECES!",
+          "¡GENKIDAMA! ¡Bríndame tu energía!",
+          "¡BIG BANG ATTACK! [ビッグバンアタック]",
+          "¡MASENKO! [魔閃光]",
+          "¡Super Saiyan Supremo!"
+        ],
+        p1Heal: [
+          "¡Semilla Senzu! [Alubia Mágica] 🫘",
+          "¡Ki recuperado al máximo!",
+          "¡Goku ha llegado!",
+          "¡Shenron ha cumplido el deseo!",
+          "¡Insecto... no me des órdenes!"
+        ],
+        p2Dmg: [
+          "¡DEATH BEAM! [Rayo de la Muerte de Freezer]",
+          "¡BOLA DE LA MUERTE! [Desintegración Planetaria]",
+          "¡SOLAR KAMEHAMEHA! [Cell Perfecto]",
+          "¡BOLA DE ENERGÍA EVANECENTE! [Kid Buu]",
+          "¡Kikoho de destrucción total!",
+          "¡Voy a destruir este planeta entero!"
+        ],
+        p2Heal: [
+          "¡Regeneración de Cell! [Células Piccolo]",
+          "¡Cuerpo de Majin Buu regenerado! 🍬",
+          "¡La juventud eterna de Freezer!",
+          "¡Soy el ser más perfecto del universo!"
+        ]
+      },
+      mario: {
+        name: 'Super Mario Retro',
+        p1Dmg: [
+          "¡Mamma mia! 🍄",
+          "¡Ouch! ¡He encogido!",
+          "¡Siento que pierdo mi gorra! 🧢",
+          "¡Waaaah! [Mario cayendo al vacío]",
+          "¡Estúpido caparazón azul! 🐢"
+        ],
+        p1Heal: [
+          "¡Super Champiñón! 🍄 ¡Grande otra vez!",
+          "¡Sonido de Moneda! 🪙 [Plim]",
+          "¡Champy Verde 1-UP! 💚",
+          "¡Flor de Fuego activa! 🔥 ¡Cuidado con mis bolas de fuego!",
+          "¡Here we gooo!"
+        ],
+        p2Dmg: [
+          "¡GRAAAWR! ¡Ese golpe quemó mi caparazón!",
+          "¡Maldito fontanero saltarín!",
+          "¡Ay! ¡Me has tirado por el puente de lava!",
+          "¡Gwahaha! ¿Eso es todo lo que tienes?",
+          "¡Kamek! ¡Hazme más grande!"
+        ],
+        p2Heal: [
+          "¡Tu princesa está en otro castillo! 🏰",
+          "¡El poder de la lava me regenera!",
+          "¡Koopas al ataque! ¡Cubriéndome!",
+          "¡Bowser Cóptero activado! 🚁"
+        ]
       }
     };
+
+    const THEME_METADATA = [
+      { id: '', name: 'Nebula Standard', icon: '🌌', desc: 'Espacio y constelaciones', badge: 'CLASSIC', bg: './assets/logo.webp' },
+      { id: 'streetfighter', name: 'Street Fighter II', icon: '🥋', desc: 'Hadouken & KO Arcade', badge: 'RETRO', bg: './themes/streetfighter/preview.webp' },
+      { id: 'simpsons', name: 'Los Simpsons', icon: '🍩', desc: 'Consola nuclear y rosquillas', badge: 'CARTOON', bg: './themes/simpsons/top.webp' },
+      { id: 'rickmorty', name: 'Rick y Morty', icon: '🌀', desc: 'Portales y multiverso', badge: 'SCI-FI', bg: './themes/rickmorty/top.webp' },
+      { id: 'bttf', name: 'Regreso al Futuro', icon: '⚡', desc: 'Viajes temporales y 1.21 gigavatios', badge: 'SCI-FI', bg: './themes/bttf/preview.webp' },
+      { id: 'bleach', name: 'Bleach Shinigami', icon: '⚔️', desc: 'Getsuga Tenshō & Duelo de Espadas', badge: 'ANIME', bg: './themes/bleach/preview.webp' },
+      { id: 'onepiece', name: 'One Piece (Mugiwara)', icon: '🏴‍☠️', desc: 'Gomu Gomu & Duelo Pirata', badge: 'ANIME', bg: './themes/onepiece/preview.webp' },
+      { id: 'naruto', name: 'Naruto Shippuden', icon: '🍥', desc: 'Rasengan vs Chidori', badge: 'ANIME', bg: './themes/naruto/top.webp' },
+      { id: 'dragonball', name: 'Dragon Ball Z', icon: '🐉', desc: 'Kamehameha & Saiyans', badge: 'ANIME', bg: './themes/dragonball/preview.webp' },
+      { id: 'mario', name: 'Super Mario Retro', icon: '🍄', desc: 'Mundo 1-1 y Castillo de Bowser', badge: 'RETRO', bg: './themes/mario/preview.webp' },
+      { id: 'demonslayer', name: 'Demon Slayer', icon: '⚔️', desc: 'Respiración de Agua y Castillo Infinito', badge: 'ANIME', bg: './themes/demonslayer/preview.webp' }
+    ];
+
+    function updateSFHealthBarNames() {
+      const nameP1 = $('sfNameP1');
+      const nameP2 = $('sfNameP2');
+      if (nameP1) nameP1.textContent = S.names[0] || 'PLAYER 1';
+      if (nameP2) nameP2.textContent = S.names[1] || 'PLAYER 2';
+    }
+
+    let sfCredits = 0;
+    let sfContinueInterval = null;
+
+    function updateSFHealthBars(p) {
+      try {
+        const startingLife = (selectedMode === 'commander') ? 40 : 20;
+        const currentLife = S.lives[p - 1];
+        const pct = Math.max(0, Math.min(100, (currentLife / startingLife) * 100));
+
+        const barFill = $(`sfHealthBarP${p}`);
+        const barRed = $(`sfRedBarP${p}`);
+
+        if (barFill) barFill.style.width = `${pct}%`;
+        if (barRed) barRed.style.width = `${pct}%`;
+      } catch (e) {
+        console.error("Error al actualizar barra de salud SF:", e);
+      }
+    }
+
+    function triggerSFContinue(defeatedPlayer) {
+      // Intentar reproducir sonido de derrota/K.O. si existe
+      try {
+        const koAudio = new Audio('./themes/streetfighter/victory.mp3');
+        koAudio.play().catch(() => {});
+      } catch(_) {}
+
+      const overlay = $('sf-continue-overlay');
+      const timerEl = $('sfContinueTimer');
+      const creditHint = $('sfContinueCreditHint');
+      if (!overlay || !timerEl) {
+        evalBO3MatchEnd(defeatedPlayer === 1 ? 2 : 1);
+        return;
+      }
+
+      // Detener el reloj si está corriendo
+      const wasRunning = S.clock.running;
+      if (S.clock.running) {
+        clearInterval(S.clock.iv);
+        S.clock.running = false;
+      }
+
+      overlay.classList.remove('hidden');
+      overlay.classList.add('active');
+
+      if (creditHint) {
+        creditHint.textContent = `CREDITS AVAILABLE: ${sfCredits}`;
+      }
+
+      let count = 9;
+      timerEl.textContent = count;
+
+      if (sfContinueInterval) clearInterval(sfContinueInterval);
+
+      sfContinueInterval = setInterval(() => {
+        count--;
+        if (count >= 0) {
+          timerEl.textContent = count;
+          try {
+            playSynthSound('lock');
+          } catch(_) {}
+          
+          // Anunciar por voz los últimos 5 segundos si existe el speech synthesis
+          if (count > 0 && count <= 5 && 'speechSynthesis' in window) {
+            try {
+              window.speechSynthesis.cancel();
+              const utterance = new SpeechSynthesisUtterance(count.toString());
+              utterance.lang = 'en-US';
+              utterance.pitch = 0.55;
+              window.speechSynthesis.speak(utterance);
+            } catch (_) {}
+          }
+        } else {
+          // Si llega a 0, game over
+          clearInterval(sfContinueInterval);
+          sfContinueInterval = null;
+          overlay.classList.remove('active');
+          overlay.classList.add('hidden');
+          
+          // Sonido de Game Over
+          try {
+            if ('speechSynthesis' in window) {
+              window.speechSynthesis.cancel();
+              const utterance = new SpeechSynthesisUtterance("Game over");
+              utterance.lang = 'en-US';
+              utterance.pitch = 0.5;
+              window.speechSynthesis.speak(utterance);
+            }
+          } catch (_) {}
+
+          addMatchLog("💀 GAME OVER. Cuenta atrás finalizada.");
+          evalBO3MatchEnd(defeatedPlayer === 1 ? 2 : 1);
+        }
+      }, 1000);
+    }
+
+    function initSFCabinets() {
+      const slotBtn = $('sfSlotBtn');
+      if (slotBtn) {
+        slotBtn.addEventListener('click', () => {
+          // Agregar créditos
+          sfCredits++;
+          const slotVal = $('sfSlotVal');
+          if (slotVal) slotVal.textContent = (sfCredits < 10 ? '0' : '') + sfCredits + ' CREDITS';
+          
+          // Sonido de moneda insertada (moneda arcade)
+          try {
+            const coinAudio = new Audio('./themes/streetfighter/heal.mp3');
+            coinAudio.play().catch(() => playSynthSound('lock'));
+          } catch (_) {
+            playSynthSound('lock');
+          }
+
+          // Iniciar juego tras 1 segundo
+          setTimeout(() => {
+            const coinOverlay = $('sf-insertcoin-overlay');
+            if (coinOverlay) {
+              coinOverlay.classList.remove('active');
+              coinOverlay.classList.add('hidden');
+            }
+            
+            // Sonido de FIGHT! o Round One. Fight!
+            try {
+              // Intentar reproducir sonido de lucha del anunciador si existe, si no usar speech
+              const fightAudio = new Audio('./themes/streetfighter/victory.mp3');
+              fightAudio.play().catch(() => {
+                // Speech synthesis fallback
+                if ('speechSynthesis' in window) {
+                  const utterance = new SpeechSynthesisUtterance("Round one. Fight!");
+                  utterance.lang = 'en-US';
+                  utterance.pitch = 0.6;
+                  utterance.rate = 1.1;
+                  window.speechSynthesis.speak(utterance);
+                }
+              });
+            } catch (_) {}
+            
+            // Registrar log
+            addMatchLog("🪙 ¡MONEDA INSERTADA! Comienza la ronda.");
+          }, 800);
+        });
+      }
+
+      // Botón de continuar en la pantalla de KO
+      const continueBtn = $('sfCoinBtn');
+      if (continueBtn) {
+        continueBtn.addEventListener('click', () => {
+          if (sfCredits > 0) {
+            sfCredits--;
+          }
+          
+          // Sonido de moneda
+          try {
+            const coinAudio = new Audio('./themes/streetfighter/heal.mp3');
+            coinAudio.play().catch(() => playSynthSound('lock'));
+          } catch (_) {
+            playSynthSound('lock');
+          }
+
+          const overlay = $('sf-continue-overlay');
+          if (overlay) {
+            overlay.classList.remove('active');
+            overlay.classList.add('hidden');
+          }
+
+          if (sfContinueInterval) {
+            clearInterval(sfContinueInterval);
+            sfContinueInterval = null;
+          }
+
+          // Restablecer vidas y reanudar
+          const startingLife = (selectedMode === 'commander') ? 40 : 20;
+          S.lives = [startingLife, startingLife];
+          S.prevLives = [startingLife, startingLife];
+          renderLife(1, 0);
+          renderLife(2, 0);
+          updateSFHealthBars(1);
+          updateSFHealthBars(2);
+
+          // Anunciar FIGHT
+          setTimeout(() => {
+            try {
+              const fightAudio = new Audio('./themes/streetfighter/victory.mp3');
+              fightAudio.play().catch(() => {
+                if ('speechSynthesis' in window) {
+                  const utterance = new SpeechSynthesisUtterance("Fight!");
+                  utterance.lang = 'en-US';
+                  utterance.pitch = 0.6;
+                  utterance.rate = 1.1;
+                  window.speechSynthesis.speak(utterance);
+                }
+              });
+            } catch (_) {}
+          }, 300);
+
+          addMatchLog("🪙 ¡CONTINUAR SELECCIONADO! Vidas restablecidas.");
+        });
+      }
+    }
+
+
+    function updateSFPlayerProfiles() {
+      updateSFHealthBarNames();
+      
+      const vsName1 = $('sfVsName1');
+      const vsName2 = $('sfVsName2');
+      
+      if (vsName1) vsName1.textContent = S.names[0] || 'PLAYER 1';
+      if (vsName2) vsName2.textContent = S.names[1] || 'PLAYER 2';
+    }
+
+    function playArcadeAnnouncer(phrase) {
+      return; // Announcer disabled for minimalist UI
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(phrase);
+        utterance.lang = 'en-US';
+        const voices = window.speechSynthesis.getVoices();
+        const defaultVoice = voices.find(v => 
+          v.lang.includes('en') && (v.name.toLowerCase().includes('google') || v.name.toLowerCase().includes('microsoft'))
+        ) || voices[0];
+        if (defaultVoice) utterance.voice = defaultVoice;
+        utterance.pitch = 0.55; // Tono bajo retro
+        utterance.rate = 1.05;  // Ligeramente rápido
+        utterance.volume = 0.85;
+        window.speechSynthesis.speak(utterance);
+      } catch (_) {}
+    }
+
+    // Calentar voces de SpeechSynthesis de forma preventiva
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+      }
+    }
+
+    function playSynthesizedCoinDrop() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(987.77, ctx.currentTime);
+        osc1.frequency.setValueAtTime(1318.51, ctx.currentTime + 0.08);
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(1318.51, ctx.currentTime);
+        osc2.frequency.setValueAtTime(1975.53, ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(ctx.destination);
+        osc1.start();
+        osc2.start();
+        osc1.stop(ctx.currentTime + 0.35);
+        osc2.stop(ctx.currentTime + 0.35);
+      } catch (_) {}
+    }
+
+    function playSynthesizedArcadeClick() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(35, ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.25, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.08);
+      } catch (_) {}
+    }
+
+
+
+    function setupThemeSliderNavigation() {
+      const slider = $('lobbyThemeSlider');
+      const dotsContainer = $('themeSliderDots');
+      const arrowLeft = $('themeArrowLeft');
+      const arrowRight = $('themeArrowRight');
+      if (!slider || !dotsContainer) return;
+
+      dotsContainer.innerHTML = '';
+      const cards = slider.querySelectorAll('.theme-card');
+      const CARD_W = 160;
+
+      cards.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'theme-dot';
+        dot.setAttribute('aria-label', 'Tema ' + (i + 1));
+        dot.addEventListener('click', () => {
+          slider.scrollTo({ left: i * CARD_W, behavior: 'smooth' });
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      const updateDots = () => {
+        const idx = Math.round(slider.scrollLeft / CARD_W);
+        dotsContainer.querySelectorAll('.theme-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === idx);
+        });
+        if (arrowLeft) arrowLeft.style.opacity = slider.scrollLeft < 10 ? '0.3' : '1';
+        if (arrowRight) arrowRight.style.opacity = slider.scrollLeft >= slider.scrollWidth - slider.clientWidth - 10 ? '0.3' : '1';
+      };
+
+      slider.removeEventListener('scroll', slider._onScroll);
+      slider._onScroll = updateDots;
+      slider.addEventListener('scroll', updateDots, { passive: true });
+      updateDots();
+
+      if (arrowLeft) {
+        arrowLeft.onclick = () => slider.scrollBy({ left: -CARD_W, behavior: 'smooth' });
+      }
+      if (arrowRight) {
+        arrowRight.onclick = () => slider.scrollBy({ left: CARD_W, behavior: 'smooth' });
+      }
+    }
+
+    function renderThemeSelectors() {
+      const feed = $('lobbyThemeVerticalFeed');
+      const grid = $('themeModalGrid');
+      if (!feed || !grid) return;
+
+      let feedHtml = '';
+      THEME_METADATA.forEach(t => {
+        const isActive = (selectedLobbyTheme === t.id) ? 'active' : '';
+        feedHtml += `
+          <div class="theme-vertical-card ${isActive}" data-theme="${t.id}">
+            <div class="theme-card-bg-wrap">
+              <img src="${t.bg}" class="theme-card-bg-preview" alt="${t.name}">
+              <div class="theme-card-overlay"></div>
+            </div>
+            <div class="theme-card-badge">${t.badge}</div>
+            <div class="theme-card-check">✓</div>
+            <div class="theme-card-bottom">
+              <div class="theme-card-header">
+                <span class="theme-card-icon">${t.icon}</span>
+                <span class="theme-card-title">${t.name}</span>
+              </div>
+              <span class="theme-card-desc">${t.desc}</span>
+            </div>
+          </div>
+        `;
+      });
+      feed.innerHTML = feedHtml;
+
+      let gridHtml = '';
+      THEME_METADATA.forEach(t => {
+        const currentTheme = document.body.dataset.theme || '';
+        const isSelected = (currentTheme === t.id) ? 'selected' : '';
+        gridHtml += `
+          <button class="theme-opt-btn ${isSelected}" id="to-${t.id || 'default'}" data-theme="${t.id}">
+            <span class="to-icon">${t.icon}</span>
+            <span class="to-name">${t.name}</span>
+          </button>
+        `;
+      });
+      grid.innerHTML = gridHtml;
+
+      feed.querySelectorAll('.theme-vertical-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          feed.querySelectorAll('.theme-vertical-card').forEach(c => c.classList.remove('active'));
+          const target = e.currentTarget;
+          target.classList.add('active');
+          selectedLobbyTheme = target.getAttribute('data-theme');
+          applyTheme(selectedLobbyTheme);
+          playSynthSound('lock');
+        });
+      });
+
+      grid.querySelectorAll('.theme-opt-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const themeId = e.currentTarget.getAttribute('data-theme');
+          selectTheme(themeId);
+        });
+      });
+    }
 
     function applyTheme(id) {
       if (id && THEMES[id]) {
@@ -198,12 +703,52 @@
         delete document.body.dataset.theme;
       }
       
-      // Sincronizar botones visuales del selector
       document.querySelectorAll('.theme-opt-btn').forEach(btn => {
         btn.classList.remove('selected');
       });
       const activeBtn = $('to-' + (id || 'default'));
       if (activeBtn) activeBtn.classList.add('selected');
+
+      document.querySelectorAll('.theme-card').forEach(card => {
+        card.classList.toggle('active', card.getAttribute('data-theme') === (id || ''));
+      });
+
+      if (id === 'streetfighter') {
+        updateSFHealthBarNames();
+        updateSFHealthBars(1);
+        updateSFHealthBars(2);
+
+        // Si no se han insertado créditos, no hemos empezado y la pantalla de juego está activa
+        const hasStarted = S.clock.running || S.lives[0] !== (selectedMode === 'commander' ? 40 : 20) || S.lives[1] !== (selectedMode === 'commander' ? 40 : 20);
+        const isGameScreenActive = $('game-screen') && $('game-screen').style.display === 'flex';
+        
+        if (sfCredits === 0 && !hasStarted && isGameScreenActive) {
+          const coinOverlay = $('sf-insertcoin-overlay');
+          if (coinOverlay) {
+            coinOverlay.classList.remove('hidden');
+            coinOverlay.classList.add('active');
+          }
+        } else {
+          // Ocultar si ya tenemos créditos, ya ha empezado o no estamos en juego
+          const coinOverlay = $('sf-insertcoin-overlay');
+          if (coinOverlay) {
+            coinOverlay.classList.remove('active');
+            coinOverlay.classList.add('hidden');
+          }
+        }
+      } else {
+        // Ocultar overlays de monedas si cambiamos de tema
+        const coinOverlay = $('sf-insertcoin-overlay');
+        if (coinOverlay) {
+          coinOverlay.classList.remove('active');
+          coinOverlay.classList.add('hidden');
+        }
+        const continueOverlay = $('sf-continue-overlay');
+        if (continueOverlay) {
+          continueOverlay.classList.remove('active');
+          continueOverlay.classList.add('hidden');
+        }
+      }
     }
 
     function selectTheme(id) {
@@ -333,6 +878,7 @@
           applyPlayerVisualTheme(p);
         });
 
+        applyTheme(document.body.dataset.theme || '');
         renderClock();
         if (data.clockRunning) toggleClock();
         renderFirst();
@@ -361,8 +907,8 @@
       container.innerHTML = S.matchLog
         .map(item => `
           <div class="history-item">
-            <span class="history-time">${item.time}</span>
-            <span class="history-event">${item.text}</span>
+            <span class="history-time">${escapeHTML(item.time)}</span>
+            <span class="history-event">${escapeHTML(item.text)}</span>
           </div>
         `).join('');
       container.scrollTop = container.scrollHeight;
@@ -371,7 +917,7 @@
     let audioCtx = null;
     let activeAudioInstance = null;
     
-    function playSynthSound(type) {
+    function playSynthSound(type, playerNum = null, value = null) {
       if (S.muted) return;
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -388,13 +934,75 @@
           activeAudioInstance = null;
         }
 
+        // Mapeo especial para botones de Street Fighter
+        if (currentTheme === 'streetfighter' && (type === 'dmg' || type === 'heal' || type === 'victory')) {
+          let audioPath = '';
+          if (type === 'victory') {
+            audioPath = './themes/streetfighter/victory.mp3';
+          } else {
+            if (value === -1) {
+              audioPath = './themes/streetfighter/hadouken.mp3';
+            } else if (value === 1) {
+              audioPath = './themes/streetfighter/shoryuken.mp3';
+            } else if (value === -5) {
+              audioPath = './themes/streetfighter/tatsumaki.mp3';
+            } else if (value === 5) {
+              audioPath = './themes/streetfighter/perfect.mp3';
+            } else {
+              audioPath = `./themes/streetfighter/p${playerNum || 1}_${type}.mp3`;
+            }
+          }
+
+          const playWithFallback = (path, fallbackPath) => {
+            const audio = new Audio(path);
+            activeAudioInstance = audio;
+            audio.play().catch(() => {
+              if (fallbackPath) {
+                const fbAudio = new Audio(fallbackPath);
+                activeAudioInstance = fbAudio;
+                fbAudio.play().catch(() => {
+                  triggerSynthFallback('streetfighter', type, now);
+                });
+              } else {
+                triggerSynthFallback('streetfighter', type, now);
+              }
+            });
+          };
+
+          if (type === 'victory') {
+            playWithFallback(audioPath, null);
+          } else {
+            const defaultFallback = `./themes/streetfighter/p${playerNum || 1}_${type}.mp3`;
+            playWithFallback(audioPath, defaultFallback);
+          }
+          return;
+        }
+
         // Intentar reproducir MP3 local para temas con audio externo
-        if (currentTheme && (currentTheme === 'simpsons' || currentTheme === 'rickmorty' || currentTheme === 'bttf' || currentTheme === 'streetfighter' || currentTheme === 'bleach' || currentTheme === 'bleach_local') && (type === 'dmg' || type === 'heal' || type === 'victory')) {
-          const audio = new Audio(`./themes/${currentTheme}/${type}.mp3`);
+        const themesWithAudio = ['simpsons', 'rickmorty', 'bttf', 'bleach', 'onepiece', 'naruto', 'dragonball', 'mario'];
+        if (currentTheme && themesWithAudio.includes(currentTheme) && (type === 'dmg' || type === 'heal' || type === 'victory')) {
+          let audioPath = `./themes/${currentTheme}/${type}.mp3`;
+          if (playerNum && (type === 'dmg' || type === 'heal')) {
+            audioPath = `./themes/${currentTheme}/p${playerNum}_${type}.mp3`;
+          }
+          
+          const audio = new Audio(audioPath);
           activeAudioInstance = audio;
-          audio.play().catch(() => {
-            // FALLBACK SINTÉTICO EN CASO DE ERROR DE CARGA
-            triggerSynthFallback(currentTheme, type, now);
+          audio.play().catch((err) => {
+            // Ignorar errores de aborto por pausa rápida/solapamiento
+            if (err && err.name === 'AbortError') return;
+
+            // Fallback a audio genérico del tema si falla el específico de jugador
+            if (playerNum && (type === 'dmg' || type === 'heal')) {
+              const fallbackAudio = new Audio(`./themes/${currentTheme}/${type}.mp3`);
+              activeAudioInstance = fallbackAudio;
+              fallbackAudio.play().catch((err2) => {
+                if (err2 && err2.name === 'AbortError') return;
+                triggerSynthFallback(currentTheme, type, now);
+              });
+            } else {
+              triggerSynthFallback(currentTheme, type, now);
+            }
           });
           return;
         }
@@ -405,49 +1013,9 @@
 
     function triggerSynthFallback(theme, type, now) {
       try {
-        if (theme === 'streetfighter') {
-          if (type === 'dmg') {
-            // Retro chip noise impact (Hadouken hit style)
-            const bufferSize = audioCtx.sampleRate * 0.15;
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-              data[i] = Math.random() * 2 - 1;
-            }
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-            const noiseFilter = audioCtx.createBiquadFilter();
-            noiseFilter.type = 'bandpass';
-            noiseFilter.frequency.value = 180;
-            const gain = audioCtx.createGain();
-            noise.connect(noiseFilter);
-            noiseFilter.connect(gain);
-            gain.connect(audioCtx.destination);
-            gain.gain.setValueAtTime(0.35, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-            noise.start(now);
-            noise.stop(now + 0.15);
-            return;
-          } else if (type === 'heal') {
-            // Retro arcade up-sweep arpeggio
-            const notes = [261.63, 329.63, 392.00, 523.25];
-            notes.forEach((freq, idx) => {
-              const osc = audioCtx.createOscillator();
-              const gain = audioCtx.createGain();
-              osc.connect(gain);
-              gain.connect(audioCtx.destination);
-              osc.type = 'triangle';
-              osc.frequency.setValueAtTime(freq, now + idx * 0.05);
-              gain.gain.setValueAtTime(0.12, now + idx * 0.05);
-              gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15 + idx * 0.05);
-              osc.start(now + idx * 0.05);
-              osc.stop(now + 0.2 + idx * 0.05);
-            });
-            return;
-          }
-        }
+
         
-        if (theme === 'bleach' || theme === 'bleach_local') {
+        if (theme === 'bleach') {
           if (type === 'dmg') {
             // 1. Getsuga Tenshō Slash (Double Bandpass Sweep)
             const bufferSize = audioCtx.sampleRate * 0.35;
@@ -740,6 +1308,380 @@
             return;
           }
         }
+        else if (theme === 'onepiece') {
+          if (type === 'dmg') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(100, now);
+            osc.frequency.exponentialRampToValueAtTime(700, now + 0.14);
+            gain.gain.setValueAtTime(0.15, now);
+            gain.gain.linearRampToValueAtTime(0.08, now + 0.14);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+            osc.start(now); osc.stop(now + 0.18);
+
+            const bufSize = audioCtx.sampleRate * 0.18;
+            const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufSize; i++) {
+              data[i] = Math.random() * 2 - 1;
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const noiseFilter = audioCtx.createBiquadFilter();
+            noiseFilter.type = 'bandpass';
+            noiseFilter.frequency.setValueAtTime(350, now + 0.12);
+            noiseFilter.frequency.exponentialRampToValueAtTime(80, now + 0.28);
+            noiseFilter.Q.value = 5;
+            const noiseGain = audioCtx.createGain();
+            noise.connect(noiseFilter);
+            noiseFilter.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+            noiseGain.gain.setValueAtTime(0.001, now);
+            noiseGain.gain.setValueAtTime(0.35, now + 0.12);
+            noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+            noise.start(now + 0.12); noise.stop(now + 0.3);
+            return;
+          } else if (type === 'heal') {
+            const coinNotes = [1600, 2000, 2400, 1800, 2200];
+            coinNotes.forEach((freq, idx) => {
+              const delay = idx * 0.04;
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(freq, now + delay);
+              gain.gain.setValueAtTime(0.08, now + delay);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.08);
+              osc.start(now + delay); osc.stop(now + delay + 0.09);
+            });
+            return;
+          } else if (type === 'victory') {
+            const fanfarria = [
+              { f: 293.66, t: 0 }, { f: 293.66, t: 0.1 }, { f: 293.66, t: 0.2 },
+              { f: 392.00, t: 0.3 }, { f: 587.33, t: 0.5 }, { f: 523.25, t: 0.7 },
+              { f: 493.88, t: 0.8 }, { f: 440.00, t: 0.9 }, { f: 392.00, t: 1.0 }
+            ];
+            fanfarria.forEach(note => {
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(note.f, now + note.t);
+              gain.gain.setValueAtTime(0.06, now + note.t);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + note.t + 0.25);
+              osc.start(now + note.t); osc.stop(now + note.t + 0.28);
+            });
+            return;
+          }
+        }
+        else if (theme === 'naruto') {
+          if (type === 'dmg') {
+            const bufferSize = audioCtx.sampleRate * 0.35;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+              data[i] = Math.random() * 2 - 1;
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.Q.value = 10;
+            filter.frequency.setValueAtTime(4000, now);
+            filter.frequency.linearRampToValueAtTime(8000, now + 0.1);
+            filter.frequency.linearRampToValueAtTime(2000, now + 0.25);
+            filter.frequency.linearRampToValueAtTime(6000, now + 0.35);
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.28, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.start(now); noise.stop(now + 0.35);
+
+            const sub = audioCtx.createOscillator();
+            const subGain = audioCtx.createGain();
+            sub.connect(subGain); subGain.connect(audioCtx.destination);
+            sub.type = 'triangle';
+            sub.frequency.setValueAtTime(140, now);
+            sub.frequency.exponentialRampToValueAtTime(40, now + 0.15);
+            subGain.gain.setValueAtTime(0.2, now);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+            sub.start(now); sub.stop(now + 0.16);
+            return;
+          } else if (type === 'heal') {
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const filter = audioCtx.createBiquadFilter();
+            const gain = audioCtx.createGain();
+
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(220, now);
+            osc1.frequency.exponentialRampToValueAtTime(880, now + 0.45);
+
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(222, now);
+            osc2.frequency.exponentialRampToValueAtTime(885, now + 0.45);
+
+            filter.type = 'lowpass';
+            filter.Q.value = 7;
+            filter.frequency.setValueAtTime(250, now);
+            filter.frequency.exponentialRampToValueAtTime(3500, now + 0.4);
+
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.48);
+
+            osc1.connect(filter);
+            osc2.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc1.start(now); osc2.start(now);
+            osc1.stop(now + 0.48); osc2.stop(now + 0.48);
+            return;
+          } else if (type === 'victory') {
+            const notes = [
+              { f: 587.33, t: 0, d: 0.18 },
+              { f: 622.25, t: 0.18, d: 0.18 },
+              { f: 783.99, t: 0.36, d: 0.25 },
+              { f: 880.00, t: 0.61, d: 0.4 }
+            ];
+            notes.forEach(note => {
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              const pMod = audioCtx.createOscillator();
+              const pmGain = audioCtx.createGain();
+
+              pMod.frequency.value = 7;
+              pmGain.gain.value = 6;
+              pMod.connect(pmGain);
+              pmGain.connect(osc.frequency);
+
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(note.f, now + note.t);
+              gain.gain.setValueAtTime(0.08, now + note.t);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + note.t + note.d);
+
+              pMod.start(now + note.t);
+              osc.start(now + note.t);
+              pMod.stop(now + note.t + note.d);
+              osc.stop(now + note.t + note.d);
+            });
+            return;
+          }
+        }
+        else if (theme === 'dragonball') {
+          if (type === 'dmg') {
+            const bufSize = audioCtx.sampleRate * 0.28;
+            const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufSize; i++) {
+              data[i] = Math.random() * 2 - 1;
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(280, now);
+            filter.frequency.exponentialRampToValueAtTime(50, now + 0.26);
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.4, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.start(now); noise.stop(now + 0.28);
+
+            const osc = audioCtx.createOscillator();
+            const oscGain = audioCtx.createGain();
+            osc.connect(oscGain); oscGain.connect(audioCtx.destination);
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(110, now);
+            osc.frequency.exponentialRampToValueAtTime(30, now + 0.25);
+            oscGain.gain.setValueAtTime(0.25, now);
+            oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+            osc.start(now); osc.stop(now + 0.26);
+            return;
+          } else if (type === 'heal') {
+            const crunchySize = audioCtx.sampleRate * 0.06;
+            const buffer = audioCtx.createBuffer(1, crunchySize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < crunchySize; i++) {
+              data[i] = Math.sign(Math.random() * 2 - 1) * (i % 3 === 0 ? 0.3 : 0.05);
+            }
+            const crunch = audioCtx.createBufferSource();
+            crunch.buffer = buffer;
+            const crunchGain = audioCtx.createGain();
+            crunch.connect(crunchGain); crunchGain.connect(audioCtx.destination);
+            crunchGain.gain.setValueAtTime(0.12, now);
+            crunchGain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+            crunch.start(now); crunch.stop(now + 0.06);
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+            osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(120, now + 0.06);
+            osc.frequency.exponentialRampToValueAtTime(1200, now + 0.35);
+            filter.type = 'lowpass';
+            filter.Q.value = 5;
+            filter.frequency.setValueAtTime(200, now + 0.06);
+            filter.frequency.exponentialRampToValueAtTime(4000, now + 0.35);
+
+            gain.gain.setValueAtTime(0.001, now);
+            gain.gain.setValueAtTime(0.15, now + 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+            osc.start(now + 0.06); osc.stop(now + 0.38);
+            return;
+          } else if (type === 'victory') {
+            const count = 3;
+            for (let j = 0; j < count; j++) {
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.type = 'sawtooth';
+              const detune = j * 4 - 6;
+              osc.frequency.setValueAtTime(80, now);
+              osc.frequency.exponentialRampToValueAtTime(440 + detune, now + 1.2);
+              gain.gain.setValueAtTime(0.06, now);
+              gain.gain.linearRampToValueAtTime(0.12, now + 0.8);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + 1.35);
+              osc.start(now); osc.stop(now + 1.36);
+            }
+
+            const noiseSize = audioCtx.sampleRate * 1.4;
+            const noiseBuffer = audioCtx.createBuffer(1, noiseSize, audioCtx.sampleRate);
+            const noiseData = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < noiseSize; i++) {
+              noiseData[i] = Math.random() * 2 - 1;
+            }
+            const wind = audioCtx.createBufferSource();
+            wind.buffer = noiseBuffer;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.Q.value = 6;
+            filter.frequency.setValueAtTime(250, now);
+            filter.frequency.exponentialRampToValueAtTime(4500, now + 1.1);
+            filter.frequency.exponentialRampToValueAtTime(800, now + 1.4);
+
+            const windGain = audioCtx.createGain();
+            windGain.gain.setValueAtTime(0.1, now);
+            windGain.gain.linearRampToValueAtTime(0.2, now + 0.9);
+            windGain.gain.exponentialRampToValueAtTime(0.001, now + 1.40);
+
+            wind.connect(filter);
+            filter.connect(windGain);
+            windGain.connect(audioCtx.destination);
+            wind.start(now); wind.stop(now + 1.4);
+            return;
+          }
+        }
+        else if (theme === 'mario') {
+          if (type === 'heal') {
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            const gain2 = audioCtx.createGain();
+
+            osc1.connect(gain1); gain1.connect(audioCtx.destination);
+            osc1.type = 'square';
+            osc1.frequency.setValueAtTime(987.77, now);
+            gain1.gain.setValueAtTime(0.08, now);
+            gain1.gain.setValueAtTime(0, now + 0.08);
+            osc1.start(now); osc1.stop(now + 0.081);
+
+            osc2.connect(gain2); gain2.connect(audioCtx.destination);
+            osc2.type = 'square';
+            osc2.frequency.setValueAtTime(1318.51, now + 0.08);
+            gain2.gain.setValueAtTime(0.08, now + 0.08);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+            osc2.start(now + 0.08); osc2.stop(now + 0.45);
+            return;
+          }
+          else if (type === 'dmg') {
+            const pairs = [
+              {h: 523.25, l: 261.63},
+              {h: 392.00, l: 196.00},
+              {h: 329.63, l: 164.81},
+              {h: 261.63, l: 130.81}
+            ];
+            pairs.forEach((pair, idx) => {
+              const delay = idx * 0.08;
+              const oscH = audioCtx.createOscillator();
+              const gainH = audioCtx.createGain();
+              oscH.connect(gainH); gainH.connect(audioCtx.destination);
+              oscH.type = 'square';
+              oscH.frequency.setValueAtTime(pair.h, now + delay);
+              gainH.gain.setValueAtTime(0.06, now + delay);
+              gainH.gain.setValueAtTime(0, now + delay + 0.04);
+              oscH.start(now + delay); oscH.stop(now + delay + 0.041);
+
+              const oscL = audioCtx.createOscillator();
+              const gainL = audioCtx.createGain();
+              oscL.connect(gainL); gainL.connect(audioCtx.destination);
+              oscL.type = 'square';
+              oscL.frequency.setValueAtTime(pair.l, now + delay + 0.04);
+              gainL.gain.setValueAtTime(0.06, now + delay + 0.04);
+              gainL.gain.setValueAtTime(0, now + delay + 0.08);
+              oscL.start(now + delay + 0.04); oscL.stop(now + delay + 0.081);
+            });
+            return;
+          }
+          else if (type === 'victory') {
+            const fanfare = [
+              { f: 392.00, t: 0.00, d: 0.08 },
+              { f: 523.25, t: 0.08, d: 0.08 },
+              { f: 659.25, t: 0.16, d: 0.08 },
+              { f: 783.99, t: 0.24, d: 0.08 },
+              { f: 1046.50, t: 0.32, d: 0.08 },
+              { f: 1318.51, t: 0.40, d: 0.08 },
+              { f: 1567.98, t: 0.48, d: 0.20 },
+              { f: 1318.51, t: 0.68, d: 0.20 },
+              
+              { f: 415.30, t: 0.88, d: 0.08 },
+              { f: 523.25, t: 0.96, d: 0.08 },
+              { f: 622.25, t: 1.04, d: 0.08 },
+              { f: 830.61, t: 1.12, d: 0.08 },
+              { f: 1046.50, t: 1.20, d: 0.08 },
+              { f: 1244.51, t: 1.28, d: 0.08 },
+              { f: 1661.22, t: 1.36, d: 0.20 },
+              { f: 1244.51, t: 1.56, d: 0.20 },
+
+              { f: 466.16, t: 1.76, d: 0.08 },
+              { f: 587.33, t: 1.84, d: 0.08 },
+              { f: 698.46, t: 1.92, d: 0.08 },
+              { f: 932.33, t: 2.00, d: 0.08 },
+              { f: 1174.66, t: 2.08, d: 0.08 },
+              { f: 1396.91, t: 2.16, d: 0.08 },
+              { f: 1864.66, t: 2.24, d: 0.20 },
+              
+              { f: 1864.66, t: 2.44, d: 0.08 },
+              { f: 1864.66, t: 2.52, d: 0.08 },
+              { f: 1864.66, t: 2.60, d: 0.08 },
+              { f: 2093.00, t: 2.68, d: 0.50 }
+            ];
+            fanfare.forEach(note => {
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.type = 'square';
+              osc.frequency.setValueAtTime(note.f, now + note.t);
+              gain.gain.setValueAtTime(0.05, now + note.t);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + note.t + note.d);
+              osc.start(now + note.t);
+              osc.stop(now + note.t + note.d);
+            });
+            return;
+          }
+        }
 
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
@@ -836,8 +1778,14 @@
       // Cargar tema guardado en localStorage o usar por defecto ('')
       let savedTheme = '';
       try { savedTheme = localStorage.getItem('mtg_current_theme') || ''; } catch(_) {}
+      selectedLobbyTheme = savedTheme;
+      renderThemeSelectors();
       applyTheme(savedTheme);
       try { updateSimpsonsConsole(1, 0); } catch(_) {}
+      try { initSFCabinets(); } catch(_) {}
+
+
+      
 
       const activeMatchRestored = loadMatchState();
       
@@ -994,8 +1942,56 @@
       try { initResetLongPress(); } catch(e) { console.error("Error al iniciar LongPress reset:", e); }
       try { initLockScreenEngine(); } catch(e) { console.error("Error al iniciar pantalla de bloqueo:", e); }
       try { initTouchProtections(); } catch(e) { console.error("Error al iniciar TouchProtections:", e); }
-      
+      try { setupEasterEggs(); } catch(e) { console.error("Error al iniciar Easter Eggs:", e); }
+    }
 
+    // Easter Eggs para los Temas Premium
+    function setupEasterEggs() {
+      // 1. Doble click en el nombre del jugador para activar un easter egg de combate/divertido
+      document.querySelectorAll('.pname-wrap').forEach((el, idx) => {
+        el.addEventListener('dblclick', (e) => {
+          e.preventDefault();
+          const currentTheme = document.body.dataset.theme;
+          const playerNum = idx + 1;
+          
+          if (currentTheme === 'naruto') {
+            addMatchLog(`🌸 ¡JUTSU SEXY! ${S.names[playerNum - 1]} se transforma... ¡Jiraiya tiene una hemorragia nasal! 🩸💨`);
+            vib([50, 50, 50, 50, 100]);
+            playSynthSound('heal', 1); // Naruto Dattebayo!
+            trigger3DShockwave('#ffb6c1');
+          } else if (currentTheme === 'dragonball') {
+            addMatchLog(`💥 [EASTER EGG] ¡${S.names[playerNum - 1]} está acumulando energía para una Genkidama! 🙌 ¡Dadme vuestra fuerza!`);
+            vib([100, 50, 150]);
+            playSynthSound('victory'); // DBZ SSJ Theme/Scream
+            trigger3DShockwave('#e67e22');
+          } else if (currentTheme === 'onepiece') {
+            addMatchLog(`🍖 [EASTER EGG] ¡Luffy le roba la carne a ${S.names[playerNum - 1]}! ¡Gomu Gomu no Mi! 🌊`);
+            vib([40, 20, 40]);
+            playSynthSound('heal', 1); // Luffy Laugh
+            trigger3DShockwave('#e74c3c');
+          } else if (currentTheme === 'streetfighter') {
+            addMatchLog(`🕹️ [EASTER EGG] ¡HADOUKEN! ${S.names[playerNum - 1]} lanza una ráfaga de energía.`);
+            vib([60, 30, 60]);
+            playSynthSound('dmg', 1); // Ryu Hadouken
+            trigger3DShockwave('#3498db');
+          }
+        });
+      });
+
+      // 2. Click en el logo de la cabecera del lobby para easter eggs
+      const logoEl = $('lobby-logo') || document.querySelector('.logo-wrap');
+      if (logoEl) {
+        logoEl.addEventListener('click', () => {
+          const currentTheme = document.body.dataset.theme;
+          if (currentTheme === 'dragonball') {
+            addMatchLog(`🐉 [EASTER EGG] ¡Has invocado a Shenron! Concede tu deseo de inmortalidad.`);
+            playSynthSound('heal', 1);
+          } else if (currentTheme === 'onepiece') {
+            addMatchLog(`🏴‍☠️ [EASTER EGG] ¡El One Piece... EXISTE! ¡Zehahaha!`);
+            playSynthSound('heal', 2); // Blackbeard laugh
+          }
+        });
+      }
     }
 
     // Perfiles y persistencia (tolerante a Safari modo privado)
@@ -1569,7 +2565,7 @@
       if (S.history[p - 1].length > 8) S.history[p - 1].pop();
       
       vib(v < 0 ? [20, 10, 20] : [14]);
-      playSynthSound(v < 0 ? 'dmg' : 'heal');
+      playSynthSound(v < 0 ? 'dmg' : 'heal', p, v);
       trigger3DShockwave(v < 0 ? S.colors[p - 1] : '#39ff14');
 
       renderLife(p, v);
@@ -1577,6 +2573,8 @@
 
       // Registrar evento en el historial de partida
       addMatchLog(`${S.names[p - 1]}: ${S.prevLives[p - 1]} ➔ ${S.lives[p - 1]} (${v > 0 ? '+' : ''}${v} vida)`);
+
+      // CRT damage shake and announcer disabled for minimalist UI
 
       // Evaluar si disparar frases de IA de Gemini o frases locales por defecto en las burbujas
       if (geminiApiKey) {
@@ -1670,16 +2668,24 @@
 
       spawnFloatingDelta(p, v);
 
-      // Efectos específicos del tema Bleach en el contador de vidas
+      // Efectos específicos del tema en el contador de vidas
       const currentTheme = document.body.dataset.theme;
-      if (currentTheme === 'bleach' || currentTheme === 'bleach_local') {
-        const wrap = pel.querySelector('.life-num-wrap');
-        if (wrap) {
-          wrap.classList.remove('reiatsu-spike');
-          void wrap.offsetWidth; // Trigger reflow
-          wrap.classList.add('reiatsu-spike');
-          setTimeout(() => wrap.classList.remove('reiatsu-spike'), 700);
-        }
+      if (currentTheme === 'streetfighter') {
+        updateSFHealthBars(p);
+      }
+
+      // Disparar pico de aura/energía general para el tema activo
+      const wrap = pel.querySelector('.life-num-wrap');
+      if (wrap && currentTheme) {
+        // Soporte tanto para bleach (reiatsu-spike) como para otros temas (nombre-spike)
+        const spikeClass = currentTheme === 'bleach' ? 'reiatsu-spike' : `${currentTheme}-spike`;
+        wrap.classList.remove(spikeClass);
+        void wrap.offsetWidth; // Trigger reflow
+        wrap.classList.add(spikeClass);
+        setTimeout(() => wrap.classList.remove(spikeClass), 700);
+      }
+
+      if (currentTheme === 'bleach') {
         spawnReiatsuParticles(p, v);
         if (dmg) {
           triggerSwordSlash(p);
@@ -1691,8 +2697,13 @@
         pel.classList.add('dead');
         vib([80, 40, 80, 40, 200]);
 
-        // Evaluar final del juego BO3 de forma automática
-        evalBO3MatchEnd(p === 1 ? 2 : 1);
+        if (currentTheme === 'streetfighter') {
+          setTimeout(() => {
+            triggerSFContinue(p);
+          }, 1500);
+        } else {
+          evalBO3MatchEnd(p === 1 ? 2 : 1);
+        }
       }
       else if (life <= 5) {
         pel.classList.add('danger');
@@ -1775,12 +2786,14 @@
       }, 400);
     }
 
+
     function updateSimpsonsConsole(p, v) {
       if (document.body.dataset.theme !== 'simpsons') return;
       try {
+        const startingLife = (selectedMode === 'commander') ? 40 : 20;
         // Jugador 1 (Oponente - Arriba)
         const life1 = S.lives[0];
-        const rot1 = Math.max(-90, Math.min(90, -90 + (life1 / 20) * 180));
+        const rot1 = Math.max(-90, Math.min(90, -90 + (life1 / startingLife) * 180));
         const needleT1 = $('simpNeedleT1');
         const needleT2 = $('simpNeedleT2');
         if (needleT1) needleT1.style.transform = `rotate(${rot1}deg)`;
@@ -1796,7 +2809,7 @@
 
         // Jugador 2 (Local - Abajo)
         const life2 = S.lives[1];
-        const rot2 = Math.max(-90, Math.min(90, -90 + (life2 / 20) * 180));
+        const rot2 = Math.max(-90, Math.min(90, -90 + (life2 / startingLife) * 180));
         const needleB1 = $('simpNeedleB1');
         const needleB2 = $('simpNeedleB2');
         if (needleB1) needleB1.style.transform = `rotate(${rot2}deg)`;
@@ -2072,10 +3085,14 @@
 
     function renderClock() {
       const c = S.clock;
-      $('clkDisp').textContent = pad(Math.floor(c.secs / 60)) + ':' + pad(c.secs % 60);
+      const timeStr = pad(Math.floor(c.secs / 60)) + ':' + pad(c.secs % 60);
+      $('clkDisp').textContent = timeStr;
       $('clkDisp').className = 'clk-disp' + (c.running ? ' run' : c.secs === 0 ? ' exp' : '');
       $('clkPlay').textContent = c.running ? '⏸' : '▶';
       $('clkPlay').className = 'btn-clk' + (c.running ? ' run' : '');
+      
+      const sfTimer = $('sfCarTimerVal');
+      if (sfTimer) sfTimer.textContent = timeStr;
     }
 
     function fireTimeAlert() {
@@ -2117,6 +3134,18 @@
 
       // Registrar e interactuar con el log
       addMatchLog(`☣️ ${S.names[p - 1]} veneno: ${S.poison[p - 1]} (${v > 0 ? '+' : ''}${v})`);
+
+      // Regla oficial MTG: 10 contadores de veneno = derrota inmediata
+      if (S.poison[p - 1] >= 10 && !S.inSideboardPhase) {
+        const pel = $('p' + p);
+        if (pel) {
+          pel.classList.remove('danger');
+          pel.classList.add('dead');
+        }
+        vib([80, 40, 80, 40, 200]);
+        addMatchLog(`☠️ ${S.names[p - 1]} eliminado por veneno (10 contadores)`);
+        evalBO3MatchEnd(p === 1 ? 2 : 1);
+      }
     }
 
     function renderPoison(p) {
@@ -2188,6 +3217,7 @@
         renderPoison(p);
         renderMulligan(p);
       });
+      updateSFCarState();
 
       // Registrar reinicio de juego
       addMatchLog(`🔄 Juego ${S.currentGame} reiniciado`);
@@ -2238,6 +3268,7 @@
         renderMulligan(p);
       });
       renderFirst();
+      updateSFCarState();
 
       // Limpiar caché de localStorage para empezar limpio
       try {
@@ -2405,9 +3436,9 @@
 let selectedMode = 'bo3';
 let selectedLobbyTheme = '';
 
-document.querySelectorAll('.mode-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.mode-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
     const target = e.currentTarget;
     target.classList.add('active');
     selectedMode = target.id === 'btnModeCommander' ? 'commander' : 'bo3';
@@ -2415,52 +3446,49 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
   });
 });
 
-document.querySelectorAll('.theme-card').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    document.querySelectorAll('.theme-card').forEach(b => b.classList.remove('active'));
-    const target = e.currentTarget;
-    target.classList.add('active');
-    selectedLobbyTheme = target.getAttribute('data-theme');
-    
-    // Preview theme instantly in background
-    applyTheme(selectedLobbyTheme);
-    playSynthSound('lock');
-  });
-});
 
 $('btnStartGame').addEventListener('click', () => {
   const loader = $('battle-loader');
-  const loaderVideo = $('battle-loader-video');
+  const loaderImg = $('battle-loader-img');
   const progressFill = $('battleProgressFill');
   const statusTxt = $('battleStatusTxt');
   
   playSynthSound('lock');
 
-  // Gemini API Key desactivado por el usuario
+  const isSF = false; // Custom SF vs screen disabled
 
-  // Configurar y reproducir vídeo del tema
-  if (loaderVideo) {
-    if (selectedLobbyTheme) {
-      loaderVideo.src = `./themes/${selectedLobbyTheme}/loading.mp4`;
-      loaderVideo.style.display = 'block';
-      try {
-        loaderVideo.load();
-        loaderVideo.play().catch(() => {});
-      } catch(_) {}
-    } else {
-      loaderVideo.src = '';
-      loaderVideo.style.display = 'none'; // Sin vídeo en Nebula estándar
+  if (isSF) {
+    // Disabled
+  } else {
+    // Configurar imagen del tema estándar
+    if (loaderImg) {
+      if (selectedLobbyTheme) {
+        loaderImg.onerror = () => {
+          // Si falla loading.webp, intentar con top.webp
+          if (loaderImg.src.includes('loading.webp')) {
+            loaderImg.src = `./themes/${selectedLobbyTheme}/top.webp`;
+          } else {
+            // Si también falla, ocultarla
+            loaderImg.style.display = 'none';
+            loaderImg.onerror = null;
+          }
+        };
+        loaderImg.src = `./themes/${selectedLobbyTheme}/loading.webp`;
+        loaderImg.style.display = 'block';
+      } else {
+        loaderImg.src = '';
+        loaderImg.style.display = 'none';
+        loaderImg.onerror = null;
+      }
     }
-  }
 
-  // Activar pantalla de carga
-  if (loader) {
-    loader.classList.remove('hidden');
-    loader.classList.add('active');
+    // Activar pantalla de carga estándar
+    if (loader) {
+      loader.classList.remove('hidden');
+      loader.classList.add('active');
+    }
+    if (progressFill) progressFill.style.width = '0%';
   }
-
-  // Animación del progreso de 4 segundos
-  if (progressFill) progressFill.style.width = '0%';
   
   const startTime = Date.now();
   const duration = 4000; // Exactamente 4 segundos
@@ -2471,6 +3499,10 @@ $('btnStartGame').addEventListener('click', () => {
     simpsons: ["PREPARANDO CENTRAL NUCLEAR...", "ENFRIANDO NÚCLEO...", "HORNADA DE ROSQUILLAS...", "¡EXCELENTE!"],
     bttf: ["CARGANDO CAPACITADOR DE FLUZO...", "ALCANZANDO 88 MPH...", "CALIBRANDO CIRCUITOS DEL TIEMPO...", "¡GRAN SCOTT!"],
     bleach: ["LIBERANDO REIATSU...", "DESPLEGANDO BANKAI...", "CARGANDO PODER DE SHINIGAMI...", "¡SIENTE LA ESPADA!"],
+    onepiece: ["NAVEGANDO POR EL GRAND LINE...", "PREPARANDO EL SAKE DE BINKS...", "ACTIVANDO GEAR FIVE...", "¡RUMBO AL ONE PIECE!"],
+    naruto: ["MOLDEANDO CHAKRA...", "PREPARANDO RASENSHURIKEN...", "INVOCANDO SAPOS DE MYOBOKU...", "¡CAMINO NINJA, DE VERAS!"],
+    dragonball: ["REUNIDAS LAS 7 BOLAS DE DRAGÓN...", "CARGANDO KAMEHAMEHA...", "ALCANZANDO EL ESTADO SUPER SAIYAN...", "¡EL COMBATE VA A COMENZAR!"],
+    mario: ["VIAJANDO AL REINO CHAMPIÑÓN...", "RECOLECTANDO MONEDAS DE ORO...", "BUSCANDO A LA PRINCESA PEACH...", "¡HERE WE GO!"],
     default: ["ALINEANDO CONSTELACIONES...", "CARGANDO HECHIZOS...", "PREPARANDO MANÁ...", "¡A LAS ARMAS!"]
   };
 
@@ -2480,10 +3512,10 @@ $('btnStartGame').addEventListener('click', () => {
     const elapsed = Date.now() - startTime;
     const pct = Math.min(100, (elapsed / duration) * 100);
     
-    if (progressFill) progressFill.style.width = `${pct}%`;
+    if (!isSF && progressFill) progressFill.style.width = `${pct}%`;
     
     // Cambiar textos según porcentaje de carga
-    if (statusTxt) {
+    if (!isSF && statusTxt) {
       if (pct < 25) statusTxt.textContent = activePhrases[0];
       else if (pct < 55) statusTxt.textContent = activePhrases[1];
       else if (pct < 85) statusTxt.textContent = activePhrases[2];
@@ -2494,14 +3526,20 @@ $('btnStartGame').addEventListener('click', () => {
       clearInterval(interval);
       
       // Fin de la pantalla de carga: Transición al juego
-      playSynthSound('victory');
-      
-      if (loader) {
-        loader.classList.remove('active');
-        setTimeout(() => {
-          loader.classList.add('hidden');
-          if (loaderVideo) loaderVideo.pause();
-        }, 500); // Dar tiempo al fade out de CSS
+      if (isSF) {
+        const vsScreen = $('sf-vs-screen');
+        if (vsScreen) {
+          vsScreen.classList.add('hidden');
+        }
+        playArcadeAnnouncer("Round one. Fight!");
+      } else {
+        playSynthSound('victory');
+        if (loader) {
+          loader.classList.remove('active');
+          setTimeout(() => {
+            loader.classList.add('hidden');
+          }, 500); // Dar tiempo al fade out de CSS
+        }
       }
 
       $('lobby-screen').classList.add('hidden');
@@ -2607,15 +3645,9 @@ function triggerGeminiPhrase(p, eventType, value) {
   const playerName = S.names[p - 1] || `Jugador ${p}`;
   const currentLife = S.lives[p - 1];
   
-  // Asignar el rol al sistema basándose en el tema activo
   let systemContext = "";
   if (theme === 'streetfighter') {
-    // Si p es 1 son héroes, si p es 2 son villanos
-    if (p === 1) {
-      systemContext = "Eres un luchador héroe del clásico Street Fighter II (puedes ser Ryu, Ken, Chun-Li, o Guile, y referirte a Hadoukens, Sonic Booms, patadas giratorias o entrenamientos de artes marciales).";
-    } else {
-      systemContext = "Eres un líder malvado de Shadaloo de Street Fighter II (puedes ser Vega arrogante y obsesionado con su belleza, o M. Bison tiránico usando Psycho Power púrpura maligno).";
-    }
+    systemContext = "Eres la voz digitalizada y nostálgica de una máquina recreativa arcade de lucha de los años 90. Te comunicas como el anunciador o la propia cabina del juego, usando referencias a créditos, pantallas CRT, botones que parpadean, 'FIGHT!', 'ROUND 1!', 'YOU LOSE!' o burlándote de forma electrónica en tu tono clásico de cabinet retro.";
   } else if (theme === 'rickmorty') {
     systemContext = "Eres Rick Sánchez (científico borracho, arrogante, cínico, genio, metiendo eructos 'buuurp' en el texto) o Morty Smith (histérico y asustadizo, con tartamudeos 'oh cielos, Rick').";
   } else if (theme === 'simpsons') {
