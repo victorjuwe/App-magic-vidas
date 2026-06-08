@@ -344,7 +344,7 @@
       background-size: cover !important;
     }
     body[data-theme="bttf"] #p2 {
-      background-image: url('./themes/bttf/bottom.jfif') !important;
+      background-image: url('./themes/bttf/bottom.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
