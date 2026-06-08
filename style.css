@@ -344,7 +344,7 @@
       background-size: cover !important;
     }
     body[data-theme="bttf"] #p2 {
-      background-image: url('./themes/bttf/bottom.webp') !important;
+      background-image: url('./themes/bttf/bottom.jfif') !important;
       background-position: center center !important;
       background-size: cover !important;
     }
@@ -806,11 +806,8 @@
 
     /* ── Tema: LOS SIMPSONS (simpsons) ── */
     body[data-theme="simpsons"] {
-      --void: #2f80ed;
-      --bg-fallback:
-        radial-gradient(circle at 50% 30%, rgba(255, 217, 15, 0.20) 0%, transparent 60%),
-        radial-gradient(circle at 50% 70%, rgba(255, 123, 176, 0.15) 0%, transparent 60%),
-        #2f80ed;
+      --void: #000000;
+      --bg-fallback: #000000;
     }
     body[data-theme="simpsons"] #theme-frame {
       background-image: none !important;
@@ -821,11 +818,21 @@
       background-image: url('./themes/simpsons/top.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
     }
     body[data-theme="simpsons"] #p2 {
       background-image: url('./themes/simpsons/bottom.webp') !important;
       background-position: center center !important;
       background-size: cover !important;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+    }
+    body[data-theme="simpsons"] .divider {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
     }
     body[data-theme="simpsons"] .lifebtn,
     body[data-theme="simpsons"] .btn-pois,
@@ -5206,16 +5213,16 @@ body[data-theme="naruto"] .btn-row {
   background-image: 
     radial-gradient(circle at 50% 50%, rgba(210, 105, 30, 0.05) 0%, transparent 80%),
     repeating-linear-gradient(0deg, rgba(139, 69, 19, 0.02) 0px, rgba(139, 69, 19, 0.02) 1px, transparent 1px, transparent 10px) !important;
-  border-left: 14px solid #8b0000 !important; /* Mangos de madera lacada rojo oscuro */
-  border-right: 14px solid #8b0000 !important;
-  border-top: 3px double #d2691e !important;
-  border-bottom: 3px double #d2691e !important;
-  border-radius: 8px !important;
-  padding: 12px 10px !important;
+  border-left: 8px solid #8b0000 !important; /* Mangos de madera lacada rojo oscuro reducidos */
+  border-right: 8px solid #8b0000 !important;
+  border-top: 2px double #d2691e !important;
+  border-bottom: 2px double #d2691e !important;
+  border-radius: 6px !important;
+  padding: 6px 4px !important;
   box-shadow: 
-    inset 0 0 20px rgba(139,69,19,0.35),
-    0 8px 20px rgba(0,0,0,0.6),
-    0 0 10px rgba(210, 105, 30, 0.2) !important;
+    inset 0 0 10px rgba(139,69,19,0.35),
+    0 4px 10px rgba(0,0,0,0.6),
+    0 0 8px rgba(210, 105, 30, 0.2) !important;
   position: relative;
   display: flex !important;
   justify-content: space-around !important;
@@ -5229,8 +5236,8 @@ body[data-theme="naruto"] .btn-row::before {
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  width: 70px !important;
-  height: 70px !important;
+  width: 50px !important;
+  height: 50px !important;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,10 C25,10 10,25 10,50 C10,75 25,90 50,90 C75,90 90,75 90,50 C90,35 80,22 65,18 C50,14 36,24 32,38 C28,52 38,66 52,70 C64,74 76,66 78,54 C80,44 72,34 62,32 C54,30 46,36 44,44 C42,50 46,56 52,58 C56,60 60,56 60,52 C60,50 58,48 56,48 C54,48 52,50 52,52' fill='none' stroke='%23d2691e' stroke-width='4' stroke-linecap='round' opacity='0.15'/%3E%3C/svg%3E") no-repeat center !important;
   background-size: contain !important;
   pointer-events: none !important;
@@ -5246,10 +5253,10 @@ body[data-theme="naruto"] .lifebtn {
   align-items: center !important;
   justify-content: center !important;
   color: #fff !important;
-  border: 3.2px solid #111 !important;
+  border: 2px solid #111 !important;
   box-shadow: 
-    0 4px 6px rgba(0,0,0,0.45), 
-    inset 0 2px 4px rgba(255,255,255,0.4) !important;
+    0 3px 4px rgba(0,0,0,0.45), 
+    inset 0 1px 3px rgba(255,255,255,0.4) !important;
   text-shadow: 1px 1px 3px #000 !important;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
   margin: auto !important;
@@ -5260,34 +5267,34 @@ body[data-theme="naruto"] .lifebtn {
 
 /* Chakra Naranja (Kyuubi/Zorro) para -1 */
 body[data-theme="naruto"] .lifebtn[data-v="-1"] {
-  width: 66px !important;
-  height: 66px !important;
-  font-size: 1.5rem !important;
+  width: 52px !important;
+  height: 52px !important;
+  font-size: 1.2rem !important;
   background: radial-gradient(circle at 35% 35%, #ff9d00 0%, #ff3700 65%, #660000 100%) !important;
   box-shadow: 
-    0 0 12px rgba(255, 69, 0, 0.5), 
-    0 4px 6px rgba(0,0,0,0.4),
-    inset 0 2px 4px rgba(255,255,255,0.5) !important;
+    0 0 10px rgba(255, 69, 0, 0.5), 
+    0 3px 5px rgba(0,0,0,0.4),
+    inset 0 1px 3px rgba(255,255,255,0.5) !important;
 }
 
 /* Chakra Azul (Rasengan) para +1 */
 body[data-theme="naruto"] .lifebtn[data-v="1"] {
-  width: 66px !important;
-  height: 66px !important;
-  font-size: 1.5rem !important;
+  width: 52px !important;
+  height: 52px !important;
+  font-size: 1.2rem !important;
   background: radial-gradient(circle at 35% 35%, #9ae2ff 0%, #0088ff 65%, #001155 100%) !important;
   box-shadow: 
-    0 0 12px rgba(0, 191, 255, 0.5), 
-    0 4px 6px rgba(0,0,0,0.4),
-    inset 0 2px 4px rgba(255,255,255,0.5) !important;
+    0 0 10px rgba(0, 191, 255, 0.5), 
+    0 3px 5px rgba(0,0,0,0.4),
+    inset 0 1px 3px rgba(255,255,255,0.5) !important;
 }
 
 /* Shuriken/Kunai Acero para los de 5 (-5 y +5, botones pequeños) */
 body[data-theme="naruto"] .lifebtn[data-v="-5"],
 body[data-theme="naruto"] .lifebtn[data-v="5"] {
-  width: 48px !important;
-  height: 48px !important;
-  font-size: 1rem !important;
+  width: 38px !important;
+  height: 38px !important;
+  font-size: 0.9rem !important;
   background: radial-gradient(circle at 35% 35%, #b5b5b5 0%, #616161 70%, #2b2b2b 100%) !important;
   border-color: #333 !important;
   opacity: 0.95 !important;
