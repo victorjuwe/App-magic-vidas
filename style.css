@@ -3556,31 +3556,39 @@ body[data-theme="streetfighter"] .speech-bubble {
   top: 18% !important;
 }
 
-body[data-theme="dragonball"] .lifebtn {
-  background-size: cover !important;
-  background-position: center !important;
+/* Dragon Ball life and poison buttons are styled under the main theme block below */
+body[data-theme="dragonball"] .btn-pois {
+  width: 30px !important;
+  height: 30px !important;
   border-radius: 50% !important;
-  aspect-ratio: 1 / 1 !important;
-  color: #000 !important;
-  text-shadow: 0 0 4px #fff, 0 0 8px #ff0 !important;
-  border: 2px solid rgba(255,165,0,0.8) !important;
-  box-shadow: 0 5px 15px rgba(255, 69, 0, 0.6) !important;
-  width: clamp(50px, 15vw, 75px) !important;
-  height: clamp(50px, 15vw, 75px) !important;
-  padding: 0 !important;
-  margin: auto !important;
+  font-family: 'Russo One', sans-serif !important;
+  font-weight: 900 !important;
+  color: #ffd700 !important;
+  text-shadow: 
+    -1.5px -1.5px 0 #000,
+     1.5px -1.5px 0 #000,
+    -1.5px  1.5px 0 #000,
+     1.5px  1.5px 0 #000,
+     0 0 4px #ff5500 !important;
+  border: 1px solid rgba(255, 100, 0, 0.45) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
+  opacity: 0.85 !important;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
-
-body[data-theme="dragonball"] .lifebtn[data-v="1"],
-body[data-theme="dragonball"] .lifebtn[data-v="-1"],
+body[data-theme="dragonball"] .btn-pois:hover {
+  opacity: 1 !important;
+  transform: scale(1.15) !important;
+}
+body[data-theme="dragonball"] .btn-pois:active {
+  transform: scale(0.9) !important;
+}
 body[data-theme="dragonball"] .btn-pois[data-v="-1"] {
   background-image: url('./themes/dragonball/1star.png') !important;
+  background-size: cover !important;
 }
-
-body[data-theme="dragonball"] .lifebtn[data-v="5"],
-body[data-theme="dragonball"] .lifebtn[data-v="-5"],
 body[data-theme="dragonball"] .btn-pois[data-v="1"] {
   background-image: url('./themes/dragonball/5star.png') !important;
+  background-size: cover !important;
 }
 
 /* Rick y Morty */
@@ -5031,6 +5039,7 @@ body[data-theme="dragonball"] .life-num {
   font-family: 'Russo One', sans-serif !important;
   font-style: italic;
   font-weight: 900;
+  font-size: clamp(55px, 16vw, 90px) !important;
   transition: color 0.15s ease, text-shadow 0.15s ease;
 }
 body[data-theme="dragonball"] #p1 .life-num {
@@ -5056,17 +5065,65 @@ body[data-theme="dragonball"] #p2 .life-num {
      3px 5px 8px rgba(0,0,0,0.85) !important;
 }
 body[data-theme="dragonball"] .life-num-wrap {
-  background: rgba(18, 16, 10, 0.5) !important;
-  backdrop-filter: blur(14px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
-  border: 1px solid rgba(255, 215, 0, 0.25) !important;
-  border-radius: 20px !important;
-  padding: 6px 36px !important;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
   position: relative;
+  transition: all 0.3s ease !important;
+}
+body[data-theme="dragonball"] #p1 .life-num-wrap {
+  background: rgba(20, 10, 0, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 2px solid rgba(255, 136, 0, 0.45) !important;
+  border-radius: 16px !important;
+  padding: 8px 32px !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 15px rgba(255, 136, 0, 0.25) !important;
+}
+body[data-theme="dragonball"] #p2 .life-num-wrap {
+  background: rgba(15, 0, 25, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 2px solid rgba(153, 0, 255, 0.45) !important;
+  border-radius: 16px !important;
+  padding: 8px 32px !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 15px rgba(153, 0, 255, 0.25) !important;
+}
+body[data-theme="dragonball"] .poison-lbl {
+  color: #ff5500 !important;
+  font-size: 16px !important;
+  text-shadow: 0 0 6px rgba(255, 50, 0, 0.4) !important;
+}
+body[data-theme="dragonball"] .poison-num {
+  font-family: 'Russo One', sans-serif !important;
+  color: #ff3300 !important;
+  text-shadow: 0 0 8px rgba(255, 50, 0, 0.6) !important;
+  font-size: 17px !important;
+}
+body[data-theme="dragonball"] .btn-undo {
+  background: rgba(20, 20, 30, 0.4) !important;
+  border: 1px solid rgba(255, 136, 0, 0.3) !important;
+  color: #ffd700 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  font-weight: bold !important;
+  transition: all 0.2s ease !important;
+}
+body[data-theme="dragonball"] .btn-undo:hover {
+  background: rgba(255, 136, 0, 0.2) !important;
+  border-color: rgba(255, 136, 0, 0.6) !important;
+  transform: scale(1.08) !important;
+}
+body[data-theme="dragonball"] .btn-undo:active {
+  transform: scale(0.9) !important;
 }
 
 /* ==========================================================================
@@ -5260,28 +5317,16 @@ body[data-theme="naruto"] .lifebtn:active {
 
 /* 🐉 TEMA: DRAGON BALL Z (Consola Scouter y Esferas de Energía) */
 body[data-theme="dragonball"] .btn-row {
-  background: rgba(0, 40, 20, 0.45) !important; /* Panel de Scouter holográfico */
-  border: 2px solid #00ff66 !important;
-  border-radius: 8px !important;
-  padding: 10px !important;
-  box-shadow: 
-    0 0 15px rgba(0,255,102,0.4),
-    inset 0 0 15px rgba(0,255,102,0.2) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   position: relative;
-  backdrop-filter: blur(8px) !important;
 }
 
-/* Cuadrícula digital para el Scouter */
 body[data-theme="dragonball"] .btn-row::after {
-  content: "" !important;
-  position: absolute !important;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: 
-    linear-gradient(rgba(0, 255, 102, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 102, 0.08) 1px, transparent 1px) !important;
-  background-size: 10px 10px !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
+  display: none !important;
 }
 
 body[data-theme="dragonball"] .lifebtn {
@@ -5295,44 +5340,56 @@ body[data-theme="dragonball"] .lifebtn {
   justify-content: center !important;
   z-index: 2 !important;
   margin: auto !important;
-  border: 2.5px solid #fff !important;
-  transition: all 0.1s ease !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  color: #ffd700 !important; /* DBZ Gold/Yellow */
+  text-shadow: 
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000,
+     0 0 6px #ff5500,
+     0 2px 6px rgba(0,0,0,0.85) !important;
+  border: 1.5px solid rgba(255, 100, 0, 0.5) !important;
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(255, 120, 0, 0.2) !important;
+  opacity: 0.85 !important;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
 
-/* Esferas de Ki Grandes para -1 y +1 */
+/* Esferas de Dragon de 1 estrella (para +1 y -1) */
 body[data-theme="dragonball"] .lifebtn[data-v="-1"],
 body[data-theme="dragonball"] .lifebtn[data-v="1"] {
-  width: 64px !important;
-  height: 64px !important;
-  font-size: 1.4rem !important;
-  border-width: 3px !important;
+  width: 54px !important;
+  height: 54px !important;
+  font-size: 1.25rem !important;
+  background-image: url('./themes/dragonball/1star.png') !important;
 }
 
-/* Esferas de Ki Pequeñas para -5 y +5 */
+/* Esferas de Dragon de 5 estrellas (para +5 y -5) */
 body[data-theme="dragonball"] .lifebtn[data-v="-5"],
 body[data-theme="dragonball"] .lifebtn[data-v="5"] {
-  width: 48px !important;
-  height: 48px !important;
-  font-size: 1.1rem !important;
-  border-width: 2px !important;
+  width: 42px !important;
+  height: 42px !important;
+  font-size: 0.95rem !important;
+  background-image: url('./themes/dragonball/5star.png') !important;
 }
 
-/* Esferas de Ki cargadas */
-body[data-theme="dragonball"] .lifebtn.lplus {
-  background: radial-gradient(circle at 35% 35%, #88ccff 0%, #0066ff 50%, #0011aa 100%) !important;
-  color: #fff !important;
-  box-shadow: 0 0 15px rgba(0,102,255,0.7), inset 0 2px 4px rgba(255,255,255,0.5) !important;
-}
-
-body[data-theme="dragonball"] .lifebtn.lminus {
-  background: radial-gradient(circle at 35% 35%, #ff88ff 0%, #ff00ff 50%, #aa00aa 100%) !important;
-  color: #fff !important;
-  box-shadow: 0 0 15px rgba(255,0,255,0.7), inset 0 2px 4px rgba(255,255,255,0.5) !important;
+body[data-theme="dragonball"] .lifebtn:hover {
+  opacity: 1 !important;
+  transform: scale(1.12) !important;
+  box-shadow: 
+    0 6px 15px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(255, 136, 0, 0.7) !important;
+  filter: brightness(1.1) !important;
 }
 
 body[data-theme="dragonball"] .lifebtn:active {
   transform: scale(0.9) !important;
-  box-shadow: 0 0 25px rgba(255,255,255,0.95) !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8) !important;
+  filter: brightness(1.2) !important;
 }
 
 /* ── TEMA SUPER MARIO RETRO ── */
