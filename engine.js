@@ -4112,13 +4112,7 @@ $('btnStartGame').addEventListener('click', () => {
       if (selectedLobbyTheme) {
         const attempts = [
           `./themes/${selectedLobbyTheme}/loading.webp`,
-          `./themes/${selectedLobbyTheme}/loading.jpeg`,
-          `./themes/${selectedLobbyTheme}/loading.jpg`,
-          `./themes/${selectedLobbyTheme}/loading.png`,
-          `./themes/${selectedLobbyTheme}/top.webp`,
-          `./themes/${selectedLobbyTheme}/top.jpeg`,
-          `./themes/${selectedLobbyTheme}/top.jfif`,
-          `./themes/${selectedLobbyTheme}/top.png`
+          `./themes/${selectedLobbyTheme}/top.webp`
         ];
         let attemptIdx = 0;
 

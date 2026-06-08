@@ -840,7 +840,7 @@
       font-family: 'Lilita One', cursive !important;
       border: 3px solid #000;
       background: #ffd90f;
-      background-image: url('./themes/simpsons/donut.png') !important;
+      background-image: url('./themes/simpsons/donut.webp') !important;
       background-size: cover !important;
       background-position: center !important;
       color: #fff !important;
@@ -3590,11 +3590,11 @@ body[data-theme="dragonball"] .btn-pois:active {
   transform: scale(0.9) !important;
 }
 body[data-theme="dragonball"] .btn-pois[data-v="-1"] {
-  background-image: url('./themes/dragonball/1star.png') !important;
+  background-image: url('./themes/dragonball/1star.webp') !important;
   background-size: cover !important;
 }
 body[data-theme="dragonball"] .btn-pois[data-v="1"] {
-  background-image: url('./themes/dragonball/5star.png') !important;
+  background-image: url('./themes/dragonball/5star.webp') !important;
   background-size: cover !important;
 }
 
@@ -4521,7 +4521,7 @@ body[data-theme="streetfighter"] .lifebtn:active {
 .sf-vs-world-map {
   position: absolute;
   inset: 0;
-  background-image: url('./themes/streetfighter/loader.webp');
+  background-image: url('./themes/streetfighter/loading.webp');
   background-position: center;
   background-size: cover;
   opacity: 0.35;
@@ -5372,7 +5372,7 @@ body[data-theme="dragonball"] .lifebtn[data-v="1"] {
   width: 54px !important;
   height: 54px !important;
   font-size: 1.25rem !important;
-  background-image: url('./themes/dragonball/1star.png') !important;
+  background-image: url('./themes/dragonball/1star.webp') !important;
 }
 
 /* Esferas de Dragon de 5 estrellas (para +5 y -5) */
@@ -5381,7 +5381,7 @@ body[data-theme="dragonball"] .lifebtn[data-v="5"] {
   width: 42px !important;
   height: 42px !important;
   font-size: 0.95rem !important;
-  background-image: url('./themes/dragonball/5star.png') !important;
+  background-image: url('./themes/dragonball/5star.webp') !important;
 }
 
 body[data-theme="dragonball"] .lifebtn:hover {
@@ -6107,7 +6107,7 @@ body[data-theme="naruto"] #p2.danger .life-num-wrap::after {
   /* Fondo biblioteca oscura */
   background:
     linear-gradient(to bottom, rgba(2,2,6,0.82) 0%, rgba(2,2,6,0.55) 30%, rgba(2,2,6,0.72) 70%, rgba(2,2,6,0.95) 100%),
-    url('./assets/lobby_bg.png') center center / cover no-repeat fixed;
+    url('./assets/lobby_bg.webp') center center / cover no-repeat fixed;
 }
 .lobby-scroll-container::-webkit-scrollbar { display: none; }
 
