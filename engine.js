@@ -990,10 +990,10 @@
                 const fbAudio = new Audio(fallbackPath);
                 activeAudioInstance = fbAudio;
                 fbAudio.play().catch(() => {
-                  triggerSynthFallback('streetfighter', type, now);
+                  triggerSynthFallback('streetfighter', type, now, value);
                 });
               } else {
-                triggerSynthFallback('streetfighter', type, now);
+                triggerSynthFallback('streetfighter', type, now, value);
               }
             });
           };
@@ -1027,20 +1027,20 @@
               activeAudioInstance = fallbackAudio;
               fallbackAudio.play().catch((err2) => {
                 if (err2 && err2.name === 'AbortError') return;
-                triggerSynthFallback(currentTheme, type, now);
+                triggerSynthFallback(currentTheme, type, now, value);
               });
             } else {
-              triggerSynthFallback(currentTheme, type, now);
+              triggerSynthFallback(currentTheme, type, now, value);
             }
           });
           return;
         }
 
-        triggerSynthFallback(currentTheme || '', type, now);
+        triggerSynthFallback(currentTheme || '', type, now, value);
       } catch (e) { console.error(e); }
     }
 
-    function triggerSynthFallback(theme, type, now) {
+    function triggerSynthFallback(theme, type, now, value = null) {
       try {
 
         
@@ -1278,6 +1278,196 @@
             return;
           }
         }
+        else if (theme === 'bttf') {
+          if (type === 'dmg') {
+            if (value === -5) {
+              // Delorean Capacitor Overload / Lightning Strike (1.21 GW)
+              // 1. Buzzing Electric Hum (dual detuned sawtooth)
+              const osc1 = audioCtx.createOscillator();
+              const osc2 = audioCtx.createOscillator();
+              const filter = audioCtx.createBiquadFilter();
+              const mainGain = audioCtx.createGain();
+
+              osc1.type = 'sawtooth';
+              osc1.frequency.setValueAtTime(120, now);
+              osc1.frequency.exponentialRampToValueAtTime(30, now + 0.65);
+
+              osc2.type = 'sawtooth';
+              osc2.frequency.setValueAtTime(122, now);
+              osc2.frequency.exponentialRampToValueAtTime(30.5, now + 0.65);
+
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(800, now);
+              filter.frequency.exponentialRampToValueAtTime(80, now + 0.65);
+
+              mainGain.gain.setValueAtTime(0.4, now);
+              mainGain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+
+              osc1.connect(filter);
+              osc2.connect(filter);
+              filter.connect(mainGain);
+              mainGain.connect(audioCtx.destination);
+
+              osc1.start(now);
+              osc2.start(now);
+              osc1.stop(now + 0.66);
+              osc2.stop(now + 0.66);
+
+              // 2. White Noise Electrical Crackling Spark
+              const bufferSize = audioCtx.sampleRate * 0.45;
+              const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * (Math.random() > 0.94 ? 0.8 : 0.05);
+              }
+              const noise = audioCtx.createBufferSource();
+              noise.buffer = buffer;
+
+              const noiseFilter = audioCtx.createBiquadFilter();
+              noiseFilter.type = 'highpass';
+              noiseFilter.frequency.setValueAtTime(2500, now);
+
+              const noiseGain = audioCtx.createGain();
+              noiseGain.gain.setValueAtTime(0.35, now);
+              noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+              noise.connect(noiseFilter);
+              noiseFilter.connect(noiseGain);
+              noiseGain.connect(audioCtx.destination);
+              noise.start(now);
+              noise.stop(now + 0.46);
+
+              return;
+            } else {
+              // Fast electrical spark
+              const osc = audioCtx.createOscillator();
+              const filter = audioCtx.createBiquadFilter();
+              const gain = audioCtx.createGain();
+
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(1000, now);
+              osc.frequency.exponentialRampToValueAtTime(100, now + 0.18);
+
+              filter.type = 'highpass';
+              filter.frequency.setValueAtTime(1500, now);
+
+              gain.gain.setValueAtTime(0.25, now);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioCtx.destination);
+
+              osc.start(now);
+              osc.stop(now + 0.2);
+              return;
+            }
+          }
+          else if (type === 'heal') {
+            if (value === 5) {
+              // DeLorean Time Travel Whoosh + Temporal Chimes
+              // 1. Rising noise sweep
+              const bufferSize = audioCtx.sampleRate * 0.7;
+              const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+              }
+              const noise = audioCtx.createBufferSource();
+              noise.buffer = buffer;
+
+              const noiseFilter = audioCtx.createBiquadFilter();
+              noiseFilter.type = 'bandpass';
+              noiseFilter.Q.value = 4;
+              noiseFilter.frequency.setValueAtTime(150, now);
+              noiseFilter.frequency.exponentialRampToValueAtTime(3200, now + 0.6);
+
+              const noiseGain = audioCtx.createGain();
+              noiseGain.gain.setValueAtTime(0.001, now);
+              noiseGain.gain.linearRampToValueAtTime(0.3, now + 0.4);
+              noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+
+              noise.connect(noiseFilter);
+              noiseFilter.connect(noiseGain);
+              noiseGain.connect(audioCtx.destination);
+              noise.start(now);
+              noise.stop(now + 0.7);
+
+              // 2. Chime Arpeggio (temporal alignment beep-beeps)
+              const notes = [587.33, 698.46, 880.00, 1174.66]; // D minor arpeggio
+              notes.forEach((freq, idx) => {
+                const t = now + idx * 0.1;
+                const o = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                o.connect(g); g.connect(audioCtx.destination);
+                o.type = 'sine';
+                o.frequency.setValueAtTime(freq, t);
+                g.gain.setValueAtTime(0.08, t);
+                g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+                o.start(t); o.stop(t + 0.26);
+              });
+              return;
+            } else {
+              // Fast temporal chime
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(976, now);
+              osc.frequency.exponentialRampToValueAtTime(1464, now + 0.15);
+              gain.gain.setValueAtTime(0.12, now);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+              osc.start(now); osc.stop(now + 0.2);
+              return;
+            }
+          }
+          else if (type === 'victory') {
+            // Heroic cinematic brass theme (Back to the Future main theme notes!)
+            const fanfare = [
+              { f: 466.16, t: 0.00, d: 0.12 },
+              { f: 622.25, t: 0.12, d: 0.40 },
+              { f: 466.16, t: 0.52, d: 0.12 },
+              { f: 311.13, t: 0.64, d: 0.12 },
+              { f: 233.08, t: 0.76, d: 0.24 },
+              { f: 415.30, t: 1.00, d: 0.12 },
+              { f: 466.16, t: 1.12, d: 0.12 },
+              { f: 523.25, t: 1.24, d: 0.12 },
+              { f: 587.33, t: 1.36, d: 0.12 },
+              { f: 622.25, t: 1.48, d: 0.60 }
+            ];
+            fanfare.forEach(note => {
+              const oscA = audioCtx.createOscillator();
+              const oscB = audioCtx.createOscillator();
+              const filter = audioCtx.createBiquadFilter();
+              const gNode = audioCtx.createGain();
+
+              oscA.type = 'sawtooth';
+              oscA.frequency.setValueAtTime(note.f - 1.2, now + note.t);
+
+              oscB.type = 'triangle';
+              oscB.frequency.setValueAtTime(note.f + 1.2, now + note.t);
+
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(note.f * 2, now + note.t);
+              filter.Q.value = 2;
+
+              gNode.gain.setValueAtTime(0.001, now + note.t);
+              gNode.gain.linearRampToValueAtTime(0.07, now + note.t + 0.04);
+              gNode.gain.exponentialRampToValueAtTime(0.001, now + note.t + note.d);
+
+              oscA.connect(filter);
+              oscB.connect(filter);
+              filter.connect(gNode);
+              gNode.connect(audioCtx.destination);
+
+              oscA.start(now + note.t);
+              oscB.start(now + note.t);
+              oscA.stop(now + note.t + note.d);
+              oscB.stop(now + note.t + note.d);
+            });
+            return;
+          }
+        }
         else if (theme === 'simpsons') {
           if (type === 'dmg') {
             const osc = audioCtx.createOscillator();
@@ -1506,70 +1696,196 @@
         }
         else if (theme === 'dragonball') {
           if (type === 'dmg') {
-            const bufSize = audioCtx.sampleRate * 0.28;
-            const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufSize; i++) {
-              data[i] = Math.random() * 2 - 1;
+            if (value === -5) {
+              // Massive Kamehameha / Final Flash energy blast explosion!
+              // 1. Laser Beam sound (sine + sawtooth frequency sweep)
+              const osc1 = audioCtx.createOscillator();
+              const osc2 = audioCtx.createOscillator();
+              const gainBeam = audioCtx.createGain();
+              osc1.type = 'sawtooth';
+              osc2.type = 'sine';
+              osc1.frequency.setValueAtTime(2000, now);
+              osc1.frequency.exponentialRampToValueAtTime(80, now + 0.45);
+              osc2.frequency.setValueAtTime(1000, now);
+              osc2.frequency.exponentialRampToValueAtTime(40, now + 0.45);
+
+              gainBeam.gain.setValueAtTime(0.35, now);
+              gainBeam.gain.exponentialRampToValueAtTime(0.001, now + 0.48);
+
+              osc1.connect(gainBeam);
+              osc2.connect(gainBeam);
+              gainBeam.connect(audioCtx.destination);
+              osc1.start(now); osc2.start(now);
+              osc1.stop(now + 0.5); osc2.stop(now + 0.5);
+
+              // 2. Heavy Sub-bass shockwave
+              const sub = audioCtx.createOscillator();
+              const subGain = audioCtx.createGain();
+              sub.type = 'sine';
+              sub.frequency.setValueAtTime(90, now);
+              sub.frequency.linearRampToValueAtTime(30, now + 0.5);
+              subGain.gain.setValueAtTime(0.8, now);
+              subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+              sub.connect(subGain); subGain.connect(audioCtx.destination);
+              sub.start(now); sub.stop(now + 0.5);
+
+              // 3. White noise blast wind
+              const bufSize = audioCtx.sampleRate * 0.55;
+              const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+              }
+              const noise = audioCtx.createBufferSource();
+              noise.buffer = buffer;
+              const filter = audioCtx.createBiquadFilter();
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(400, now);
+              filter.frequency.exponentialRampToValueAtTime(60, now + 0.5);
+              const gainNoise = audioCtx.createGain();
+              gainNoise.gain.setValueAtTime(0.45, now);
+              gainNoise.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+
+              noise.connect(filter);
+              filter.connect(gainNoise);
+              gainNoise.connect(audioCtx.destination);
+              noise.start(now); noise.stop(now + 0.55);
+              return;
+            } else {
+              // Standard Ki Blast hit
+              const bufSize = audioCtx.sampleRate * 0.28;
+              const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+              }
+              const noise = audioCtx.createBufferSource();
+              noise.buffer = buffer;
+              const filter = audioCtx.createBiquadFilter();
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(280, now);
+              filter.frequency.exponentialRampToValueAtTime(50, now + 0.26);
+
+              const gain = audioCtx.createGain();
+              gain.gain.setValueAtTime(0.4, now);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+              noise.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioCtx.destination);
+              noise.start(now); noise.stop(now + 0.28);
+
+              const osc = audioCtx.createOscillator();
+              const oscGain = audioCtx.createGain();
+              osc.connect(oscGain); oscGain.connect(audioCtx.destination);
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(110, now);
+              osc.frequency.exponentialRampToValueAtTime(30, now + 0.25);
+              oscGain.gain.setValueAtTime(0.25, now);
+              oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+              osc.start(now); osc.stop(now + 0.26);
+              return;
             }
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(280, now);
-            filter.frequency.exponentialRampToValueAtTime(50, now + 0.26);
-
-            const gain = audioCtx.createGain();
-            gain.gain.setValueAtTime(0.4, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-
-            noise.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioCtx.destination);
-            noise.start(now); noise.stop(now + 0.28);
-
-            const osc = audioCtx.createOscillator();
-            const oscGain = audioCtx.createGain();
-            osc.connect(oscGain); oscGain.connect(audioCtx.destination);
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(110, now);
-            osc.frequency.exponentialRampToValueAtTime(30, now + 0.25);
-            oscGain.gain.setValueAtTime(0.25, now);
-            oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-            osc.start(now); osc.stop(now + 0.26);
-            return;
           } else if (type === 'heal') {
-            const crunchySize = audioCtx.sampleRate * 0.06;
-            const buffer = audioCtx.createBuffer(1, crunchySize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < crunchySize; i++) {
-              data[i] = Math.sign(Math.random() * 2 - 1) * (i % 3 === 0 ? 0.3 : 0.05);
+            if (value === 5) {
+              // Full Super Saiyan Aura charge!
+              // Detuned oscillators + Tremolo Ki aura effect
+              const duration = 0.8;
+              const count = 3;
+              const oscillators = [];
+              const gains = [];
+
+              for (let j = 0; j < count; j++) {
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                const detune = j * 6 - 9; // Detune spread
+
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(90, now);
+                osc.frequency.exponentialRampToValueAtTime(900 + detune, now + duration);
+
+                // Aura tremolo (gain modulation)
+                gainNode.gain.setValueAtTime(0.01, now);
+                gainNode.gain.linearRampToValueAtTime(0.08, now + 0.2);
+                gainNode.gain.linearRampToValueAtTime(0.05, now + 0.5);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+                // Vibrato pitch modulation (Ki shake)
+                const vibrato = audioCtx.createOscillator();
+                const vibGain = audioCtx.createGain();
+                vibrato.frequency.value = 16; // 16 Hz oscillation
+                vibGain.gain.value = 12; // 12 Hz detuning amount
+                vibrato.connect(vibGain);
+                vibGain.connect(osc.frequency);
+                vibrato.start(now);
+                vibrato.stop(now + duration);
+
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + duration);
+              }
+
+              // Rising resonant lowpass filter sweep
+              const bufSize = audioCtx.sampleRate * duration;
+              const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+              }
+              const noise = audioCtx.createBufferSource();
+              noise.buffer = buffer;
+              const filter = audioCtx.createBiquadFilter();
+              filter.type = 'lowpass';
+              filter.Q.value = 10;
+              filter.frequency.setValueAtTime(200, now);
+              filter.frequency.exponentialRampToValueAtTime(3500, now + duration);
+
+              const gainNoise = audioCtx.createGain();
+              gainNoise.gain.setValueAtTime(0.001, now);
+              gainNoise.gain.linearRampToValueAtTime(0.18, now + 0.3);
+              gainNoise.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+              noise.connect(filter);
+              filter.connect(gainNoise);
+              gainNoise.connect(audioCtx.destination);
+              noise.start(now); noise.stop(now + duration);
+
+              return;
+            } else {
+              // Standard Ki charge
+              const crunchySize = audioCtx.sampleRate * 0.06;
+              const buffer = audioCtx.createBuffer(1, crunchySize, audioCtx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < crunchySize; i++) {
+                data[i] = Math.sign(Math.random() * 2 - 1) * (i % 3 === 0 ? 0.3 : 0.05);
+              }
+              const crunch = audioCtx.createBufferSource();
+              crunch.buffer = buffer;
+              const crunchGain = audioCtx.createGain();
+              crunch.connect(crunchGain); crunchGain.connect(audioCtx.destination);
+              crunchGain.gain.setValueAtTime(0.12, now);
+              crunchGain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+              crunch.start(now); crunch.stop(now + 0.06);
+
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              const filter = audioCtx.createBiquadFilter();
+              osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(120, now + 0.06);
+              osc.frequency.exponentialRampToValueAtTime(1200, now + 0.35);
+              filter.type = 'lowpass';
+              filter.Q.value = 5;
+              filter.frequency.setValueAtTime(200, now + 0.06);
+              filter.frequency.exponentialRampToValueAtTime(4000, now + 0.35);
+
+              gain.gain.setValueAtTime(0.001, now);
+              gain.gain.setValueAtTime(0.15, now + 0.06);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+              osc.start(now + 0.06); osc.stop(now + 0.38);
+              return;
             }
-            const crunch = audioCtx.createBufferSource();
-            crunch.buffer = buffer;
-            const crunchGain = audioCtx.createGain();
-            crunch.connect(crunchGain); crunchGain.connect(audioCtx.destination);
-            crunchGain.gain.setValueAtTime(0.12, now);
-            crunchGain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-            crunch.start(now); crunch.stop(now + 0.06);
-
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            const filter = audioCtx.createBiquadFilter();
-            osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(120, now + 0.06);
-            osc.frequency.exponentialRampToValueAtTime(1200, now + 0.35);
-            filter.type = 'lowpass';
-            filter.Q.value = 5;
-            filter.frequency.setValueAtTime(200, now + 0.06);
-            filter.frequency.exponentialRampToValueAtTime(4000, now + 0.35);
-
-            gain.gain.setValueAtTime(0.001, now);
-            gain.gain.setValueAtTime(0.15, now + 0.06);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
-            osc.start(now + 0.06); osc.stop(now + 0.38);
-            return;
           } else if (type === 'victory') {
             const count = 3;
             for (let j = 0; j < count; j++) {
@@ -1615,54 +1931,102 @@
         }
         else if (theme === 'mario') {
           if (type === 'heal') {
-            const osc1 = audioCtx.createOscillator();
-            const osc2 = audioCtx.createOscillator();
-            const gain1 = audioCtx.createGain();
-            const gain2 = audioCtx.createGain();
+            if (value === 5) {
+              // Retro 1-Up Mushroom Chime Sequence!
+              // Notes: E6 -> G6 -> E7 -> C7 -> D7 -> G7
+              const notes = [
+                { f: 1318.51, t: 0.00, d: 0.07 },
+                { f: 1567.98, t: 0.07, d: 0.07 },
+                { f: 2637.02, t: 0.14, d: 0.07 },
+                { f: 2093.00, t: 0.21, d: 0.07 },
+                { f: 2349.32, t: 0.28, d: 0.07 },
+                { f: 3135.96, t: 0.35, d: 0.25 }
+              ];
+              notes.forEach(note => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(note.f, now + note.t);
+                gain.gain.setValueAtTime(0.06, now + note.t);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + note.t + note.d);
+                osc.start(now + note.t);
+                osc.stop(now + note.t + note.d);
+              });
+              return;
+            } else {
+              // Classic Coin Sound
+              const osc1 = audioCtx.createOscillator();
+              const osc2 = audioCtx.createOscillator();
+              const gain1 = audioCtx.createGain();
+              const gain2 = audioCtx.createGain();
 
-            osc1.connect(gain1); gain1.connect(audioCtx.destination);
-            osc1.type = 'square';
-            osc1.frequency.setValueAtTime(987.77, now);
-            gain1.gain.setValueAtTime(0.08, now);
-            gain1.gain.setValueAtTime(0, now + 0.08);
-            osc1.start(now); osc1.stop(now + 0.081);
+              osc1.connect(gain1); gain1.connect(audioCtx.destination);
+              osc1.type = 'square';
+              osc1.frequency.setValueAtTime(987.77, now);
+              gain1.gain.setValueAtTime(0.08, now);
+              gain1.gain.setValueAtTime(0, now + 0.08);
+              osc1.start(now); osc1.stop(now + 0.081);
 
-            osc2.connect(gain2); gain2.connect(audioCtx.destination);
-            osc2.type = 'square';
-            osc2.frequency.setValueAtTime(1318.51, now + 0.08);
-            gain2.gain.setValueAtTime(0.08, now + 0.08);
-            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-            osc2.start(now + 0.08); osc2.stop(now + 0.45);
-            return;
+              osc2.connect(gain2); gain2.connect(audioCtx.destination);
+              osc2.type = 'square';
+              osc2.frequency.setValueAtTime(1318.51, now + 0.08);
+              gain2.gain.setValueAtTime(0.08, now + 0.08);
+              gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+              osc2.start(now + 0.08); osc2.stop(now + 0.45);
+              return;
+            }
           }
           else if (type === 'dmg') {
-            // Sonido de Mario encogiéndose (recibir daño)
-            const osc = audioCtx.createOscillator();
-            const osc2 = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            
-            osc.type = 'square';
-            osc2.type = 'square';
-            
-            // Frecuencias descendentes rápidas
-            osc.frequency.setValueAtTime(800, now);
-            osc.frequency.exponentialRampToValueAtTime(100, now + 0.5);
-            
-            osc2.frequency.setValueAtTime(1200, now);
-            osc2.frequency.exponentialRampToValueAtTime(150, now + 0.5);
-            
-            gain.gain.setValueAtTime(0.08, now);
-            gain.gain.linearRampToValueAtTime(0, now + 0.5);
-            
-            osc.connect(gain);
-            osc2.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            osc.start(now);
-            osc2.start(now);
-            osc.stop(now + 0.5);
-            osc2.stop(now + 0.5);
-            return;
+            if (value === -5) {
+              // Retro 8-bit Bowser Fire / Heavy Pipe Warp Down / Game Over tune!
+              const notes = [
+                { f: 392.00, t: 0.00, d: 0.12 }, // G4
+                { f: 349.23, t: 0.12, d: 0.12 }, // F4
+                { f: 311.13, t: 0.24, d: 0.12 }, // Eb4
+                { f: 261.63, t: 0.36, d: 0.35 }  // C4
+              ];
+              notes.forEach(note => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(note.f, now + note.t);
+                gain.gain.setValueAtTime(0.08, now + note.t);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + note.t + note.d);
+                osc.start(now + note.t);
+                osc.stop(now + note.t + note.d);
+              });
+              return;
+            } else {
+              // Sonido de Mario encogiéndose (recibir daño)
+              const osc = audioCtx.createOscillator();
+              const osc2 = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              
+              osc.type = 'square';
+              osc2.type = 'square';
+              
+              // Frecuencias descendentes rápidas
+              osc.frequency.setValueAtTime(800, now);
+              osc.frequency.exponentialRampToValueAtTime(100, now + 0.5);
+              
+              osc2.frequency.setValueAtTime(1200, now);
+              osc2.frequency.exponentialRampToValueAtTime(150, now + 0.5);
+              
+              gain.gain.setValueAtTime(0.08, now);
+              gain.gain.linearRampToValueAtTime(0, now + 0.5);
+              
+              osc.connect(gain);
+              osc2.connect(gain);
+              gain.connect(audioCtx.destination);
+              
+              osc.start(now);
+              osc2.start(now);
+              osc.stop(now + 0.5);
+              osc2.stop(now + 0.5);
+              return;
+            }
           }
           else if (type === 'victory') {
             const fanfare = [
@@ -1712,74 +2076,188 @@
         }
         else if (theme === 'demonslayer') {
           if (type === 'dmg') {
-            // Sonido mítico: Tajo de katana seguido de un fuerte golpe de Taiko (Tambor japonés)
-            
-            // 1. Tajo Metálico (Katana Slash)
-            const oscSlash = audioCtx.createOscillator();
-            const filterSlash = audioCtx.createBiquadFilter();
-            const gainSlash = audioCtx.createGain();
-            
-            oscSlash.type = 'sawtooth';
-            oscSlash.frequency.setValueAtTime(3000, now);
-            oscSlash.frequency.exponentialRampToValueAtTime(100, now + 0.15);
-            
-            filterSlash.type = 'bandpass';
-            filterSlash.frequency.setValueAtTime(1500, now);
-            filterSlash.frequency.linearRampToValueAtTime(300, now + 0.15);
-            filterSlash.Q.value = 5;
-            
-            gainSlash.gain.setValueAtTime(0, now);
-            gainSlash.gain.linearRampToValueAtTime(0.4, now + 0.02);
-            gainSlash.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-            
-            oscSlash.connect(filterSlash);
-            filterSlash.connect(gainSlash);
-            gainSlash.connect(audioCtx.destination);
-            
-            // 2. Golpe de Taiko (Sub-bass impact)
-            const oscTaiko = audioCtx.createOscillator();
-            const gainTaiko = audioCtx.createGain();
-            
-            oscTaiko.type = 'sine';
-            oscTaiko.frequency.setValueAtTime(150, now);
-            oscTaiko.frequency.exponentialRampToValueAtTime(30, now + 0.4);
-            
-            gainTaiko.gain.setValueAtTime(0, now);
-            gainTaiko.gain.linearRampToValueAtTime(0.8, now + 0.03);
-            gainTaiko.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-            
-            oscTaiko.connect(gainTaiko);
-            gainTaiko.connect(audioCtx.destination);
-            
-            oscSlash.start(now);
-            oscSlash.stop(now + 0.16);
-            oscTaiko.start(now);
-            oscTaiko.stop(now + 0.45);
-            return;
+            if (value === -5) {
+              // Hinokami Kagura (Dance of the Fire God) Triple Fire Slash + Taiko Drum Roll!
+              const slashes = [0, 0.08, 0.16];
+              slashes.forEach(delay => {
+                const oscSlash = audioCtx.createOscillator();
+                const filterSlash = audioCtx.createBiquadFilter();
+                const gainSlash = audioCtx.createGain();
+
+                oscSlash.type = 'sawtooth';
+                oscSlash.frequency.setValueAtTime(3200, now + delay);
+                oscSlash.frequency.exponentialRampToValueAtTime(120, now + delay + 0.14);
+
+                filterSlash.type = 'bandpass';
+                filterSlash.frequency.setValueAtTime(1600, now + delay);
+                filterSlash.frequency.linearRampToValueAtTime(350, now + delay + 0.14);
+                filterSlash.Q.value = 6;
+
+                gainSlash.gain.setValueAtTime(0, now + delay);
+                gainSlash.gain.linearRampToValueAtTime(0.35, now + delay + 0.02);
+                gainSlash.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.14);
+
+                oscSlash.connect(filterSlash);
+                filterSlash.connect(gainSlash);
+                gainSlash.connect(audioCtx.destination);
+
+                oscSlash.start(now + delay);
+                oscSlash.stop(now + delay + 0.15);
+              });
+
+              // Triple Japanese Taiko Drum roll
+              const drumBeats = [0.15, 0.24, 0.33];
+              drumBeats.forEach(delay => {
+                const oscTaiko = audioCtx.createOscillator();
+                const gainTaiko = audioCtx.createGain();
+
+                oscTaiko.type = 'sine';
+                oscTaiko.frequency.setValueAtTime(140, now + delay);
+                oscTaiko.frequency.exponentialRampToValueAtTime(30, now + delay + 0.35);
+
+                gainTaiko.gain.setValueAtTime(0, now + delay);
+                gainTaiko.gain.linearRampToValueAtTime(0.75, now + delay + 0.03);
+                gainTaiko.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.35);
+
+                oscTaiko.connect(gainTaiko);
+                gainTaiko.connect(audioCtx.destination);
+
+                oscTaiko.start(now + delay);
+                oscTaiko.stop(now + delay + 0.36);
+              });
+              return;
+            } else {
+              // 1. Tajo Metálico (Katana Slash)
+              const oscSlash = audioCtx.createOscillator();
+              const filterSlash = audioCtx.createBiquadFilter();
+              const gainSlash = audioCtx.createGain();
+              
+              oscSlash.type = 'sawtooth';
+              oscSlash.frequency.setValueAtTime(3000, now);
+              oscSlash.frequency.exponentialRampToValueAtTime(100, now + 0.15);
+              
+              filterSlash.type = 'bandpass';
+              filterSlash.frequency.setValueAtTime(1500, now);
+              filterSlash.frequency.linearRampToValueAtTime(300, now + 0.15);
+              filterSlash.Q.value = 5;
+              
+              gainSlash.gain.setValueAtTime(0, now);
+              gainSlash.gain.linearRampToValueAtTime(0.4, now + 0.02);
+              gainSlash.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+              
+              oscSlash.connect(filterSlash);
+              filterSlash.connect(gainSlash);
+              gainSlash.connect(audioCtx.destination);
+              
+              // 2. Golpe de Taiko (Sub-bass impact)
+              const oscTaiko = audioCtx.createOscillator();
+              const gainTaiko = audioCtx.createGain();
+              
+              oscTaiko.type = 'sine';
+              oscTaiko.frequency.setValueAtTime(150, now);
+              oscTaiko.frequency.exponentialRampToValueAtTime(30, now + 0.4);
+              
+              gainTaiko.gain.setValueAtTime(0, now);
+              gainTaiko.gain.linearRampToValueAtTime(0.8, now + 0.03);
+              gainTaiko.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+              
+              oscTaiko.connect(gainTaiko);
+              gainTaiko.connect(audioCtx.destination);
+              
+              oscSlash.start(now);
+              oscSlash.stop(now + 0.16);
+              oscTaiko.start(now);
+              oscTaiko.stop(now + 0.45);
+              return;
+            }
           }
           else if (type === 'heal') {
-            // Sonido mítico: Shakuhachi (Flauta de bambú) y aura de agua
-            const oscFlute = audioCtx.createOscillator();
-            const gainFlute = audioCtx.createGain();
-            
-            oscFlute.type = 'triangle';
-            // Melodía rápida pentatónica japonesa (Sakura / Anime aura)
-            oscFlute.frequency.setValueAtTime(587.33, now); // D5
-            oscFlute.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
-            oscFlute.frequency.setValueAtTime(880.00, now + 0.2); // A5
-            oscFlute.frequency.exponentialRampToValueAtTime(783.99, now + 0.4); // G5
-            
-            gainFlute.gain.setValueAtTime(0, now);
-            gainFlute.gain.linearRampToValueAtTime(0.15, now + 0.1);
-            gainFlute.gain.linearRampToValueAtTime(0.1, now + 0.2);
-            gainFlute.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-            
-            oscFlute.connect(gainFlute);
-            gainFlute.connect(audioCtx.destination);
-            
-            oscFlute.start(now);
-            oscFlute.stop(now + 0.65);
-            return;
+            if (value === 5) {
+              // Total Concentration Breathing!
+              // Detuned dual flutes + water whoosh noise
+              const duration = 0.8;
+              const notes = [
+                { f: 587.33, t: 0.0, d: 0.2 }, // D5
+                { f: 659.25, t: 0.15, d: 0.2 }, // E5
+                { f: 783.99, t: 0.3, d: 0.25 }, // G5
+                { f: 880.00, t: 0.45, d: 0.3 }, // A5
+                { f: 1046.50, t: 0.6, d: 0.4 } // C6
+              ];
+
+              notes.forEach(note => {
+                const oscFlute1 = audioCtx.createOscillator();
+                const oscFlute2 = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                oscFlute1.type = 'triangle';
+                oscFlute1.frequency.setValueAtTime(note.f, now + note.t);
+
+                oscFlute2.type = 'triangle';
+                oscFlute2.frequency.setValueAtTime(note.f + 4, now + note.t); // detuned chorus
+
+                gain.gain.setValueAtTime(0, now + note.t);
+                gain.gain.linearRampToValueAtTime(0.12, now + note.t + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + note.t + note.d);
+
+                oscFlute1.connect(gain);
+                oscFlute2.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                oscFlute1.start(now + note.t);
+                oscFlute2.start(now + note.t);
+                oscFlute1.stop(now + note.t + note.d);
+                oscFlute2.stop(now + note.t + note.d);
+              });
+
+              // Rising Water Whoosh Noise
+              const bufSize = audioCtx.sampleRate * duration;
+              const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+              }
+              const noise = audioCtx.createBufferSource();
+              noise.buffer = buffer;
+              const filter = audioCtx.createBiquadFilter();
+              filter.type = 'bandpass';
+              filter.Q.value = 3;
+              filter.frequency.setValueAtTime(300, now);
+              filter.frequency.exponentialRampToValueAtTime(2500, now + duration);
+
+              const gainNoise = audioCtx.createGain();
+              gainNoise.gain.setValueAtTime(0.001, now);
+              gainNoise.gain.linearRampToValueAtTime(0.18, now + 0.3);
+              gainNoise.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+              noise.connect(filter);
+              filter.connect(gainNoise);
+              gainNoise.connect(audioCtx.destination);
+              noise.start(now); noise.stop(now + duration);
+              return;
+            } else {
+              // Sonido mítico: Shakuhachi (Flauta de bambú) y aura de agua
+              const oscFlute = audioCtx.createOscillator();
+              const gainFlute = audioCtx.createGain();
+              
+              oscFlute.type = 'triangle';
+              // Melodía rápida pentatónica japonesa (Sakura / Anime aura)
+              oscFlute.frequency.setValueAtTime(587.33, now); // D5
+              oscFlute.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+              oscFlute.frequency.setValueAtTime(880.00, now + 0.2); // A5
+              oscFlute.frequency.exponentialRampToValueAtTime(783.99, now + 0.4); // G5
+              
+              gainFlute.gain.setValueAtTime(0, now);
+              gainFlute.gain.linearRampToValueAtTime(0.15, now + 0.1);
+              gainFlute.gain.linearRampToValueAtTime(0.1, now + 0.2);
+              gainFlute.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+              
+              oscFlute.connect(gainFlute);
+              gainFlute.connect(audioCtx.destination);
+              
+              oscFlute.start(now);
+              oscFlute.stop(now + 0.65);
+              return;
+            }
           }
         }
 
