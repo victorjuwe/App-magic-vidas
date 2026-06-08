@@ -24,8 +24,8 @@
   },
   "preview": {
     "filename": "preview.webp",
-    "description": "Lobby preview thumbnail: Iconic epic shot of the DeLorean leaving fire trails. Horizontal 16:9.",
-    "prompt": "A highly detailed, cinematic 1980s movie still of a retro-futuristic silver brushed-steel gull-wing sports car accelerating on a dark asphalt road at night, leaving bright glowing trails of fire behind its tires. The car emits a bright neon blue electrical plasma aura. Epic perspective, low angle, dramatic theatrical lighting, neon reflections, cinematic film grain, 80s sci-fi aesthetic. --ar 16:9 --no text, watermark, signature, UI, buttons, people, split screen"
+    "description": "Lobby preview: Marty y Doc jugando una partida de Magic en el garaje. Horizontal 16:9.",
+    "prompt": "A highly detailed, humorous cinematic 1980s movie still of a teenage boy in a red puffy down vest and blue denim jacket, and an eccentric elderly scientist with wild white hair in a white protective lab suit, sitting opposite each other at a wooden workbench inside a garage laboratory, playing a fantasy strategy trading card game. The boy is focused, holding his cards with brown card backs. The scientist is enthusiastically pointing at a card on the table. Between them, a correct trading card game battlefield is laid out: rows of black-bordered fantasy cards, with some cards turned horizontally at a 90-degree angle to indicate they are tapped. In the background, a silver brushed-steel gull-wing sports car is parked, emitting a soft neon blue glow. Warm ambient garage lighting, cinematic film grain, wide 16:9 landscape. --ar 16:9 --no poker cards, standard playing cards, text, watermark, signature, UI, buttons, split screen"
   },
   "ui": {
     "velocimetro_vacio": {
