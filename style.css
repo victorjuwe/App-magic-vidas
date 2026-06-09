@@ -13,6 +13,11 @@
 
       --glass-bg: rgba(10, 10, 18, 0.45);
       --glass-border: rgba(255, 255, 255, 0.04);
+      
+      --divider-bg: rgba(6, 6, 12, 0.82);
+      --divider-border-top: rgba(255, 215, 0, 0.12);
+      --divider-border-bottom: rgba(255, 215, 0, 0.12);
+      --divider-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
 
       /* SafeArea iPhone (Dynamic Island, barra inferior) */
       --safe-top: env(safe-area-inset-top, 0px);
@@ -84,9 +89,9 @@
 
     #fallback-bg {
       position: fixed;
-      inset: -5%;
-      width: 110vw;
-      height: 110dvh;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
       background: var(--bg-fallback);
       background-size: cover;
       background-position: center;
@@ -327,6 +332,10 @@
         radial-gradient(circle at 20% 10%, rgba(255, 110, 30, 0.10) 0%, transparent 55%),
         radial-gradient(circle at 80% 90%, rgba(0, 240, 255, 0.08) 0%, transparent 55%),
         #1c1d22;
+      --divider-bg: rgba(20, 22, 28, 0.9);
+      --divider-border-top: rgba(0, 240, 255, 0.2);
+      --divider-border-bottom: rgba(255, 110, 30, 0.2);
+      --divider-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
     }
     body[data-theme="bttf"] #theme-frame {
       background-image: none !important;
@@ -720,6 +729,12 @@
     }
 
     /* ── Tema: BLEACH (bleach) ── */
+    body[data-theme="bleach"] {
+      --divider-bg: rgba(6, 6, 6, 0.9);
+      --divider-border-top: rgba(255, 26, 64, 0.2);
+      --divider-border-bottom: rgba(255, 26, 64, 0.2);
+      --divider-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+    }
     body[data-theme="bleach"],
     body[data-theme="bleach"] #theme-frame,
     body[data-theme="bleach"] #p1 {
@@ -1011,9 +1026,9 @@
     }
     body[data-theme="rickmorty"] .divider {
       background: rgba(10, 16, 10, 0.88) !important;
-      border-top: 1.5px solid rgba(57, 255, 20, 0.3) !important;
-      border-bottom: 1.5px solid rgba(57, 255, 20, 0.3) !important;
-      box-shadow: 0 0 25px rgba(57, 255, 20, 0.15), 0 0 50px rgba(0,0,0,0.9) !important;
+      border-top: 1.5px solid rgba(57, 255, 20, 0.2) !important;
+      border-bottom: 1.5px solid rgba(57, 255, 20, 0.2) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95) !important;
     }
     body[data-theme="rickmorty"] .btn-clk {
       border-color: rgba(57, 255, 20, 0.3) !important;
@@ -1153,9 +1168,9 @@
 
     body[data-theme="streetfighter"] .divider {
       background: rgba(10, 10, 20, 0.94) !important;
-      border-top: 1.5px solid rgba(255, 34, 85, 0.4) !important;
-      border-bottom: 1.5px solid rgba(0, 136, 255, 0.4) !important;
-      box-shadow: 0 0 25px rgba(255, 34, 85, 0.2), 0 0 50px rgba(0,0,0,0.95) !important;
+      border-top: 1.5px solid rgba(255, 34, 85, 0.3) !important;
+      border-bottom: 1.5px solid rgba(0, 136, 255, 0.3) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95) !important;
     }
     body[data-theme="streetfighter"] .btn-clk {
       border-color: rgba(0, 136, 255, 0.4) !important;
@@ -2289,12 +2304,12 @@
       align-items: stretch;
       padding: 5px 10px 6px;
       gap: 5px;
-      background: rgba(6, 6, 12, 0.82);
+      background: var(--divider-bg);
       backdrop-filter: blur(30px);
       -webkit-backdrop-filter: blur(30px);
-      border-top: 1.5px solid rgba(255, 215, 0, 0.12);
-      border-bottom: 1.5px solid rgba(255, 215, 0, 0.12);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+      border-top: 1.5px solid var(--divider-border-top);
+      border-bottom: 1.5px solid var(--divider-border-bottom);
+      box-shadow: var(--divider-shadow);
       z-index: 10;
     }
 
@@ -3417,7 +3432,7 @@
   bottom: calc(50% + 42px); /* Flota justo por encima del divisor central */
   left: 50%;
   transform: translate(-50%, 15px) scale(0.92);
-  display: flex;
+  display: none;
   gap: 15px;
   background: rgba(8, 8, 14, 0.88);
   backdrop-filter: blur(25px);
@@ -3432,6 +3447,7 @@
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 #dice-bar.active {
+  display: flex;
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 0) scale(1);
@@ -4916,6 +4932,12 @@ body[data-theme="streetfighter"] .lifebtn.btn-active-ripple::before {
 /* ==========================================================================
    TEMA: ONE PIECE
    ========================================================================== */
+body[data-theme="onepiece"] {
+  --divider-bg: rgba(6, 8, 12, 0.9);
+  --divider-border-top: rgba(255, 215, 0, 0.2);
+  --divider-border-bottom: rgba(255, 26, 64, 0.18);
+  --divider-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+}
 body[data-theme="onepiece"] #theme-frame {
   background-image: none !important;
   opacity: 0 !important;
@@ -4995,6 +5017,12 @@ body[data-theme="onepiece"] .life-num-wrap {
 /* ==========================================================================
    TEMA: NARUTO SHIPPUDEN
    ========================================================================== */
+body[data-theme="naruto"] {
+  --divider-bg: rgba(12, 10, 8, 0.9);
+  --divider-border-top: rgba(0, 136, 255, 0.18);
+  --divider-border-bottom: rgba(255, 102, 0, 0.18);
+  --divider-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+}
 body[data-theme="naruto"] #theme-frame {
   background-image: none !important;
   opacity: 0 !important;
@@ -5070,6 +5098,12 @@ body[data-theme="naruto"] .life-num-wrap {
 /* ==========================================================================
    TEMA: DRAGON BALL Z
    ========================================================================== */
+body[data-theme="dragonball"] {
+  --divider-bg: rgba(15, 12, 8, 0.9);
+  --divider-border-top: rgba(255, 215, 0, 0.18);
+  --divider-border-bottom: rgba(255, 102, 0, 0.18);
+  --divider-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+}
 body[data-theme="dragonball"] #theme-frame {
   background-image: none !important;
   opacity: 0 !important;
@@ -5455,6 +5489,12 @@ body[data-theme="dragonball"] .lifebtn:active {
 }
 
 /* ── TEMA SUPER MARIO RETRO ── */
+body[data-theme="mario"] {
+  --divider-bg: rgba(8, 8, 12, 0.92);
+  --divider-border-top: rgba(255, 255, 255, 0.08);
+  --divider-border-bottom: rgba(255, 255, 255, 0.08);
+  --divider-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+}
 body[data-theme="mario"] #theme-frame {
   background-image: none !important;
   opacity: 0 !important;
@@ -6702,6 +6742,12 @@ body[data-theme="naruto"] #p2.danger .life-num-wrap::after {
 .lobby-container { display: none !important; }
 
 /* ── TEMA DEMON SLAYER ── */
+body[data-theme="demonslayer"] {
+  --divider-bg: rgba(6, 6, 8, 0.9);
+  --divider-border-top: rgba(255, 69, 0, 0.18);
+  --divider-border-bottom: rgba(255, 69, 0, 0.18);
+  --divider-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+}
 body[data-theme="demonslayer"] #theme-frame {
   display: none !important;
 }
