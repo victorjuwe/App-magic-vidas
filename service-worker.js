@@ -1,7 +1,7 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
 
-const CACHE = 'magic-bo3-v81';
+const CACHE = 'magic-bo3-v82';
 
 // Activos críticos para arrancar 100% offline
 const CORE_ASSETS = [
@@ -15,7 +15,102 @@ const CORE_ASSETS = [
   './assets/mode_bo3.webp',
   './assets/mode_commander.webp',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  // ── Bleach ──────────────────────────────────────────
+  './themes/bleach/+5.mp3',
+  './themes/bleach/-1.mp3',
+  './themes/bleach/dmg.mp3',
+  './themes/bleach/heal.mp3',
+  './themes/bleach/intro.mp3',
+  './themes/bleach/victory.mp3',
+  // ── Back to the Future ──────────────────────────────
+  './themes/bttf/+1.mp3',
+  './themes/bttf/+5.mp3',
+  './themes/bttf/-1.mp3',
+  './themes/bttf/-5.mp3',
+  './themes/bttf/dmg.mp3',
+  './themes/bttf/heal.mp3',
+  './themes/bttf/loading song.mp3',
+  './themes/bttf/victory.mp3',
+  // ── Demon Slayer ────────────────────────────────────
+  './themes/demonslayer/dmg.mp3',
+  './themes/demonslayer/heal.mp3',
+  './themes/demonslayer/intro.mp3',
+  './themes/demonslayer/victory.mp3',
+  // ── Dragon Ball ─────────────────────────────────────
+  './themes/dragonball/+1.mp3',
+  './themes/dragonball/-1.mp3',
+  './themes/dragonball/-5.mp3',
+  './themes/dragonball/dmg.mp3',
+  './themes/dragonball/heal.mp3',
+  './themes/dragonball/intro.mp3',
+  './themes/dragonball/p1_dmg.mp3',
+  './themes/dragonball/p1_heal.mp3',
+  './themes/dragonball/p2_dmg.mp3',
+  './themes/dragonball/p2_heal.mp3',
+  './themes/dragonball/victory.mp3',
+  // ── Mario ───────────────────────────────────────────
+  './themes/mario/+1.mp3',
+  './themes/mario/+5.mp3',
+  './themes/mario/-1.mp3',
+  './themes/mario/-5.mp3',
+  './themes/mario/dmg.mp3',
+  './themes/mario/heal.mp3',
+  './themes/mario/intro.mp3',
+  './themes/mario/victory.mp3',
+  // ── Naruto ──────────────────────────────────────────
+  './themes/naruto/+1.mp3',
+  './themes/naruto/+5.mp3',
+  './themes/naruto/-1.mp3',
+  './themes/naruto/-5.mp3',
+  './themes/naruto/dmg.mp3',
+  './themes/naruto/heal.mp3',
+  './themes/naruto/intro.mp3',
+  './themes/naruto/p1_dmg.mp3',
+  './themes/naruto/p1_heal.mp3',
+  './themes/naruto/p2_dmg.mp3',
+  './themes/naruto/p2_heal.mp3',
+  './themes/naruto/victory.mp3',
+  // ── One Piece ───────────────────────────────────────
+  './themes/onepiece/dmg.mp3',
+  './themes/onepiece/heal.mp3',
+  './themes/onepiece/intro.mp3',
+  './themes/onepiece/p1_dmg.mp3',
+  './themes/onepiece/p1_heal.mp3',
+  './themes/onepiece/p2_dmg.mp3',
+  './themes/onepiece/p2_heal.mp3',
+  './themes/onepiece/victory.mp3',
+  // ── Rick & Morty ────────────────────────────────────
+  './themes/rickmorty/-1.mp3',
+  './themes/rickmorty/dmg.mp3',
+  './themes/rickmorty/heal.mp3',
+  './themes/rickmorty/intro.mp3',
+  './themes/rickmorty/victory.mp3',
+  // ── Simpsons ────────────────────────────────────────
+  './themes/simpsons/+1.mp3',
+  './themes/simpsons/+5.mp3',
+  './themes/simpsons/-1.mp3',
+  './themes/simpsons/-5.mp3',
+  './themes/simpsons/dmg.mp3',
+  './themes/simpsons/heal.mp3',
+  './themes/simpsons/intro.mp3',
+  './themes/simpsons/victory.mp3',
+  // ── Street Fighter ──────────────────────────────────
+  './themes/streetfighter/coin.mp3',
+  './themes/streetfighter/dmg.mp3',
+  './themes/streetfighter/fight.mp3',
+  './themes/streetfighter/gameover.mp3',
+  './themes/streetfighter/hadouken.mp3',
+  './themes/streetfighter/heal.mp3',
+  './themes/streetfighter/intro.mp3',
+  './themes/streetfighter/p1_dmg.mp3',
+  './themes/streetfighter/p1_heal.mp3',
+  './themes/streetfighter/p2_dmg.mp3',
+  './themes/streetfighter/p2_heal.mp3',
+  './themes/streetfighter/perfect.mp3',
+  './themes/streetfighter/shoryuken.mp3',
+  './themes/streetfighter/tatsumaki.mp3',
+  './themes/streetfighter/victory.mp3'
 ];
 
 // Activos CDN — cache opportunista (no bloqueamos install si fallan)
