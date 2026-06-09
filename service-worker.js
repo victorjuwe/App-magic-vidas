@@ -1,7 +1,7 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
 
-const CACHE = 'magic-bo3-v70';
+const CACHE = 'magic-bo3-v78';
 
 // Activos críticos para arrancar 100% offline
 const CORE_ASSETS = [
@@ -55,12 +55,25 @@ self.addEventListener('fetch', event => {
   // Evitar interceptar esquemas no HTTP/HTTPS (como extensiones del navegador)
   if (!req.url.startsWith('http')) return;
 
-  // Evitar interceptar vídeos o audios para prevenir fallos con Range Requests en iOS Safari
-  if (
-    req.destination === 'video' ||
-    req.destination === 'audio' ||
-    req.url.match(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i)
-  ) {
+  // Manejo de Audio y Video con soporte de Range Requests para iOS Safari offline
+  const isAudioOrVideo = req.destination === 'video' || req.destination === 'audio' || req.url.match(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i);
+  if (isAudioOrVideo) {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE);
+      const cached = await cache.match(req);
+      if (cached) {
+        return handleRangeRequest(req, cached);
+      }
+      try {
+        const fresh = await fetch(req);
+        if (fresh && fresh.status === 200) {
+          cache.put(req, fresh.clone()).catch(() => {});
+        }
+        return fresh;
+      } catch (err) {
+        return new Response('Offline', { status: 503 });
+      }
+    })());
     return;
   }
 
@@ -89,3 +102,39 @@ self.addEventListener('fetch', event => {
     }
   })());
 });
+
+// Manejador de Range Requests para archivos binarios de audio/video en caché
+async function handleRangeRequest(request, cachedResponse) {
+  const rangeHeader = request.headers.get('range');
+  if (!rangeHeader) return cachedResponse;
+
+  try {
+    const arrayBuffer = await cachedResponse.arrayBuffer();
+    const parts = rangeHeader.replace(/bytes=/, "").split("-");
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[1], 10) : arrayBuffer.byteLength - 1;
+
+    if (start >= arrayBuffer.byteLength || end >= arrayBuffer.byteLength) {
+      return new Response("", {
+        status: 416,
+        statusText: "Range Not Satisfiable",
+        headers: { "Content-Range": `bytes */${arrayBuffer.byteLength}` }
+      });
+    }
+
+    const sliced = arrayBuffer.slice(start, end + 1);
+    const contentType = cachedResponse.headers.get("content-type") || "audio/mp3";
+    return new Response(sliced, {
+      status: 206,
+      statusText: "Partial Content",
+      headers: {
+        "Content-Type": contentType,
+        "Content-Range": `bytes ${start}-${end}/${arrayBuffer.byteLength}`,
+        "Content-Length": sliced.byteLength.toString(),
+        "Accept-Ranges": "bytes"
+      }
+    });
+  } catch (err) {
+    return cachedResponse;
+  }
+}

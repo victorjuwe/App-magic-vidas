@@ -10,6 +10,7 @@
     };
     const vib = pattern => {
       try {
+        if (typeof S !== 'undefined' && S && (S.performanceMode === 'saving' || S.performanceMode === 'muted')) return;
         if (navigator.vibrate) navigator.vibrate(pattern);
       } catch (_) {}
     };
@@ -345,6 +346,7 @@
 
     let sfCredits = 0;
     let sfContinueInterval = null;
+    let sfContinueAudio = null;
 
     function updateSFHealthBars(p) {
       try {
@@ -365,8 +367,14 @@
     function triggerSFContinue(defeatedPlayer) {
       // Intentar reproducir sonido de derrota/K.O. si existe
       try {
-        const koAudio = new Audio('./themes/streetfighter/victory.mp3');
-        koAudio.play().catch(() => {});
+        if (sfContinueAudio) {
+          try {
+            sfContinueAudio.pause();
+            sfContinueAudio.currentTime = 0;
+          } catch(_) {}
+        }
+        sfContinueAudio = new Audio('./themes/streetfighter/gameover.mp3');
+        sfContinueAudio.play().catch(() => {});
       } catch(_) {}
 
       const overlay = $('sf-continue-overlay');
@@ -449,7 +457,7 @@
           
           // Sonido de moneda insertada (moneda arcade)
           try {
-            const coinAudio = new Audio('./themes/streetfighter/heal.mp3');
+            const coinAudio = new Audio('./themes/streetfighter/coin.mp3');
             coinAudio.play().catch(() => playSynthSound('lock'));
           } catch (_) {
             playSynthSound('lock');
@@ -466,7 +474,7 @@
             // Sonido de FIGHT! o Round One. Fight!
             try {
               // Intentar reproducir sonido de lucha del anunciador si existe, si no usar speech
-              const fightAudio = new Audio('./themes/streetfighter/victory.mp3');
+              const fightAudio = new Audio('./themes/streetfighter/fight.mp3');
               fightAudio.play().catch(() => {
                 // Speech synthesis fallback
                 if ('speechSynthesis' in window) {
@@ -493,9 +501,18 @@
             sfCredits--;
           }
           
+          // Detener audio de cuenta atrás
+          if (sfContinueAudio) {
+            try {
+              sfContinueAudio.pause();
+              sfContinueAudio.currentTime = 0;
+            } catch(_) {}
+            sfContinueAudio = null;
+          }
+
           // Sonido de moneda
           try {
-            const coinAudio = new Audio('./themes/streetfighter/heal.mp3');
+            const coinAudio = new Audio('./themes/streetfighter/coin.mp3');
             coinAudio.play().catch(() => playSynthSound('lock'));
           } catch (_) {
             playSynthSound('lock');
@@ -524,7 +541,7 @@
           // Anunciar FIGHT
           setTimeout(() => {
             try {
-              const fightAudio = new Audio('./themes/streetfighter/victory.mp3');
+              const fightAudio = new Audio('./themes/streetfighter/fight.mp3');
               fightAudio.play().catch(() => {
                 if ('speechSynthesis' in window) {
                   const utterance = new SpeechSynthesisUtterance("Fight!");
@@ -742,6 +759,84 @@
         card.classList.toggle('active', card.getAttribute('data-theme') === (id || ''));
       });
 
+      // Modificación dinámica de etiquetas de botones según tema
+      const THEME_BUTTON_LABELS = {
+        simpsons: {
+          '-5': '−5 🚨 Alarma',
+          '-1': '−1 🤦 Mosquis',
+          '1': '+1 🍩 Rosquilla',
+          '5': '+5 💰 Excelente'
+        },
+        rickmorty: {
+          '-5': '−5 🛸 Wasted',
+          '-1': '−1 😰 Oh Cielos',
+          '1': '+1 🧪 Semilla',
+          '5': '+5 🌀 Portal'
+        },
+        bttf: {
+          '-5': '−5 ⏳ Paradoja',
+          '-1': '−1 🐔 Gallina',
+          '1': '+1 ⚡ Fluzo',
+          '5': '+5 🏎️ 88 MPH'
+        },
+        bleach: {
+          '-5': '−5 🔴 Getsuga',
+          '-1': '−1 ⚔️ Tajo',
+          '1': '+1 🌸 Orihime',
+          '5': '+5 💀 Bankai'
+        },
+        onepiece: {
+          '-5': '−5 🔥 Buster',
+          '-1': '−1 ⚔️ Santoryu',
+          '1': '+1 🍖 Niku',
+          '5': '+5 ☀️ Gear 5'
+        },
+        naruto: {
+          '-5': '−5 🌀 Rasengan',
+          '-1': '−1 🗡️ Kunai',
+          '1': '+1 🍥 Ramen',
+          '5': '+5 🦊 Kyuubi'
+        },
+        dragonball: {
+          '-5': '−5 ☄️ Kame',
+          '-1': '−1 👿 Kisama',
+          '1': '+1 🟢 Senzu',
+          '5': '+5 👑 SSJ'
+        },
+        mario: {
+          '-5': '−5 ☠️ Over',
+          '-1': '−1 💥 Daño',
+          '1': '+1 🪙 Moneda',
+          '5': '+5 🍄 Champi'
+        },
+        demonslayer: {
+          '-5': '−5 🔥 Kagura',
+          '-1': '−1 🐗 Inosuke',
+          '1': '+1 🌊 Mizu',
+          '5': '+5 ⚡ Kaminari'
+        },
+        streetfighter: {
+          '-5': '−5 💥 K.O.',
+          '-1': '−1 ☄️ Hadouken',
+          '1': '+1 🥋 Shoryu',
+          '5': '+5 🏆 PERFECT'
+        },
+        default: {
+          '-5': '−5',
+          '-1': '−1',
+          '1': '+1',
+          '5': '+5'
+        }
+      };
+
+      const labels = THEME_BUTTON_LABELS[id] || THEME_BUTTON_LABELS.default;
+      document.querySelectorAll('.lifebtn').forEach(btn => {
+        const val = btn.getAttribute('data-v');
+        if (labels[val]) {
+          btn.textContent = labels[val];
+        }
+      });
+
       if (id === 'streetfighter') {
         updateSFHealthBarNames();
         updateSFHealthBars(1);
@@ -834,6 +929,7 @@
       goesFirst: 0,
       locked: false,
       muted: false,
+      performanceMode: 'full',
       alertsFired: { ten: false, five: false },
       names: ['JUGADOR 1', 'JUGADOR 2'],
       colors: ['#00f0ff', '#ff0055'],
@@ -843,6 +939,84 @@
       preSideboardTimerSecs: 50 * 60,
       matchLog: []
     };
+
+    function updateConnectivityStatus() {
+      const connStatusBadge = $('connStatusBadge');
+      if (!connStatusBadge) return;
+      const isOnline = navigator.onLine;
+      if (isOnline) {
+        connStatusBadge.className = 'conn-status-badge online';
+        connStatusBadge.querySelector('.status-text').textContent = 'CONECTADO';
+      } else {
+        connStatusBadge.className = 'conn-status-badge offline';
+        connStatusBadge.querySelector('.status-text').textContent = 'MODO LOCAL';
+      }
+    }
+    window.addEventListener('online', updateConnectivityStatus);
+    window.addEventListener('offline', updateConnectivityStatus);
+
+    function setPerformanceMode(mode) {
+      S.performanceMode = mode;
+      try {
+        localStorage.setItem('mtg_performance_mode', mode);
+      } catch(_) {}
+
+      // Actualizar el estado de silencio global
+      S.muted = (mode === 'muted');
+      
+      // Sincronizar el botón del HUD
+      const btnMute = $('btnMute');
+      if (btnMute) {
+        if (mode === 'full') {
+          btnMute.textContent = '🚀';
+          btnMute.className = 'btn-ut active';
+          btnMute.title = 'Rendimiento Full (Click para Ahorro)';
+        } else if (mode === 'saving') {
+          btnMute.textContent = '🔋';
+          btnMute.className = 'btn-ut active';
+          btnMute.title = 'Ahorro de Batería (Click para Silencio)';
+        } else if (mode === 'muted') {
+          btnMute.textContent = '🔇';
+          btnMute.className = 'btn-ut';
+          btnMute.title = 'Silencioso (Click para Full)';
+        }
+      }
+
+      // Manejo de AudioContext
+      if (audioCtx) {
+        if (S.muted && audioCtx.state !== 'suspended') {
+          audioCtx.suspend();
+        } else if (!S.muted && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      }
+
+      // Manejo de WebGL / Three.js Canvas
+      const canvas = $('webgl-canvas');
+      const fallbackBg = $('fallback-bg');
+      if (canvas) {
+        if (mode === 'full' && window.THREE) {
+          canvas.style.display = 'block';
+          if (fallbackBg) fallbackBg.classList.remove('active');
+          
+          if (!scene) {
+            try { initThreeJSEngine(); } catch(e) { console.error("Error al iniciar WebGL:", e); }
+          } else if (!isWebGLLive) {
+            isWebGLLive = true;
+            animateWebGLScene();
+          }
+        } else {
+          canvas.style.display = 'none';
+          if (fallbackBg) fallbackBg.classList.add('active');
+          isWebGLLive = false; // Detiene el rAF loop
+        }
+      }
+
+      // Sincronizar las tarjetas del Lobby
+      document.querySelectorAll('.energy-card').forEach(c => {
+        c.classList.toggle('active', c.getAttribute('data-mode') === mode);
+      });
+    }
 
     const CLASES_MANA = [
       { color: '#00f0ff', name: 'Mago Azul (Control)', av: '💧' },
@@ -1010,29 +1184,41 @@
         // Intentar reproducir MP3 local para temas con audio externo
         const themesWithAudio = ['simpsons', 'rickmorty', 'bttf', 'bleach', 'onepiece', 'naruto', 'dragonball', 'mario', 'demonslayer'];
         if (currentTheme && themesWithAudio.includes(currentTheme) && (type === 'dmg' || type === 'heal' || type === 'victory')) {
-          let audioPath = `./themes/${currentTheme}/${type}.mp3`;
-          if (playerNum && (type === 'dmg' || type === 'heal')) {
-            audioPath = `./themes/${currentTheme}/p${playerNum}_${type}.mp3`;
-          }
-          
-          const audio = new Audio(audioPath);
-          activeAudioInstance = audio;
-          audio.play().catch((err) => {
-            // Ignorar errores de aborto por pausa rápida/solapamiento
-            if (err && err.name === 'AbortError') return;
-
-            // Fallback a audio genérico del tema si falla el específico de jugador
-            if (playerNum && (type === 'dmg' || type === 'heal')) {
-              const fallbackAudio = new Audio(`./themes/${currentTheme}/${type}.mp3`);
-              activeAudioInstance = fallbackAudio;
-              fallbackAudio.play().catch((err2) => {
-                if (err2 && err2.name === 'AbortError') return;
-                triggerSynthFallback(currentTheme, type, now, value);
-              });
-            } else {
-              triggerSynthFallback(currentTheme, type, now, value);
+          const pathsToTry = [];
+          if (type === 'victory') {
+            pathsToTry.push(`./themes/${currentTheme}/victory.mp3`);
+          } else if (type === 'dmg' || type === 'heal') {
+            const valStr = value !== null ? (value > 0 ? `+${value}` : `${value}`) : null;
+            if (playerNum && valStr) {
+              pathsToTry.push(`./themes/${currentTheme}/p${playerNum}_${valStr}.mp3`);
             }
-          });
+            if (valStr) {
+              pathsToTry.push(`./themes/${currentTheme}/${valStr}.mp3`);
+            }
+            if (playerNum) {
+              pathsToTry.push(`./themes/${currentTheme}/p${playerNum}_${type}.mp3`);
+            }
+            pathsToTry.push(`./themes/${currentTheme}/${type}.mp3`);
+          }
+
+          let attemptIdx = 0;
+          function tryNextPath() {
+            if (attemptIdx >= pathsToTry.length) {
+              triggerSynthFallback(currentTheme, type, now, value);
+              return;
+            }
+            const path = pathsToTry[attemptIdx];
+            attemptIdx++;
+            const audio = new Audio(path);
+            activeAudioInstance = audio;
+            audio.play().then(() => {
+              // Exitoso
+            }).catch((err) => {
+              if (err && err.name === 'AbortError') return;
+              tryNextPath();
+            });
+          }
+          tryNextPath();
           return;
         }
 
@@ -2362,9 +2548,24 @@
       try { updateSimpsonsConsole(1, 0); } catch(_) {}
       try { initSFCabinets(); } catch(_) {}
 
+      // Inicializar conectividad PWA y LED de estado
+      updateConnectivityStatus();
 
+      // Cargar modo de energía y vincular selector
+      S.performanceMode = 'full';
+      try { S.performanceMode = localStorage.getItem('mtg_performance_mode') || 'full'; } catch(_) {}
       
-
+      document.querySelectorAll('.energy-card').forEach(card => {
+        card.classList.toggle('active', card.getAttribute('data-mode') === S.performanceMode);
+        card.addEventListener('click', (e) => {
+          const mode = e.currentTarget.getAttribute('data-mode');
+          setPerformanceMode(mode);
+          playSynthSound('lock');
+        });
+      });
+      // Sincronizar UI y audio del modo cargado
+      setPerformanceMode(S.performanceMode);
+      
       const activeMatchRestored = loadMatchState();
       
       // Aplicar preferencias de visibilidad de UI guardadas
@@ -2812,8 +3013,16 @@
 
     function initThreeJSEngine() {
       const canvas = $('webgl-canvas');
-      if (canvas) canvas.style.display = 'none';
-      return; // 3D disabled by user request
+      if (!canvas) return;
+      
+      if (!window.THREE || S.performanceMode !== 'full') {
+        canvas.style.display = 'none';
+        isWebGLLive = false;
+        const fallbackBg = $('fallback-bg');
+        if (fallbackBg) fallbackBg.classList.add('active');
+        return;
+      }
+      
       try {
         isWebGLLive = true;
         scene = new THREE.Scene();
@@ -3305,7 +3514,7 @@
     }
 
     function spawnReiatsuParticles(p, v) {
-      if (!window.anime) return;
+      if (!window.anime || S.performanceMode !== 'full') return;
       
       const wrap = document.querySelector(`#p${p} .life-num-wrap`);
       if (!wrap) return;
@@ -3964,13 +4173,20 @@
       });
     }
 
-    // Mute y Lock
+    // Botón de HUD: Ciclar entre Modos de Energía (Full -> Ahorro -> Silencio)
     $('btnMute').addEventListener('pointerdown', e => {
       e.preventDefault();
-      S.muted = !S.muted;
-      $('btnMute').classList.toggle('active', !S.muted);
-      $('btnMute').textContent = S.muted ? '🔇' : '🔊';
+      let nextMode = 'full';
+      if (S.performanceMode === 'full') {
+        nextMode = 'saving';
+      } else if (S.performanceMode === 'saving') {
+        nextMode = 'muted';
+      } else {
+        nextMode = 'full';
+      }
+      setPerformanceMode(nextMode);
       playSynthSound('lock');
+      addMatchLog(`⚡ Perfil de rendimiento cambiado a: ${nextMode.toUpperCase()}`);
     });
 
     $('btnLock').addEventListener('pointerdown', e => {
@@ -4145,7 +4361,12 @@ $('btnStartGame').addEventListener('click', () => {
   let introAudio = null;
   if (selectedLobbyTheme) {
     introAudio = new Audio(`./themes/${selectedLobbyTheme}/intro.mp3`);
-    introAudio.play().catch(() => {});
+    introAudio.play().catch(() => {
+      introAudio = new Audio(`./themes/${selectedLobbyTheme}/loading song.mp3`);
+      introAudio.play().catch(() => {
+        introAudio = null;
+      });
+    });
   }
 
   const startTime = Date.now();

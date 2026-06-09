@@ -230,8 +230,14 @@
       
       <!-- Cabecera del Logo -->
       <header class="lobby-header scroll-section">
-        <div class="lobby-logo-crest-img-wrap">
+        <div class="lobby-logo-crest-img-wrap" id="lobby-logo">
           <img src="./assets/logo.webp" class="lobby-logo-img" alt="donjuwe Logo">
+        </div>
+        <h1 class="lobby-title"><span class="title-highlight">⚔ donjuwe ⚔</span></h1>
+        <div class="lobby-badge-pwa">PWA v76 - OFFLINE READY</div>
+        <div class="conn-status-badge online" id="connStatusBadge">
+          <span class="status-dot"></span>
+          <span class="status-text">CONECTADO</span>
         </div>
         <div class="scroll-down-hint">DESLIZA PARA CONFIGURAR ⚔️</div>
       </header>
@@ -265,9 +271,37 @@
         </div>
       </section>
 
-      <!-- Sección 3: Opciones y Extras -->
+      <!-- Sección 3: Perfil de Energía y Audio -->
+      <section class="lobby-section scroll-section" id="sec-energia">
+        <h3>3. PERFIL DE ENERGÍA Y AUDIO</h3>
+        <div class="energy-selector-cards">
+          <div class="energy-card active" id="btnEnergyFull" data-mode="full">
+            <div class="energy-card-icon">🚀</div>
+            <div class="energy-card-content">
+              <h4>Rendimiento Full</h4>
+              <p>3D, partículas y audio completo</p>
+            </div>
+          </div>
+          <div class="energy-card" id="btnEnergySaving" data-mode="saving">
+            <div class="energy-card-icon">🔋</div>
+            <div class="energy-card-content">
+              <h4>Ahorro de Batería</h4>
+              <p>Fondo optimizado estático y audio</p>
+            </div>
+          </div>
+          <div class="energy-card" id="btnEnergyMuted" data-mode="muted">
+            <div class="energy-card-icon">🔇</div>
+            <div class="energy-card-content">
+              <h4>Modo Silencioso</h4>
+              <p>Sin sonidos y ahorro de batería</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección 4: Opciones y Extras -->
       <section class="lobby-section scroll-section" id="sec-extras">
-        <h3>3. CONDICIONES DE VICTORIA</h3>
+        <h3>4. CONDICIONES DE VICTORIA</h3>
         <div class="lobby-switches-panel">
           <div class="lobby-switch-item scroll-switch">
             <div class="switch-info">
@@ -330,10 +364,10 @@
         </div>
       </div>
       <div class="btn-row">
-        <button class="lifebtn lminus" data-p="1" data-v="-5">−5</button>
+        <button class="lifebtn lminus5" data-p="1" data-v="-5">−5</button>
         <button class="lifebtn lminus" data-p="1" data-v="-1">−1</button>
         <button class="lifebtn lplus" data-p="1" data-v="1">+1</button>
-        <button class="lifebtn lplus" data-p="1" data-v="5">+5</button>
+        <button class="lifebtn lplus5" data-p="1" data-v="5">+5</button>
       </div>
       <div class="undo-row">
         <button class="btn-undo" data-p="1">↩</button>
@@ -344,6 +378,32 @@
         <button class="btn-pois minus" data-p="1" data-v="-1">−</button>
         <span class="poison-num" id="poi1">0</span>
         <button class="btn-pois" data-p="1" data-v="1">+</button>
+      </div>
+      <div class="cmdr-grid" id="cmdrGrid1" style="display:none;">
+        <div class="cmdr-item">
+          <span class="cmdr-lbl" style="color:#ff527a;">C1</span>
+          <div class="cmdr-ctrls">
+            <button class="btn-cmdr minus" onclick="changeCmdrDmg(1, 1, -1)">−</button>
+            <span class="cmdr-num" id="cmd1_1">0</span>
+            <button class="btn-cmdr" onclick="changeCmdrDmg(1, 1, 1)">+</button>
+          </div>
+        </div>
+        <div class="cmdr-item">
+          <span class="cmdr-lbl" style="color:#00f0ff;">C2</span>
+          <div class="cmdr-ctrls">
+            <button class="btn-cmdr minus" onclick="changeCmdrDmg(1, 2, -1)">−</button>
+            <span class="cmdr-num" id="cmd1_2">0</span>
+            <button class="btn-cmdr" onclick="changeCmdrDmg(1, 2, 1)">+</button>
+          </div>
+        </div>
+        <div class="cmdr-item">
+          <span class="cmdr-lbl" style="color:#39ff14;">C3</span>
+          <div class="cmdr-ctrls">
+            <button class="btn-cmdr minus" onclick="changeCmdrDmg(1, 3, -1)">−</button>
+            <span class="cmdr-num" id="cmd1_3">0</span>
+            <button class="btn-cmdr" onclick="changeCmdrDmg(1, 3, 1)">+</button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -371,7 +431,7 @@
           <button class="btn-ut active" id="btnMute" title="Mute/Unmute">🔊</button>
           <button class="btn-ut" id="btnThemeSelector" title="Cambiar Tema">🎨</button>
           <button class="btn-ut" id="btnDiceSelector" title="Lanzar Dado/Moneda">🎲</button>
-          <button class="btn-ut" id="btnHistory" title="Historial del Match">📋</button>
+          <button class="btn-ut" id="btnHistory" title="Historial del Match">📜 LOG</button>
           <button class="btn-ut" id="btnLock" title="Bloquear Pantalla">🔓</button>
           <button class="btn-ut" id="btnExitLobby" title="Salir al Lobby">🏠</button>
         </div>
@@ -413,10 +473,10 @@
         </div>
       </div>
       <div class="btn-row">
-        <button class="lifebtn lminus" data-p="2" data-v="-5">−5</button>
+        <button class="lifebtn lminus5" data-p="2" data-v="-5">−5</button>
         <button class="lifebtn lminus" data-p="2" data-v="-1">−1</button>
         <button class="lifebtn lplus" data-p="2" data-v="1">+1</button>
-        <button class="lifebtn lplus" data-p="2" data-v="5">+5</button>
+        <button class="lifebtn lplus5" data-p="2" data-v="5">+5</button>
       </div>
       <div class="undo-row">
         <button class="btn-undo" data-p="2">↩</button>
@@ -427,6 +487,32 @@
         <button class="btn-pois minus" data-p="2" data-v="-1">−</button>
         <span class="poison-num" id="poi2">0</span>
         <button class="btn-pois" data-p="2" data-v="1">+</button>
+      </div>
+      <div class="cmdr-grid" id="cmdrGrid2" style="display:none;">
+        <div class="cmdr-item">
+          <span class="cmdr-lbl" style="color:#ff527a;">C1</span>
+          <div class="cmdr-ctrls">
+            <button class="btn-cmdr minus" onclick="changeCmdrDmg(2, 1, -1)">−</button>
+            <span class="cmdr-num" id="cmd2_1">0</span>
+            <button class="btn-cmdr" onclick="changeCmdrDmg(2, 1, 1)">+</button>
+          </div>
+        </div>
+        <div class="cmdr-item">
+          <span class="cmdr-lbl" style="color:#00f0ff;">C2</span>
+          <div class="cmdr-ctrls">
+            <button class="btn-cmdr minus" onclick="changeCmdrDmg(2, 2, -1)">−</button>
+            <span class="cmdr-num" id="cmd2_2">0</span>
+            <button class="btn-cmdr" onclick="changeCmdrDmg(2, 2, 1)">+</button>
+          </div>
+        </div>
+        <div class="cmdr-item">
+          <span class="cmdr-lbl" style="color:#39ff14;">C3</span>
+          <div class="cmdr-ctrls">
+            <button class="btn-cmdr minus" onclick="changeCmdrDmg(2, 3, -1)">−</button>
+            <span class="cmdr-num" id="cmd2_3">0</span>
+            <button class="btn-cmdr" onclick="changeCmdrDmg(2, 3, 1)">+</button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -497,10 +583,11 @@
       await typeText(status, '>> [CONECTANDO] CONECTANDO AL NÚCLEO JUWE...');
       await new Promise(r => setTimeout(r, 150));
 
-      // Paso 2: Carga de librerías
+      // Paso 2: Carga completada
       updateProgressWidth(35);
-      await typeText(status, '>> [CARGANDO] ACOPLANDO MÓDULO GRÁFICO WEBGL (THREE.JS)...');
+      await typeText(status, '>> [CARGANDO] CARGANDO SISTEMAS NATIVOS...');
       
+      // Cargar librerías críticas en segundo plano con soporte offline
       const libsLoaded = await Promise.all([
         loadLibrary('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'),
         loadLibrary('https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js')

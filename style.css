@@ -70,11 +70,6 @@
       flex-direction: column;
       height: 100dvh;
       position: relative;
-      /* SafeArea: respeta Dynamic Island y barra inferior del iPhone */
-      padding-top: var(--safe-top);
-      padding-bottom: var(--safe-bottom);
-      padding-left: var(--safe-left);
-      padding-right: var(--safe-right);
     }
 
     /* ── CANVASES DE FONDO (3D y Fallback) — FIXED para llegar bajo el notch ── */
@@ -1502,6 +1497,7 @@
       box-shadow:
         inset 0 -16px 32px color-mix(in srgb, var(--p1-glow) 6%, transparent),
         inset 0 0 0 0.5px color-mix(in srgb, var(--p1-glow) 18%, transparent);
+      padding-bottom: calc(15px + var(--safe-top));
     }
 
     #p2 {
@@ -1509,6 +1505,7 @@
       box-shadow:
         inset 0 16px 32px color-mix(in srgb, var(--p2-glow) 6%, transparent),
         inset 0 0 0 0.5px color-mix(in srgb, var(--p2-glow) 18%, transparent);
+      padding-bottom: calc(15px + var(--safe-bottom));
     }
 
     /* Destello de toques */
@@ -1929,8 +1926,8 @@
 
     .btn-row {
       display: grid;
-      grid-template-columns: 1fr 1.3fr 1.3fr 1fr;
-      gap: 12px;
+      grid-template-columns: 1.2fr 1.6fr 1.6fr 1.2fr;
+      gap: 10px;
       width: 100%;
       max-width: 400px;
       flex-shrink: 0;
@@ -1956,15 +1953,15 @@
 
     .lifebtn[data-v="-1"],
     .lifebtn[data-v="1"] {
-      padding: 16px 4px;
-      font-size: clamp(18px, 5.5vw, 26px);
+      padding: 22px 4px;
+      font-size: clamp(22px, 6.5vw, 32px);
     }
 
     .lifebtn[data-v="-5"],
     .lifebtn[data-v="5"] {
-      padding: 10px 4px;
-      font-size: clamp(13px, 3.8vw, 18px);
-      opacity: 0.85;
+      padding: 18px 4px;
+      font-size: clamp(16px, 5vw, 22px);
+      opacity: 0.95;
     }
 
     .lifebtn::before {
@@ -2111,6 +2108,74 @@
       min-width: 22px;
       text-align: center;
       transition: all 0.2s;
+    }
+
+    /* Daño de Comandante */
+    .cmdr-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+      padding: 5px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .cmdr-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+      padding: 4px;
+      flex: 1;
+    }
+
+    .cmdr-lbl {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    .cmdr-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-cmdr {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cmdr-num {
+      font-weight: 800;
+      font-size: 14px;
+      color: #ccc;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .cmdr-num.warn {
+      color: #ffaa00;
+      text-shadow: 0 0 8px rgba(255, 170, 0, 0.6);
+    }
+
+    .cmdr-num.crit {
+      color: #ff2255;
+      text-shadow: 0 0 10px rgba(255, 34, 85, 0.8);
+      animation: pulse 1s infinite alternate;
     }
 
     .poison-num.warn {
@@ -5209,96 +5274,86 @@ body[data-theme="onepiece"] .lifebtn[data-v="5"]:active {
 
 /* 🍥 TEMA: NARUTO (Botonera de Pergamino Abierto y Esferas de Chakra) */
 body[data-theme="naruto"] .btn-row {
-  background: #fdf5e6 !important; /* Papel pergamino antiguo texturizado */
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(210, 105, 30, 0.05) 0%, transparent 80%),
-    repeating-linear-gradient(0deg, rgba(139, 69, 19, 0.02) 0px, rgba(139, 69, 19, 0.02) 1px, transparent 1px, transparent 10px) !important;
-  border-left: 8px solid #8b0000 !important; /* Mangos de madera lacada rojo oscuro reducidos */
-  border-right: 8px solid #8b0000 !important;
-  border-top: 2px double #d2691e !important;
-  border-bottom: 2px double #d2691e !important;
-  border-radius: 6px !important;
-  padding: 6px 4px !important;
-  box-shadow: 
-    inset 0 0 10px rgba(139,69,19,0.35),
-    0 4px 10px rgba(0,0,0,0.6),
-    0 0 8px rgba(210, 105, 30, 0.2) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   position: relative;
   display: flex !important;
   justify-content: space-around !important;
   align-items: center !important;
+  gap: 15px !important;
 }
 
 /* Símbolo Uzumaki en el fondo del pergamino */
+/* Símbolo Uzumaki en el fondo del pergamino (oculto en nuevo diseño) */
 body[data-theme="naruto"] .btn-row::before {
-  content: "" !important;
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  width: 50px !important;
-  height: 50px !important;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,10 C25,10 10,25 10,50 C10,75 25,90 50,90 C75,90 90,75 90,50 C90,35 80,22 65,18 C50,14 36,24 32,38 C28,52 38,66 52,70 C64,74 76,66 78,54 C80,44 72,34 62,32 C54,30 46,36 44,44 C42,50 46,56 52,58 C56,60 60,56 60,52 C60,50 58,48 56,48 C54,48 52,50 52,52' fill='none' stroke='%23d2691e' stroke-width='4' stroke-linecap='round' opacity='0.15'/%3E%3C/svg%3E") no-repeat center !important;
-  background-size: contain !important;
-  pointer-events: none !important;
-  z-index: 0 !important;
+  display: none !important;
 }
 
 body[data-theme="naruto"] .lifebtn {
   font-family: 'Shojumaru', cursive !important;
   font-weight: normal !important;
-  border-radius: 50% !important;
+  border-radius: 50px !important; /* Forma de píldora */
   padding: 0 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   color: #fff !important;
-  border: 2px solid #111 !important;
-  box-shadow: 
-    0 3px 4px rgba(0,0,0,0.45), 
-    inset 0 1px 3px rgba(255,255,255,0.4) !important;
+  background: rgba(0, 0, 0, 0.65) !important; /* Cristal oscuro */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
   text-shadow: 1px 1px 3px #000 !important;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
   margin: auto !important;
   position: relative !important;
   z-index: 1 !important;
   clip-path: none !important;
+  width: 100% !important;
+  height: 68px !important;
+  font-size: 2rem !important;
+  overflow: hidden !important;
+}
+
+body[data-theme="naruto"] .lifebtn::before {
+  content: '封';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.04);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* Chakra Naranja (Kyuubi/Zorro) para -1 */
 body[data-theme="naruto"] .lifebtn[data-v="-1"] {
-  width: 52px !important;
-  height: 52px !important;
-  font-size: 1.2rem !important;
-  background: radial-gradient(circle at 35% 35%, #ff9d00 0%, #ff3700 65%, #660000 100%) !important;
+  border-bottom: 3px solid #ff3700 !important;
   box-shadow: 
-    0 0 10px rgba(255, 69, 0, 0.5), 
-    0 3px 5px rgba(0,0,0,0.4),
-    inset 0 1px 3px rgba(255,255,255,0.5) !important;
+    0 4px 15px rgba(0,0,0,0.5),
+    0 8px 25px rgba(255, 69, 0, 0.25) !important;
 }
 
 /* Chakra Azul (Rasengan) para +1 */
 body[data-theme="naruto"] .lifebtn[data-v="1"] {
-  width: 52px !important;
-  height: 52px !important;
-  font-size: 1.2rem !important;
-  background: radial-gradient(circle at 35% 35%, #9ae2ff 0%, #0088ff 65%, #001155 100%) !important;
+  border-bottom: 3px solid #0088ff !important;
   box-shadow: 
-    0 0 10px rgba(0, 191, 255, 0.5), 
-    0 3px 5px rgba(0,0,0,0.4),
-    inset 0 1px 3px rgba(255,255,255,0.5) !important;
+    0 4px 15px rgba(0,0,0,0.5),
+    0 8px 25px rgba(0, 191, 255, 0.25) !important;
 }
 
-/* Shuriken/Kunai Acero para los de 5 (-5 y +5, botones pequeños) */
+/* Estilo para los botones de 5 (-5 y +5) */
 body[data-theme="naruto"] .lifebtn[data-v="-5"],
 body[data-theme="naruto"] .lifebtn[data-v="5"] {
-  width: 38px !important;
-  height: 38px !important;
-  font-size: 0.9rem !important;
-  background: radial-gradient(circle at 35% 35%, #b5b5b5 0%, #616161 70%, #2b2b2b 100%) !important;
-  border-color: #333 !important;
-  opacity: 0.95 !important;
+  border-bottom: 3px solid #ccc !important;
+  box-shadow: 
+    0 4px 15px rgba(0,0,0,0.5),
+    0 8px 20px rgba(255, 255, 255, 0.15) !important;
+  font-size: 1.5rem !important;
 }
+
 
 body[data-theme="naruto"] .lifebtn:hover {
   transform: scale(1.1) rotate(15deg) !important;
@@ -7256,3 +7311,200 @@ body[data-theme="rickmorty"] #sideboard-alert-banner::before {
   animation: portalSpinScale 10s linear infinite;
   pointer-events: none;
 }
+
+/* ── PERFIL DE ENERGÍA Y AUDIO Y CONECTIVIDAD LED ── */
+
+.lobby-logo-crest-img-wrap {
+  animation: logoPulseGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes logoPulseGlow {
+  0% { filter: drop-shadow(0 0 20px rgba(255, 106, 0, 0.35)); }
+  100% { filter: drop-shadow(0 0 35px rgba(255, 106, 0, 0.65)); }
+}
+
+.lobby-badge-pwa {
+  font-family: 'Outfit', sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-top: -6px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.conn-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s ease;
+  margin-bottom: 18px;
+}
+
+.conn-status-badge .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.conn-status-badge.online {
+  border-color: rgba(0, 255, 102, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.05);
+}
+
+.conn-status-badge.online .status-dot {
+  background: #00ff66;
+  box-shadow: 0 0 8px #00ff66, 0 0 15px #00ff66;
+  animation: ledBlinkOnline 2s infinite alternate;
+}
+
+.conn-status-badge.online .status-text {
+  color: #00ff66;
+  text-shadow: 0 0 6px rgba(0, 255, 102, 0.2);
+}
+
+.conn-status-badge.offline {
+  border-color: rgba(255, 106, 0, 0.2);
+  box-shadow: 0 0 10px rgba(255, 106, 0, 0.05);
+}
+
+.conn-status-badge.offline .status-dot {
+  background: #ff6a00;
+  box-shadow: 0 0 8px #ff6a00, 0 0 15px #ff6a00;
+  animation: ledBlinkOffline 2s infinite alternate;
+}
+
+.conn-status-badge.offline .status-text {
+  color: #ff6a00;
+  text-shadow: 0 0 6px rgba(255, 106, 0, 0.2);
+}
+
+@keyframes ledBlinkOnline {
+  0% { opacity: 0.4; filter: brightness(0.6); }
+  100% { opacity: 1; filter: brightness(1.2); }
+}
+
+@keyframes ledBlinkOffline {
+  0% { opacity: 0.4; filter: brightness(0.6); }
+  100% { opacity: 1; filter: brightness(1.2); }
+}
+
+/* ── Tarjetas de selección de energía ── */
+.energy-selector-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  padding: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.energy-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1.5px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.energy-card:active {
+  transform: scale(0.98);
+}
+
+.energy-card-icon {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
+
+.energy-card-content {
+  text-align: left;
+}
+
+.energy-card-content h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.energy-card-content p {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 2px 0 0 0;
+}
+
+/* Modos Activos */
+#btnEnergyFull.active {
+  background: rgba(255, 26, 64, 0.06);
+  border-color: rgba(255, 26, 64, 0.45);
+  box-shadow: 0 0 15px rgba(255, 26, 64, 0.15);
+}
+#btnEnergyFull.active .energy-card-icon {
+  background: rgba(255, 26, 64, 0.15);
+  border-color: rgba(255, 26, 64, 0.4);
+}
+#btnEnergyFull.active .energy-card-content h4 {
+  color: #ff527a;
+}
+
+#btnEnergySaving.active {
+  background: rgba(57, 255, 20, 0.06);
+  border-color: rgba(57, 255, 20, 0.45);
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.15);
+}
+#btnEnergySaving.active .energy-card-icon {
+  background: rgba(57, 255, 20, 0.15);
+  border-color: rgba(57, 255, 20, 0.4);
+}
+#btnEnergySaving.active .energy-card-content h4 {
+  color: #39ff14;
+}
+
+#btnEnergyMuted.active {
+  background: rgba(157, 0, 255, 0.06);
+  border-color: rgba(157, 0, 255, 0.45);
+  box-shadow: 0 0 15px rgba(157, 0, 255, 0.15);
+}
+#btnEnergyMuted.active .energy-card-icon {
+  background: rgba(157, 0, 255, 0.15);
+  border-color: rgba(157, 0, 255, 0.4);
+}
+#btnEnergyMuted.active .energy-card-content h4 {
+  color: #b966ff;
+}
+

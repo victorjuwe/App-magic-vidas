@@ -5,7 +5,29 @@
   <meta http-equiv="refresh" content="0; url=./contador.html">
   <title>Cargando donjuwe...</title>
   <script>
-    window.location.replace("./contador.html" + window.location.search + window.location.hash);
+    async function clearAndRedirect() {
+      if ('serviceWorker' in navigator) {
+        try {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          for (let reg of regs) {
+            await reg.unregister();
+          }
+        } catch(e) {}
+      }
+      if ('caches' in window) {
+        try {
+          const keys = await caches.keys();
+          for (let key of keys) {
+            await caches.delete(key);
+          }
+        } catch(e) {}
+      }
+      const ts = new Date().getTime();
+      let url = "./contador.html?v=" + ts;
+      if (window.location.hash) url += window.location.hash;
+      window.location.replace(url);
+    }
+    clearAndRedirect();
   </script>
 </head>
 <body>
