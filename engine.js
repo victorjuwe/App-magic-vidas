@@ -458,9 +458,9 @@
           // Sonido de moneda insertada (moneda arcade)
           try {
             const coinAudio = new Audio('./themes/streetfighter/coin.mp3');
-            coinAudio.play().catch(() => playSynthSound('lock'));
+            coinAudio.play().catch(() => playSynthesizedCoinDrop());
           } catch (_) {
-            playSynthSound('lock');
+            playSynthesizedCoinDrop();
           }
 
           // Iniciar juego tras 1 segundo
@@ -513,9 +513,9 @@
           // Sonido de moneda
           try {
             const coinAudio = new Audio('./themes/streetfighter/coin.mp3');
-            coinAudio.play().catch(() => playSynthSound('lock'));
+            coinAudio.play().catch(() => playSynthesizedCoinDrop());
           } catch (_) {
-            playSynthSound('lock');
+            playSynthesizedCoinDrop();
           }
 
           const overlay = $('sf-continue-overlay');

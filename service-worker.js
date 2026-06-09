@@ -1,7 +1,8 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
 
-const CACHE = 'magic-bo3-v82';
+const CACHE = 'magic-bo3-v84';
+
 
 // Activos críticos para arrancar 100% offline
 const CORE_ASSETS = [
@@ -33,6 +34,7 @@ const CORE_ASSETS = [
   './themes/bttf/loading song.mp3',
   './themes/bttf/victory.mp3',
   // ── Demon Slayer ────────────────────────────────────
+  './themes/demonslayer/+1.mp3',
   './themes/demonslayer/dmg.mp3',
   './themes/demonslayer/heal.mp3',
   './themes/demonslayer/intro.mp3',
