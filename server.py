@@ -24,9 +24,8 @@ class MTGStaticHandler(SimpleHTTPRequestHandler):
         parsed_path = urllib.parse.urlparse(self.path)
         path = parsed_path.path
 
-        # Redirigir la raíz o index.html a contador.html
-        if path in ('/', '/index.html'):
-            self.path = '/contador.html'
+        # Dejar que index.html maneje la limpieza de caché en el cliente
+        pass
 
         range_header = self.headers.get('Range')
         if range_header:

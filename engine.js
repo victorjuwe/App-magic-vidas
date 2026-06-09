@@ -931,26 +931,12 @@
         }
       }
 
-      // Manejo de WebGL / Three.js Canvas
+      // Manejo de WebGL / Three.js Canvas (Desactivado por petición del usuario - rombo feo en medio)
       const canvas = $('webgl-canvas');
       const fallbackBg = $('fallback-bg');
-      if (canvas) {
-        if (mode === 'full' && window.THREE) {
-          canvas.style.display = 'block';
-          if (fallbackBg) fallbackBg.classList.remove('active');
-          
-          if (!scene) {
-            try { initThreeJSEngine(); } catch(e) { console.error("Error al iniciar WebGL:", e); }
-          } else if (!isWebGLLive) {
-            isWebGLLive = true;
-            animateWebGLScene();
-          }
-        } else {
-          canvas.style.display = 'none';
-          if (fallbackBg) fallbackBg.classList.add('active');
-          isWebGLLive = false; // Detiene el rAF loop
-        }
-      }
+      if (canvas) canvas.style.display = 'none';
+      if (fallbackBg) fallbackBg.classList.add('active');
+      isWebGLLive = false;
 
       // Sincronizar las tarjetas del Lobby
       document.querySelectorAll('.energy-card').forEach(c => {
@@ -2953,15 +2939,11 @@
 
     function initThreeJSEngine() {
       const canvas = $('webgl-canvas');
-      if (!canvas) return;
-      
-      if (!window.THREE || S.performanceMode !== 'full') {
-        canvas.style.display = 'none';
-        isWebGLLive = false;
-        const fallbackBg = $('fallback-bg');
-        if (fallbackBg) fallbackBg.classList.add('active');
-        return;
-      }
+      if (canvas) canvas.style.display = 'none';
+      isWebGLLive = false;
+      const fallbackBg = $('fallback-bg');
+      if (fallbackBg) fallbackBg.classList.add('active');
+      return; // 3D disabled completely by user request (ugly 3D gem)
       
       try {
         isWebGLLive = true;
