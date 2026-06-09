@@ -759,68 +759,8 @@
         card.classList.toggle('active', card.getAttribute('data-theme') === (id || ''));
       });
 
-      // Modificación dinámica de etiquetas de botones según tema
+      // Modificación dinámica de etiquetas de botones según tema (manteniendo números limpios y legibles)
       const THEME_BUTTON_LABELS = {
-        simpsons: {
-          '-5': '−5 🚨 Alarma',
-          '-1': '−1 🤦 Mosquis',
-          '1': '+1 🍩 Rosquilla',
-          '5': '+5 💰 Excelente'
-        },
-        rickmorty: {
-          '-5': '−5 🛸 Wasted',
-          '-1': '−1 😰 Oh Cielos',
-          '1': '+1 🧪 Semilla',
-          '5': '+5 🌀 Portal'
-        },
-        bttf: {
-          '-5': '−5 ⏳ Paradoja',
-          '-1': '−1 🐔 Gallina',
-          '1': '+1 ⚡ Fluzo',
-          '5': '+5 🏎️ 88 MPH'
-        },
-        bleach: {
-          '-5': '−5 🔴 Getsuga',
-          '-1': '−1 ⚔️ Tajo',
-          '1': '+1 🌸 Orihime',
-          '5': '+5 💀 Bankai'
-        },
-        onepiece: {
-          '-5': '−5 🔥 Buster',
-          '-1': '−1 ⚔️ Santoryu',
-          '1': '+1 🍖 Niku',
-          '5': '+5 ☀️ Gear 5'
-        },
-        naruto: {
-          '-5': '−5 🌀 Rasengan',
-          '-1': '−1 🗡️ Kunai',
-          '1': '+1 🍥 Ramen',
-          '5': '+5 🦊 Kyuubi'
-        },
-        dragonball: {
-          '-5': '−5 ☄️ Kame',
-          '-1': '−1 👿 Kisama',
-          '1': '+1 🟢 Senzu',
-          '5': '+5 👑 SSJ'
-        },
-        mario: {
-          '-5': '−5 ☠️ Over',
-          '-1': '−1 💥 Daño',
-          '1': '+1 🪙 Moneda',
-          '5': '+5 🍄 Champi'
-        },
-        demonslayer: {
-          '-5': '−5 🔥 Kagura',
-          '-1': '−1 🐗 Inosuke',
-          '1': '+1 🌊 Mizu',
-          '5': '+5 ⚡ Kaminari'
-        },
-        streetfighter: {
-          '-5': '−5 💥 K.O.',
-          '-1': '−1 ☄️ Hadouken',
-          '1': '+1 🥋 Shoryu',
-          '5': '+5 🏆 PERFECT'
-        },
         default: {
           '-5': '−5',
           '-1': '−1',
@@ -829,7 +769,7 @@
         }
       };
 
-      const labels = THEME_BUTTON_LABELS[id] || THEME_BUTTON_LABELS.default;
+      const labels = THEME_BUTTON_LABELS.default;
       document.querySelectorAll('.lifebtn').forEach(btn => {
         const val = btn.getAttribute('data-v');
         if (labels[val]) {
