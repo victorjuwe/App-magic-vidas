@@ -2,6 +2,21 @@
     const $ = id => document.getElementById(id);
     const raf = cb => requestAnimationFrame(cb);
     const pad = n => String(n).padStart(2, '0');
+    
+    // WRAPPER DE AUDIO GLOBAL PARA AHORRO DE ENERGÍA
+    const OriginalAudio = window.Audio;
+    window.Audio = function(...args) {
+      const audioObj = new OriginalAudio(...args);
+      const originalPlay = audioObj.play.bind(audioObj);
+      audioObj.play = function() {
+        if (typeof S !== 'undefined' && S && (S.performanceMode === 'saving' || S.performanceMode === 'muted')) {
+          return Promise.resolve();
+        }
+        return originalPlay();
+      };
+      return audioObj;
+    };
+
     const escapeHTML = str => {
       if (!str) return '';
       return String(str).replace(/[&<>'"]/g,
@@ -398,30 +413,23 @@
       { id: 'demonslayer', name: 'Demon Slayer', icon: '⚔️', desc: 'Respiración de Agua y Castillo Infinito', badge: 'ANIME', bg: './themes/demonslayer/preview.webp' }
     ];
 
-    function updateSFHealthBarNames() {
-      const nameP1 = $('sfNameP1');
-      const nameP2 = $('sfNameP2');
-      if (nameP1) nameP1.textContent = S.names[0] || 'PLAYER 1';
-      if (nameP2) nameP2.textContent = S.names[1] || 'PLAYER 2';
-    }
-
     let sfCredits = 0;
     let sfContinueInterval = null;
     let sfContinueAudio = null;
 
-    function updateSFHealthBars(p) {
+    function updateUniversalHealthBars(p) {
       try {
         const startingLife = (selectedMode === 'commander') ? 40 : 20;
         const currentLife = S.lives[p - 1];
         const pct = Math.max(0, Math.min(100, (currentLife / startingLife) * 100));
 
-        const barFill = $(`sfHealthBarP${p}`);
-        const barRed = $(`sfRedBarP${p}`);
+        const barFill = $(`healthBarP${p}`);
+        const barRed = $(`healthRedBarP${p}`);
 
         if (barFill) barFill.style.width = `${pct}%`;
         if (barRed) barRed.style.width = `${pct}%`;
       } catch (e) {
-        console.error("Error al actualizar barra de salud SF:", e);
+        console.error("Error al actualizar barra de salud universal:", e);
       }
     }
 
@@ -518,11 +526,8 @@
           
           // Sonido de moneda insertada (moneda arcade)
           try {
-            const coinAudio = new Audio('./themes/streetfighter/coin.mp3');
-            coinAudio.play().catch(() => playSynthesizedCoinDrop());
-          } catch (_) {
             playSynthesizedCoinDrop();
-          }
+          } catch (_) {}
 
           // Iniciar juego tras 1 segundo
           setTimeout(() => {
@@ -573,11 +578,8 @@
 
           // Sonido de moneda
           try {
-            const coinAudio = new Audio('./themes/streetfighter/coin.mp3');
-            coinAudio.play().catch(() => playSynthesizedCoinDrop());
-          } catch (_) {
             playSynthesizedCoinDrop();
-          }
+          } catch (_) {}
 
           const overlay = $('sf-continue-overlay');
           if (overlay) {
@@ -596,8 +598,8 @@
           S.prevLives = [startingLife, startingLife];
           renderLife(1, 0);
           renderLife(2, 0);
-          updateSFHealthBars(1);
-          updateSFHealthBars(2);
+          updateUniversalHealthBars(1);
+          updateUniversalHealthBars(2);
 
           // Anunciar FIGHT
           setTimeout(() => {
@@ -622,7 +624,7 @@
 
 
     function updateSFPlayerProfiles() {
-      updateSFHealthBarNames();
+
       
       const vsName1 = $('sfVsName1');
       const vsName2 = $('sfVsName2');
@@ -839,9 +841,8 @@
       });
 
       if (id === 'streetfighter') {
-        updateSFHealthBarNames();
-        updateSFHealthBars(1);
-        updateSFHealthBars(2);
+        updateUniversalHealthBars(1);
+        updateUniversalHealthBars(2);
 
         // Si no se han insertado créditos, no hemos empezado y la pantalla de juego está activa
         const hasStarted = S.clock.running || S.lives[0] !== (selectedMode === 'commander' ? 40 : 20) || S.lives[1] !== (selectedMode === 'commander' ? 40 : 20);
@@ -3478,9 +3479,8 @@
 
       // Efectos específicos del tema en el contador de vidas
       const currentTheme = document.body.dataset.theme;
-      if (currentTheme === 'streetfighter') {
-        updateSFHealthBars(p);
-      }
+      // Actualizar Barra Universal
+      updateUniversalHealthBars(p);
 
       // Disparar pico de aura/energía general para el tema activo
       const wrap = pel.querySelector('.life-num-wrap');

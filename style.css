@@ -11,7 +11,7 @@
       --p1-glow: var(--neon-cyan);
       --p2-glow: var(--neon-pink);
 
-      --glass-bg: rgba(10, 10, 18, 0.45);
+      --glass-bg: transparent;
       --glass-border: rgba(255, 255, 255, 0.04);
       
       --divider-bg: rgba(6, 6, 12, 0.82);
@@ -559,7 +559,9 @@
       box-shadow: 0 0 6px currentColor;
     }
 
-    /* 3. Tema: LOS SIMPSONS */
+    body[data-theme="simpsons"] {
+      --health-fill: linear-gradient(to bottom, #ffd90f, #e8a317); /* Amarillo Simpson y rosquilla */
+    }
     body[data-theme="simpsons"] .player {
       background: rgba(255, 255, 255, 0.96);
       border: 3.5px solid #000;
@@ -4173,47 +4175,45 @@ body[data-theme="streetfighter"] .battle-progress-fill {
    TEMA STREET FIGHTER II - ESTILOS ARCADE DE MINIJUEGO
    ========================================================================== */
 
-/* Barras de Salud SF */
-.sf-health-bar-container {
-  display: none;
+/* Barras de Salud Universales */
+.health-bar-container {
   width: 90%;
   max-width: 360px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   z-index: 15;
-  background: rgba(0,0,0,0.4);
+  background: var(--glass-bg, rgba(0,0,0,0.1));
   padding: 4px;
-  border-radius: 4px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
 }
 
 /* Colocación de barra para P1 (Físicamente en el top de pantalla, rotado) */
-#p1 .sf-health-bar-container {
+#p1 .health-bar-container {
   top: 15px;
 }
 
 /* Colocación de barra para P2 (Físicamente justo abajo de la barra central) */
-#p2 .sf-health-bar-container {
+#p2 .health-bar-container {
   top: 15px;
 }
 
-body[data-theme="streetfighter"] .sf-health-bar-container {
-  display: block !important;
-}
-
-/* Estilo del marco del bar clásico SFII (Borde azul/dorado de metal) */
-.sf-health-bar-bg {
+/* Estilo del marco del bar */
+.health-bar-bg {
   position: relative;
-  height: clamp(16px, 4.5vw, 24px);
+  height: clamp(14px, 4vw, 20px);
   background: #111;
-  border: 2px solid #555;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: inset 0 0 5px #000;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 /* Barra de impacto roja (detrás, con lag de transición) */
-.sf-health-bar-red {
+.health-bar-red {
   position: absolute;
   top: 0;
   left: 0;
@@ -4224,43 +4224,45 @@ body[data-theme="streetfighter"] .sf-health-bar-container {
   z-index: 1;
 }
 
-/* Barra frontal amarilla de vida */
-.sf-health-bar-fill {
+/* Barra frontal de vida (color base, sobreescribible por temas) */
+.health-bar-fill {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: linear-gradient(to bottom, #ffe600, #ffaa00);
+  background: var(--health-fill, linear-gradient(to bottom, #39ff14, #1b8a07));
   transition: width 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 2;
-  box-shadow: inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.3);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.3), inset 0 -2px 2px rgba(0,0,0,0.3);
 }
 
 /* Nombre de luchador debajo de la barra */
-.sf-health-bar-name {
-  font-family: 'Press Start 2P', monospace;
-  font-size: clamp(8px, 2.5vw, 10px);
+.health-bar-name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.health-bar-name span {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(12px, 3.5vw, 15px);
   color: #fff;
-  text-shadow: 2px 2px 0px #000;
-  margin-top: 4px;
-  text-align: left;
-  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  font-weight: 900;
+  letter-spacing: 0.1em;
 }
 
-/* Nombre predeterminado de los luchadores en la barra */
-#sfNameP1, #sfNameP2 {
-  font-family: 'Press Start 2P', monospace;
-}
-
-/* Inversión de dirección para la barra del P1 para que de la sensación de que se drenan enfrentadas */
-#p1 .sf-health-bar-fill,
-#p1 .sf-health-bar-red {
+/* Inversión de dirección para la barra del P1 */
+#p1 .health-bar-fill,
+#p1 .health-bar-red {
   right: 0;
   left: auto;
 }
-#p1 .sf-health-bar-name {
-  text-align: right;
+#p1 .health-bar-name {
+  flex-direction: row-reverse;
 }
 
 /* Modificaciones estéticas de Street Fighter a los marcadores */
@@ -7584,3 +7586,12 @@ body.performance-saving *::after {
   transition-delay: -1ms !important;
 }
 
+/* Variables de Barra de Salud por Tema */
+body[data-theme="bleach"] { --health-fill: linear-gradient(to right, #9d00ff, #4b0082); }
+body[data-theme="bttf"] { --health-fill: linear-gradient(to right, #00f0ff, #005fcc); }
+body[data-theme="rickmorty"] { --health-fill: linear-gradient(to right, #39ff14, #1a8f09); }
+body[data-theme="onepiece"] { --health-fill: linear-gradient(to right, #ffd700, #b8860b); }
+body[data-theme="naruto"] { --health-fill: linear-gradient(to right, #ff8c00, #e65c00); }
+body[data-theme="dragonball"] { --health-fill: linear-gradient(to right, #ffcc00, #ff6600); }
+body[data-theme="demonslayer"] { --health-fill: linear-gradient(to right, #00f2fe, #4facfe); }
+body[data-theme="mario"] { --health-fill: linear-gradient(to right, #ff0000, #b20000); }

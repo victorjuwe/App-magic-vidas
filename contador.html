@@ -234,12 +234,7 @@
         <div class="lobby-logo-crest-img-wrap" id="lobby-logo">
           <img src="./assets/logo.webp" class="lobby-logo-img" alt="donjuwe Logo">
         </div>
-        <h1 class="lobby-title"><span class="title-highlight">⚔ donjuwe ⚔</span></h1>
-        <div class="lobby-badge-pwa">PWA v76 - OFFLINE READY</div>
-        <div class="conn-status-badge online" id="connStatusBadge">
-          <span class="status-dot"></span>
-          <span class="status-text">CONECTADO</span>
-        </div>
+
         <div class="scroll-down-hint">DESLIZA PARA CONFIGURAR ⚔️</div>
       </header>
       
@@ -332,13 +327,16 @@
     
     <!-- ═══ JUGADOR 1 (Arriba, rotado 180°) ═══ -->
     <div class="player" id="p1">
-      <!-- Barra de Salud Street Fighter -->
-      <div class="sf-health-bar-container">
-        <div class="sf-health-bar-bg">
-          <div class="sf-health-bar-red" id="sfRedBarP1"></div>
-          <div class="sf-health-bar-fill" id="sfHealthBarP1"></div>
+      <!-- Barra de Salud Universal -->
+      <div class="health-bar-container" onclick="openProfileEdit(1)">
+        <div class="health-bar-bg">
+          <div class="health-bar-red" id="healthRedBarP1"></div>
+          <div class="health-bar-fill" id="healthBarP1"></div>
         </div>
-        <div class="sf-health-bar-name" id="sfNameP1">PLAYER 1</div>
+        <div class="health-bar-name">
+          <span id="pn1">JUGADOR 1</span>
+          <div class="avatar-ph" id="av1">✦</div>
+        </div>
       </div>
       <div class="flash" id="fl1"></div>
 
@@ -351,10 +349,6 @@
         <div class="rounds">
           <div class="rdot" id="r1a"></div>
           <div class="rdot" id="r1b"></div>
-        </div>
-        <div class="pname-wrap" onclick="openProfileEdit(1)">
-          <div class="pname" id="pn1">JUGADOR 1</div>
-          <div class="avatar-ph" id="av1">✦</div>
         </div>
 
       </div>
@@ -441,13 +435,16 @@
 
     <!-- ═══ JUGADOR 2 (Abajo) ═══ -->
     <div class="player" id="p2">
-      <!-- Barra de Salud Street Fighter -->
-      <div class="sf-health-bar-container">
-        <div class="sf-health-bar-bg">
-          <div class="sf-health-bar-red" id="sfRedBarP2"></div>
-          <div class="sf-health-bar-fill" id="sfHealthBarP2"></div>
+      <!-- Barra de Salud Universal -->
+      <div class="health-bar-container" onclick="openProfileEdit(2)">
+        <div class="health-bar-bg">
+          <div class="health-bar-red" id="healthRedBarP2"></div>
+          <div class="health-bar-fill" id="healthBarP2"></div>
         </div>
-        <div class="sf-health-bar-name" id="sfNameP2">PLAYER 2</div>
+        <div class="health-bar-name">
+          <div class="avatar-ph" id="av2">✦</div>
+          <span id="pn2">JUGADOR 2</span>
+        </div>
       </div>
       <div class="flash" id="fl2"></div>
 
@@ -458,10 +455,7 @@
       </div>
       <div class="top-bar">
 
-        <div class="pname-wrap" onclick="openProfileEdit(2)">
-          <div class="avatar-ph" id="av2">✦</div>
-          <div class="pname" id="pn2">JUGADOR 2</div>
-        </div>
+
         <div class="rounds">
           <div class="rdot" id="r2a"></div>
           <div class="rdot" id="r2b"></div>
