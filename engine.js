@@ -15,6 +15,67 @@
       } catch (_) {}
     };
 
+    // WAKE LOCK API
+    let wakeLock = null;
+    async function requestWakeLock() {
+      try {
+        if ('wakeLock' in navigator) {
+          wakeLock = await navigator.wakeLock.request('screen');
+        }
+      } catch (_) {}
+    }
+    async function releaseWakeLock() {
+      try {
+        if (wakeLock !== null) {
+          await wakeLock.release();
+          wakeLock = null;
+        }
+      } catch (_) {}
+    }
+    document.addEventListener('visibilitychange', async () => {
+      if (document.visibilityState === 'visible') {
+        const isGameScreenActive = $('game-screen') && $('game-screen').style.display === 'flex';
+        if (isGameScreenActive) {
+          await requestWakeLock();
+        }
+      }
+    });
+
+    // MAPA GLOBAL PARA PRECARGA DE AUDIOS
+    const preloadedAudios = {};
+    function preloadThemeSounds(themeId) {
+      if (!themeId) return;
+      try {
+        const files = [];
+        if (themeId === 'streetfighter') {
+          files.push(
+            'victory.mp3', 'hadouken.mp3', 'shoryuken.mp3', 'tatsumaki.mp3', 'perfect.mp3',
+            'coin.mp3', 'fight.mp3', 'gameover.mp3', 'p1_dmg.mp3', 'p2_dmg.mp3', 'p1_heal.mp3', 'p2_heal.mp3'
+          );
+        } else {
+          files.push(
+            'victory.mp3', '+1.mp3', '+5.mp3', '-1.mp3', '-5.mp3', 'dmg.mp3', 'heal.mp3',
+            'p1_+1.mp3', 'p2_+1.mp3', 'p1_+5.mp3', 'p2_+5.mp3', 'p1_-1.mp3', 'p2_-1.mp3',
+            'p1_-5.mp3', 'p2_-5.mp3', 'p1_dmg.mp3', 'p2_dmg.mp3', 'p1_heal.mp3', 'p2_heal.mp3'
+          );
+        }
+        
+        preloadedAudios[themeId] = preloadedAudios[themeId] || {};
+        
+        files.forEach(file => {
+          const path = `./themes/${themeId}/${file}`;
+          if (!preloadedAudios[themeId][file]) {
+            const audio = new Audio(path);
+            audio.preload = 'auto';
+            audio.load();
+            preloadedAudios[themeId][file] = audio;
+          }
+        });
+      } catch (e) {
+        console.warn("Error precargando audios del tema:", themeId, e);
+      }
+    }
+
     // Variables para integración con Gemini IA
     let geminiApiKey = '';
     let activeBubbleTimeout = [null, null];
@@ -821,6 +882,7 @@
         if (id) {
           localStorage.setItem('mtg_current_theme', id);
           addMatchLog(`🎨 Tema cambiado a: ${THEMES[id].name}`);
+          preloadThemeSounds(id);
         } else {
           localStorage.removeItem('mtg_current_theme');
           addMatchLog(`🎨 Tema cambiado a: Nebula (Estándar)`);
@@ -2471,6 +2533,7 @@
       selectedLobbyTheme = savedTheme;
       renderThemeSelectors();
       applyTheme(savedTheme);
+      try { preloadThemeSounds(savedTheme); } catch(_) {}
       try { updateSimpsonsConsole(1, 0); } catch(_) {}
       try { initSFCabinets(); } catch(_) {}
 
@@ -2516,6 +2579,7 @@
         $('lobby-screen').classList.add('hidden');
         $('game-screen').style.display = 'flex';
         document.body.dataset.mode = S.lives[0] > 20 ? 'commander' : 'bo3';
+        try { requestWakeLock(); } catch(_) {}
         playSynthSound('lock');
       });
 
@@ -2547,6 +2611,7 @@
         $('game-screen').style.display = 'none';
         $('lobby-screen').classList.remove('hidden');
         $('resume-modal').classList.add('active');
+        try { releaseWakeLock(); } catch(_) {}
         playSynthSound('lock');
       });
 
@@ -2613,6 +2678,27 @@
         
         playSynthSound('lock');
       });
+
+      // Configurar botón de compartir historial si está soportado
+      const shareBtn = $('btnHistoryShare');
+      if (shareBtn) {
+        if (navigator.share || navigator.clipboard) {
+          shareBtn.style.display = 'block';
+          shareBtn.addEventListener('click', () => {
+            const logText = S.matchLog.map(item => `${item.time} ${item.text}`).join('\n');
+            if (navigator.share) {
+              navigator.share({
+                title: 'Historial de Partida - Magic Life Counter',
+                text: logText
+              }).catch(err => console.log('Error compartiendo:', err));
+            } else if (navigator.clipboard) {
+              navigator.clipboard.writeText(logText).then(() => {
+                alert('¡Historial copiado al portapapeles!');
+              }).catch(err => console.log('Error al copiar:', err));
+            }
+          });
+        }
+      }
 
       $('btnHistoryClose').addEventListener('pointerdown', e => {
         e.preventDefault();
@@ -4353,6 +4439,7 @@ $('btnStartGame').addEventListener('click', () => {
       $('lobby-screen').classList.add('hidden');
       $('game-screen').style.display = 'flex';
       document.body.dataset.mode = selectedMode;
+      try { requestWakeLock(); } catch(_) {}
 
       // Set lives based on mode
       if (selectedMode === 'commander') {

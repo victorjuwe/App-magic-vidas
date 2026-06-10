@@ -1,7 +1,7 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
 
-const CACHE = 'magic-bo3-v84';
+const CACHE = 'magic-bo3-v85';
 
 
 // Activos críticos para arrancar 100% offline
@@ -15,6 +15,7 @@ const CORE_ASSETS = [
   './assets/lobby_bg.webp',
   './assets/mode_bo3.webp',
   './assets/mode_commander.webp',
+  './icon-180.png',
   './icon-192.png',
   './icon-512.png',
   // ── Bleach ──────────────────────────────────────────
