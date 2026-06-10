@@ -4265,6 +4265,15 @@ body[data-theme="streetfighter"] .battle-progress-fill {
   flex-direction: row-reverse;
 }
 
+/* Estilo retro arcade para las cajas de las vidas */
+body[data-theme="streetfighter"] .life-num-wrap {
+  border: 2px solid rgba(255, 255, 255, 0.08) !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
 /* Modificaciones estéticas de Street Fighter a los marcadores */
 body[data-theme="streetfighter"] .life-num {
   font-family: 'Press Start 2P', monospace;
