@@ -963,6 +963,18 @@
         localStorage.setItem('mtg_performance_mode', mode);
       } catch(_) {}
 
+      // Sincronizar clases en el body para control CSS del rendimiento
+      try {
+        if (mode === 'saving') {
+          document.body.classList.add('performance-saving');
+          document.body.classList.remove('performance-muted');
+        } else if (mode === 'muted') {
+          document.body.classList.add('performance-saving', 'performance-muted');
+        } else {
+          document.body.classList.remove('performance-saving', 'performance-muted');
+        }
+      } catch(_) {}
+
       // Actualizar el estado de silencio global
       S.muted = (mode === 'muted');
       
