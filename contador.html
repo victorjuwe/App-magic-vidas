@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@900&family=Lilita+One&family=Orbitron:wght@500;800;900&family=Outfit:wght@300;400;600;800&family=Permanent+Marker&family=Pirata+One&family=Press+Start+2P&family=Russo+One&family=Shojumaru&family=VT323&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="./style.css?v=90">
+  <link rel="stylesheet" href="./style.css?v=91">
   <script>
     window.onerror = function(msg, url, line, col, error) {
       const errStr = "⚠️ Error detectado:\n" + msg + "\nEn: " + url + ":" + line + (col ? ":" + col : "");
@@ -40,24 +40,7 @@
 
   <!-- ── Marco PNG del tema activo (Regreso al Futuro, etc.) ── -->
   <div id="theme-frame">
-    <!-- Diales y luces interactivas del tema Simpsons -->
-    <div class="simpsons-interactive-console">
-      <!-- Luces de Alarma (parpadean en peligro o con daño) -->
-      <div class="simp-alarm top-alarm-left" id="simpAlarmTopL"></div>
-      <div class="simp-alarm top-alarm-right" id="simpAlarmTopR"></div>
-      <div class="simp-alarm panic-btn-light" id="simpPanicLight"></div>
-      
-      <!-- Agujas de Diales (Jugador 1 - Arriba) -->
-      <div class="simp-gauge top-gauge-left" id="simpGaugeT1"><div class="simp-needle" id="simpNeedleT1"></div></div>
-      <div class="simp-gauge top-gauge-right" id="simpGaugeT2"><div class="simp-needle" id="simpNeedleT2"></div></div>
-      
-      <!-- Agujas de Diales (Jugador 2 - Abajo) -->
-      <div class="simp-gauge bot-gauge-left" id="simpGaugeB1"><div class="simp-needle" id="simpNeedleB1"></div></div>
-      <div class="simp-gauge bot-gauge-right" id="simpGaugeB2"><div class="simp-needle" id="simpNeedleB2"></div></div>
-      
-      <!-- Símbolo nuclear giratorio (consola inferior) -->
-      <div class="simp-nuclear-logo" id="simpNuclearLogo"></div>
-    </div>
+    <!-- Consola simpsons eliminada por petición del usuario -->
   </div>
 
   <!-- ── Pantalla de Carga (Splash) ── -->
@@ -624,7 +607,7 @@
   </script>
 
   <!-- ── CÓDIGO CORE BO3 ENCUENTRO ── -->
-  <script src="./engine.js?v=90"></script>
+  <script src="./engine.js?v=91"></script>
   </div>
 </body>
 </html>

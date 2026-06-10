@@ -4183,12 +4183,14 @@ body[data-theme="streetfighter"] .battle-progress-fill {
   left: 50%;
   transform: translateX(-50%);
   z-index: 15;
-  background: var(--glass-bg, rgba(0,0,0,0.1));
+  background: transparent !important;
   padding: 4px;
   border-radius: 8px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   cursor: pointer;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* Colocación de barra para P1 (Físicamente en el top de pantalla, rotado) */
@@ -4205,6 +4207,7 @@ body[data-theme="streetfighter"] .battle-progress-fill {
 .health-bar-bg {
   position: relative;
   height: clamp(14px, 4vw, 20px);
+  width: 100%;
   background: #111;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: inset 0 0 5px #000;
@@ -4255,19 +4258,18 @@ body[data-theme="streetfighter"] .battle-progress-fill {
   letter-spacing: 0.1em;
 }
 
-/* Inversión de dirección para la barra del P1 */
+/* Inversión de dirección para la barra del P1 (Desactivada para comportamiento uniforme) */
 #p1 .health-bar-fill,
 #p1 .health-bar-red {
-  right: 0;
-  left: auto;
+  left: 0;
 }
 #p1 .health-bar-name {
-  flex-direction: row-reverse;
+  flex-direction: row;
 }
 
 /* Estilo retro arcade para las cajas de las vidas */
 body[data-theme="streetfighter"] .life-num-wrap {
-  border: 2px solid rgba(255, 255, 255, 0.08) !important;
+  border: none !important;
   background: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -4295,11 +4297,11 @@ body[data-theme="streetfighter"] .avatar-ph {
 
 /* Estilo retro arcade para las cajas de las vidas */
 body[data-theme="streetfighter"] .life-num-wrap {
-  border: 2px solid rgba(255, 255, 255, 0.08) !important;
-  background: rgba(10, 10, 20, 0.5) !important;
-  backdrop-filter: blur(14px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
+  border: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
 }
 
 /* Estilo retro para los nombres del panel superior */
@@ -7604,3 +7606,26 @@ body[data-theme="naruto"] { --health-fill: linear-gradient(to right, #ff8c00, #e
 body[data-theme="dragonball"] { --health-fill: linear-gradient(to right, #ffcc00, #ff6600); }
 body[data-theme="demonslayer"] { --health-fill: linear-gradient(to right, #00f2fe, #4facfe); }
 body[data-theme="mario"] { --health-fill: linear-gradient(to right, #ff0000, #b20000); }
+
+/* SUPER OVERRIDE PARA GARANTIZAR FONDOS LIMPIOS Y ELIMINAR LA BARRA NEGRA INFERIOR */
+html, body, .app-container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  background-color: transparent !important;
+}
+.life-num-wrap, .life-num-wrap::before, .life-num-wrap::after, 
+[data-theme] .life-num-wrap, [data-theme] .life-num-wrap::before, [data-theme] .life-num-wrap::after {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.health-bar-container, [data-theme] .health-bar-container {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
