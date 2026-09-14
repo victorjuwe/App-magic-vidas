@@ -35,3 +35,7 @@ flow-image-generator/
 
 # Carpetas temporales que pueden aparecer
 scratch/
+
+# Capturas y archivos que deja Claude / Cowork en la carpeta del proyecto
+Claude outputs/
+_tmp_orig/
