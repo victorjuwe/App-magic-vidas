@@ -77,16 +77,6 @@
       position: relative;
     }
 
-    /* ── CANVASES DE FONDO (3D y Fallback) — FIXED para llegar bajo el notch ── */
-    #webgl-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100dvh;
-      z-index: 1;
-      pointer-events: none;
-    }
-
     #fallback-bg {
       position: fixed;
       inset: 0;
@@ -123,6 +113,18 @@
       opacity: 0;
       transform: scale(1.08);
       pointer-events: none;
+      /* visibility retrasada al final del fade: sin esto el splash seguia "vivo"
+         toda la partida con matrixGridMove (repinta pantalla completa), logoPulse
+         y progressShimmer corriendo en bucle infinito detras del tablero. */
+      visibility: hidden;
+      transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+                  visibility 0s linear 0.8s;
+    }
+
+    /* Corta en seco cualquier animacion que quede dentro del splash ya oculto. */
+    #loading-screen.fade-out * {
+      animation: none !important;
     }
 
     /* Rejilla de Perspectiva 3D */
@@ -217,36 +219,6 @@
     @keyframes monogramPulse {
       0% { transform: scale(0.97); filter: drop-shadow(0 0 4px rgba(255, 26, 64, 0.4)); opacity: 0.85; }
       100% { transform: scale(1.03); filter: drop-shadow(0 0 16px rgba(255, 106, 0, 0.8)); opacity: 1; }
-    }
-
-    .loader-title {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: 36px;
-      letter-spacing: 3px;
-      color: #fff;
-      text-shadow: 0 0 25px rgba(255, 26, 64, 0.25);
-      margin-bottom: 4px;
-      text-transform: uppercase;
-    }
-
-    .loader-title .title-highlight {
-      background: linear-gradient(135deg, #ff6a00 0%, #ff1a40 100%);
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      font-weight: 900;
-    }
-
-    .loader-subtitle {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 5px;
-      color: #ff5100;
-      opacity: 0.75;
-      text-shadow: 0 0 10px rgba(255, 81, 0, 0.3);
-      margin-bottom: 24px;
-      text-transform: uppercase;
     }
 
     .loader-progress-bar {
@@ -352,8 +324,6 @@
       background-position: center center !important;
       background-size: cover !important;
     }
-    /* Atenuaciones en temas para mejor legibilidad */
-    body[data-theme] #webgl-canvas { opacity: 0.15; }
     body[data-theme] #fallback-bg { opacity: 0 !important; }
 
     /* ── FADE UNIVERSAL: elimina la línea fea en el divisor central ──
@@ -917,53 +887,10 @@
       color: #ffd90f;
       text-shadow: 2px 2px 0px #000, 0 0 10px rgba(255, 217, 15, 0.5);
     }
-
-    /* ── Elementos Interactivos de la Consola Simpsons ── */
-    .simpsons-interactive-console {
-      display: none;
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-    body[data-theme="simpsons"] .simpsons-interactive-console {
-      display: block;
-    }
-    .simp-gauge {
-      position: absolute;
-      width: 32px;
-      height: 32px;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 10;
-    }
-    .simp-needle {
-      position: absolute;
-      left: calc(50% - 1.5px);
-      bottom: 50%;
-      width: 3px;
-      height: 14px;
-      background: #e02424;
-      border-radius: 2px;
-      transform-origin: bottom center;
-      transform: rotate(30deg);
-      transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 0 4px rgba(224, 36, 36, 0.85);
-    }
     .top-gauge-left { top: 17.6%; left: 40.2%; }
     .top-gauge-right { top: 17.6%; left: 59.8%; }
     .bot-gauge-left { top: 55.8%; left: 92.4%; }
     .bot-gauge-right { top: 65%; left: 92.4%; }
-
-    .simp-alarm {
-      position: absolute;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(224, 36, 36, 0.9) 0%, rgba(224, 36, 36, 0) 70%);
-      opacity: 0;
-      z-index: 9;
-    }
     .panic-btn-light {
       position: absolute;
       top: 8.2%;
@@ -986,25 +913,6 @@
     }
     .simp-alarm.active, .panic-btn-light.active {
       animation: simpAlarmBlink 0.6s step-end infinite;
-    }
-
-    .simp-nuclear-logo {
-      position: absolute;
-      top: 86.4%;
-      left: 49.8%;
-      width: 42px;
-      height: 42px;
-      transform: translate(-50%, -50%) rotate(0deg);
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="16" fill="%23000"/><path d="M50,50 L25,64.4 A30,30 0 0,1 25,35.6 Z M50,50 L64.4,75 A30,30 0 0,1 35.6,75 Z M50,50 L64.4,25 A30,30 0 0,1 75,50 Z" fill="%23000" stroke="%23ffd90f" stroke-width="2"/></svg>');
-      background-size: contain;
-      background-repeat: no-repeat;
-      pointer-events: none;
-      z-index: 10;
-      transition: transform 0.8s cubic-bezier(0.1, 0.8, 0.3, 1);
-    }
-    .simp-nuclear-logo.spinning {
-      animation: simpAlarmBlink 0.2s step-end infinite reverse; /* parpadea rápido en shock */
-      transform: translate(-50%, -50%) rotate(1080deg);
     }
 
     /* ── Tema: RICK Y MORTY (rickmorty) ── */
@@ -3079,63 +2987,7 @@
   border-color: rgba(255, 255, 255, 0.1);
   color: #b5b5c5;
 }
-
-/* SLIDER DE TARJETAS VISUALES (THEME CARDS) */
-.theme-slider-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 6px;
-}
-
-.theme-slider-arrow {
-  flex-shrink: 0;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.15);
-  background: rgba(14,14,22,0.85);
-  backdrop-filter: blur(10px);
-  color: #fff;
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s, background 0.2s;
-  z-index: 2;
-  padding: 0;
-}
-.theme-slider-arrow:hover {
-  background: rgba(255,26,64,0.25);
-  border-color: rgba(255,26,64,0.5);
-}
-
-.theme-slider {
-  display: flex;
-  overflow-x: auto;
-  flex: 1;
-  min-width: 0;
-  box-sizing: border-box;
-  gap: 12px;
-  padding: 4px 4px 14px 4px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
-}
-.theme-slider::-webkit-scrollbar { display: none; }
 .theme-card { scroll-snap-align: start; }
-
-/* DOTS INDICADORES */
-.theme-slider-dots {
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-  margin-top: 6px;
-  padding-bottom: 4px;
-}
 .theme-dot {
   width: 8px;
   height: 8px;
@@ -3839,50 +3691,6 @@ body[data-theme="streetfighter"] .battle-progress-fill {
   box-shadow: 0 0 10px #ff2255 !important;
 }
 
-
-/* ==========================================================================
-   ── ESTILOS DEL GENERADOR DE TEMAS IA (LOCAL COMFYUI) ──
-   ========================================================================== */
-#ai-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(3, 3, 7, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 11000; /* Por encima de otros modales */
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-#ai-modal.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.ai-box {
-  max-width: 480px !important;
-  width: 92% !important;
-  max-height: 90vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--neon-cyan) transparent;
-  background: rgba(10, 10, 22, 0.8) !important;
-  border: 1.5px solid rgba(0, 240, 255, 0.15) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.05) !important;
-}
-
-.ai-box::-webkit-scrollbar {
-  width: 4px;
-}
-.ai-box::-webkit-scrollbar-thumb {
-  background: var(--neon-cyan);
-  border-radius: 4px;
-}
-
 .modal-subtitle {
   font-size: 11px;
   color: #7a7a8e;
@@ -3890,24 +3698,6 @@ body[data-theme="streetfighter"] .battle-progress-fill {
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-.ai-status-panel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  padding: 10px 14px;
-  margin-bottom: 20px;
-}
-
-.ai-status-badge {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  color: #c5c5d5;
 }
 
 .btn-ai-small {
@@ -3928,153 +3718,9 @@ body[data-theme="streetfighter"] .battle-progress-fill {
   transform: scale(0.95);
 }
 
-.ai-form {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.ai-field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.ai-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.ai-field label {
-  font-size: 10px;
-  color: #666680;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-
-.ai-field input[type="text"],
-.ai-field textarea {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  color: #fff;
-  padding: 10px 12px;
-  font-size: 13px;
-  font-family: 'Outfit', sans-serif;
-  outline: none;
-  transition: border-color 0.25s;
-  user-select: text;
-  -webkit-user-select: text;
-}
-
-.ai-field input[type="text"]:focus,
-.ai-field textarea:focus {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
-}
-
-.ai-drag-drop {
-  border: 1.5px dashed rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  padding: 16px;
-  text-align: center;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.01);
-  transition: all 0.25s;
-}
-
-.ai-drag-drop:hover, .ai-drag-drop.dragover {
-  border-color: var(--neon-cyan);
-  background: rgba(0, 240, 255, 0.04);
-  color: #fff;
-}
-
-.ai-drag-drop span {
-  font-size: 11px;
-  color: #8c8c9e;
-}
-
-.ai-progress-wrap {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 12px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.ai-progress-bar {
-  width: 100%;
-  height: 6px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.ai-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
-  box-shadow: 0 0 8px var(--neon-cyan);
-  transition: width 0.3s ease;
-}
-
-.ai-progress-status {
-  font-size: 10px;
-  color: #8c8c9e;
-  text-align: center;
-}
-
-.ai-preview-wrap {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.ai-preview-box {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.ai-preview-box h4 {
-  font-size: 9px;
-  color: #666680;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0;
-}
-
-.ai-preview-img-container {
-  aspect-ratio: 1;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #000;
-  border: 1px solid rgba(255,255,255,0.05);
-}
-
-.ai-preview-img-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.ai-actions {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 12px;
-  margin-top: 10px;
-}
-
 .hidden {
   display: none !important;
 }
-
 
 
 /* ── ESTILOS ESPECÍFICOS DE LA PANTALLA DE CARGA DE BLEACH ── */
@@ -6055,11 +5701,6 @@ body[data-theme="naruto"] .life-num-wrap.naruto-spike::before {
   15% { transform: scale(1.3); opacity: 1; background: radial-gradient(circle, #00d2ff 0%, #ff6600 50%, transparent 70%); filter: brightness(1.3); }
   100% { transform: scale(1); opacity: 0.7; }
 }
-
-/* Simpsons: Alarma nuclear / resplandor amarillo */
-body[data-theme="simpsons"] .life-num-wrap.simpsons-spike::before {
-  animation: simpSpikeAnim 0.55s ease-out forwards;
-}
 @keyframes simpSpikeAnim {
   0% { transform: scale(1); opacity: 0; }
   20% { transform: scale(1.3); opacity: 1; background: radial-gradient(circle, #ff1493 0%, #ffd90f 60%, transparent 70%); }
@@ -7264,7 +6905,6 @@ body[data-theme="demonslayer"] .player {
 }
 
 
-
 /* ══════════════════════════════════════════════
    K.O. CINEMÁTICO: VÍDEOS Y CSS EXTREMO
    ══════════════════════════════════════════════ */
@@ -7396,64 +7036,6 @@ body[data-theme="rickmorty"] #sideboard-alert-banner::before {
   margin-top: -6px;
   margin-bottom: 10px;
   text-transform: uppercase;
-}
-
-.conn-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  transition: all 0.4s ease;
-  margin-bottom: 18px;
-}
-
-.conn-status-badge .status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  position: relative;
-}
-
-.conn-status-badge.online {
-  border-color: rgba(0, 255, 102, 0.2);
-  box-shadow: 0 0 10px rgba(0, 255, 102, 0.05);
-}
-
-.conn-status-badge.online .status-dot {
-  background: #00ff66;
-  box-shadow: 0 0 8px #00ff66, 0 0 15px #00ff66;
-  animation: ledBlinkOnline 2s infinite alternate;
-}
-
-.conn-status-badge.online .status-text {
-  color: #00ff66;
-  text-shadow: 0 0 6px rgba(0, 255, 102, 0.2);
-}
-
-.conn-status-badge.offline {
-  border-color: rgba(255, 106, 0, 0.2);
-  box-shadow: 0 0 10px rgba(255, 106, 0, 0.05);
-}
-
-.conn-status-badge.offline .status-dot {
-  background: #ff6a00;
-  box-shadow: 0 0 8px #ff6a00, 0 0 15px #ff6a00;
-  animation: ledBlinkOffline 2s infinite alternate;
-}
-
-.conn-status-badge.offline .status-text {
-  color: #ff6a00;
-  text-shadow: 0 0 6px rgba(255, 106, 0, 0.2);
 }
 
 @keyframes ledBlinkOnline {
@@ -7590,6 +7172,11 @@ body.performance-saving *::after {
   animation-iteration-count: 1 !important;
   transition-duration: 1ms !important;
   transition-delay: -1ms !important;
+  /* backdrop-filter es, de largo, lo mas caro que hay en Safari iOS: cada uno
+     crea una capa de composicion y desenfoca en vivo lo que tiene detras.
+     Hay 105 en esta hoja; el modo Ahorro los apagaba todos menos estos. */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* Variables de Barra de Salud por Tema */

@@ -1,7 +1,7 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
 //
-// Estrategia (v96):
+// Estrategia (v97):
 //   · Shell (html/css/js)  → cache-first + revalidación en segundo plano  ⇒ arranque instantáneo
 //   · Imágenes             → cache-first, se llenan al usarlas            ⇒ sin descargas repetidas
 //   · Audio/vídeo          → cache-first + soporte Range (iOS Safari)     ⇒ sin descargar 5MB al instalar
@@ -11,7 +11,7 @@
 // la primera vez que se selecciona/reproduce. Instalación más rápida y, sobre todo,
 // tolerante a fallos: un archivo que falte ya no tumba el Service Worker entero.
 
-const CACHE = 'magic-bo3-v96';
+const CACHE = 'magic-bo3-v97';
 
 // ── Nivel 1: shell mínimo imprescindible. Bloquea el install. ──────────────
 const CORE_ASSETS = [
@@ -77,7 +77,7 @@ self.addEventListener('activate', event => {
   })());
 });
 
-// Busca en caché ignorando el ?v=NN de cache-busting, para que style.css?v=96
+// Busca en caché ignorando el ?v=NN de cache-busting, para que style.css?v=97
 // encuentre el './style.css' precacheado sin tener que volver a descargarlo.
 async function matchCache(req) {
   const cache = await caches.open(CACHE);

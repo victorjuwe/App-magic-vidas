@@ -17,12 +17,32 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@900&family=Lilita+One&family=Orbitron:wght@500;800;900&family=Outfit:wght@300;400;600;800&family=Permanent+Marker&family=Pirata+One&family=Press+Start+2P&family=Russo+One&family=Shojumaru&family=VT323&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="./style.css?v=96">
+  <link rel="stylesheet" href="./style.css?v=97">
   <script>
+    // Aviso de error NO bloqueante. Antes esto era un alert(), que en mitad de una
+    // partida congela la app entera hasta que alguien toca "Aceptar" en el movil.
     window.onerror = function(msg, url, line, col, error) {
-      const errStr = "⚠️ Error detectado:\n" + msg + "\nEn: " + url + ":" + line + (col ? ":" + col : "");
-      console.error(errStr, error);
-      alert(errStr);
+      console.error("Error detectado:", msg, url + ":" + line + (col ? ":" + col : ""), error);
+      try {
+        let box = document.getElementById('err-toast');
+        if (!box) {
+          box = document.createElement('div');
+          box.id = 'err-toast';
+          box.setAttribute('role', 'status');
+          box.style.cssText =
+            'position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom, 0px) + 14px);' +
+            'transform:translateX(-50%);z-index:99999;max-width:88vw;padding:9px 14px;' +
+            'border-radius:10px;background:rgba(20,6,10,.92);color:#ffb3c1;' +
+            'border:1px solid rgba(255,60,90,.45);font:600 12px/1.35 system-ui,sans-serif;' +
+            'text-align:center;pointer-events:none;box-shadow:0 4px 18px rgba(0,0,0,.5);' +
+            'transition:opacity .3s ease';
+          document.body.appendChild(box);
+        }
+        box.textContent = '⚠️ ' + String(msg).slice(0, 140);
+        box.style.opacity = '1';
+        clearTimeout(window.__errToastTimer);
+        window.__errToastTimer = setTimeout(() => { box.style.opacity = '0'; }, 4000);
+      } catch (_) {}
     };
   </script>
 </head>
@@ -31,9 +51,6 @@
 
   <!-- ── Efecto CRT Bezel de recreativa arcade ── -->
   <div id="crt-lens-overlay"></div>
-
-  <!-- ── Lienzo WebGL (Three.js) ── -->
-  <canvas id="webgl-canvas"></canvas>
 
   <!-- ── Fondo de Respaldo Estático Fallback ── -->
   <div id="fallback-bg"></div>
@@ -591,7 +608,7 @@
   </script>
 
   <!-- ── CÓDIGO CORE BO3 ENCUENTRO ── -->
-  <script src="./engine.js?v=96"></script>
+  <script src="./engine.js?v=97"></script>
   </div>
 </body>
 </html>

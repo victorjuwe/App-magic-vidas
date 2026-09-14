@@ -628,15 +628,6 @@
     }
 
 
-    function updateSFPlayerProfiles() {
-
-      
-      const vsName1 = $('sfVsName1');
-      const vsName2 = $('sfVsName2');
-      
-      if (vsName1) vsName1.textContent = S.names[0] || 'PLAYER 1';
-      if (vsName2) vsName2.textContent = S.names[1] || 'PLAYER 2';
-    }
 
     function playArcadeAnnouncer(phrase) {
       return; // Announcer disabled for minimalist UI
@@ -688,67 +679,9 @@
       } catch (_) {}
     }
 
-    function playSynthesizedArcadeClick() {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(140, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(35, ctx.currentTime + 0.08);
-        gain.gain.setValueAtTime(0.25, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.08);
-      } catch (_) {}
-    }
 
 
 
-    function setupThemeSliderNavigation() {
-      const slider = $('lobbyThemeSlider');
-      const dotsContainer = $('themeSliderDots');
-      const arrowLeft = $('themeArrowLeft');
-      const arrowRight = $('themeArrowRight');
-      if (!slider || !dotsContainer) return;
-
-      dotsContainer.innerHTML = '';
-      const cards = slider.querySelectorAll('.theme-card');
-      const CARD_W = 160;
-
-      cards.forEach((_, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'theme-dot';
-        dot.setAttribute('aria-label', 'Tema ' + (i + 1));
-        dot.addEventListener('click', () => {
-          slider.scrollTo({ left: i * CARD_W, behavior: 'smooth' });
-        });
-        dotsContainer.appendChild(dot);
-      });
-
-      const updateDots = () => {
-        const idx = Math.round(slider.scrollLeft / CARD_W);
-        dotsContainer.querySelectorAll('.theme-dot').forEach((d, i) => {
-          d.classList.toggle('active', i === idx);
-        });
-        if (arrowLeft) arrowLeft.style.opacity = slider.scrollLeft < 10 ? '0.3' : '1';
-        if (arrowRight) arrowRight.style.opacity = slider.scrollLeft >= slider.scrollWidth - slider.clientWidth - 10 ? '0.3' : '1';
-      };
-
-      slider.removeEventListener('scroll', slider._onScroll);
-      slider._onScroll = updateDots;
-      slider.addEventListener('scroll', updateDots, { passive: true });
-      updateDots();
-
-      if (arrowLeft) {
-        arrowLeft.onclick = () => slider.scrollBy({ left: -CARD_W, behavior: 'smooth' });
-      }
-      if (arrowRight) {
-        arrowRight.onclick = () => slider.scrollBy({ left: CARD_W, behavior: 'smooth' });
-      }
-    }
 
     function renderThemeSelectors() {
       const feed = $('lobbyThemeVerticalFeed');
@@ -894,7 +827,6 @@
           addMatchLog(`🎨 Tema cambiado a: Nebula (Estándar)`);
         }
       } catch(_) {}
-      try { updateSimpsonsConsole(1, 0); } catch(_) {}
       playSynthSound('lock');
       $('theme-modal').classList.remove('active');
     }
@@ -933,7 +865,6 @@
       rounds: [[false, false], [false, false]],
       clock: { secs: 50 * 60, running: false, iv: null },
       poison: [0, 0],
-      mulligans: [0, 0],
       goesFirst: 0,
       locked: false,
       muted: false,
@@ -948,20 +879,6 @@
       matchLog: []
     };
 
-    function updateConnectivityStatus() {
-      const connStatusBadge = $('connStatusBadge');
-      if (!connStatusBadge) return;
-      const isOnline = navigator.onLine;
-      if (isOnline) {
-        connStatusBadge.className = 'conn-status-badge online';
-        connStatusBadge.querySelector('.status-text').textContent = 'CONECTADO';
-      } else {
-        connStatusBadge.className = 'conn-status-badge offline';
-        connStatusBadge.querySelector('.status-text').textContent = 'MODO LOCAL';
-      }
-    }
-    window.addEventListener('online', updateConnectivityStatus);
-    window.addEventListener('offline', updateConnectivityStatus);
 
     function setPerformanceMode(mode) {
       S.performanceMode = mode;
@@ -1011,12 +928,8 @@
         }
       }
 
-      // Manejo de WebGL / Three.js Canvas (Desactivado por petición del usuario - rombo feo en medio)
-      const canvas = $('webgl-canvas');
       const fallbackBg = $('fallback-bg');
-      if (canvas) canvas.style.display = 'none';
       if (fallbackBg) fallbackBg.classList.add('active');
-      isWebGLLive = false;
 
       // Sincronizar las tarjetas del Lobby
       document.querySelectorAll('.energy-card').forEach(c => {
@@ -1042,7 +955,6 @@
           clockSecs: S.clock.secs,
           clockRunning: S.clock.running,
           poison: S.poison,
-          mulligans: S.mulligans,
           goesFirst: S.goesFirst,
           currentGame: S.currentGame,
           inSideboardPhase: S.inSideboardPhase,
@@ -1069,7 +981,6 @@
         S.rounds = data.rounds;
         S.clock.secs = data.clockSecs;
         S.poison = data.poison;
-        S.mulligans = data.mulligans;
         S.goesFirst = data.goesFirst;
         S.currentGame = data.currentGame;
         S.inSideboardPhase = data.inSideboardPhase;
@@ -1082,7 +993,6 @@
           $('ln' + p).textContent = S.lives[p - 1];
           renderHistory(p);
           renderPoison(p);
-          renderMulligan(p);
           renderRounds(p);
           applyPlayerVisualTheme(p);
         });
@@ -2596,11 +2506,9 @@
       renderThemeSelectors();
       applyTheme(savedTheme);
       try { preloadThemeSounds(savedTheme); } catch(_) {}
-      try { updateSimpsonsConsole(1, 0); } catch(_) {}
       try { initSFCabinets(); } catch(_) {}
 
       // Inicializar conectividad PWA y LED de estado
-      updateConnectivityStatus();
 
       // Cargar modo de energía y vincular selector
       S.performanceMode = 'full';
@@ -2794,7 +2702,7 @@
       });
 
       // Inicializar submotores que estaban desactivados en el core
-      try { initThreeJSEngine(); } catch(e) { console.error("Error al iniciar WebGL:", e); }
+      try { initStaticBackground(); } catch(e) { console.error("Error al iniciar el fondo:", e); }
       try { initResetLongPress(); } catch(e) { console.error("Error al iniciar LongPress reset:", e); }
       try { initLockScreenEngine(); } catch(e) { console.error("Error al iniciar pantalla de bloqueo:", e); }
       try { initTouchProtections(); } catch(e) { console.error("Error al iniciar TouchProtections:", e); }
@@ -2814,22 +2722,18 @@
             addMatchLog(`🌸 ¡JUTSU SEXY! ${S.names[playerNum - 1]} se transforma... ¡Jiraiya tiene una hemorragia nasal! 🩸💨`);
             vib([50, 50, 50, 50, 100]);
             playSynthSound('heal', 1); // Naruto Dattebayo!
-            trigger3DShockwave('#ffb6c1');
           } else if (currentTheme === 'dragonball') {
             addMatchLog(`💥 [EASTER EGG] ¡${S.names[playerNum - 1]} está acumulando energía para una Genkidama! 🙌 ¡Dadme vuestra fuerza!`);
             vib([100, 50, 150]);
             playSynthSound('victory'); // DBZ SSJ Theme/Scream
-            trigger3DShockwave('#e67e22');
           } else if (currentTheme === 'onepiece') {
             addMatchLog(`🍖 [EASTER EGG] ¡Luffy le roba la carne a ${S.names[playerNum - 1]}! ¡Gomu Gomu no Mi! 🌊`);
             vib([40, 20, 40]);
             playSynthSound('heal', 1); // Luffy Laugh
-            trigger3DShockwave('#e74c3c');
           } else if (currentTheme === 'streetfighter') {
             addMatchLog(`🕹️ [EASTER EGG] ¡HADOUKEN! ${S.names[playerNum - 1]} lanza una ráfaga de energía.`);
             vib([60, 30, 60]);
             playSynthSound('dmg', 1); // Ryu Hadouken
-            trigger3DShockwave('#3498db');
           }
         });
       });
@@ -2883,7 +2787,6 @@
       $(`pn${p}`).textContent = name;
       applyPlayerVisualTheme(p);
       renderFirst();
-      refreshNebulaColors();
     }
 
     function applyPlayerVisualTheme(p) {
@@ -2976,442 +2879,14 @@
       if (e.target === $('profile-modal')) $('profile-modal').classList.remove('active');
     });
 
-    // ── MOTOR GRÁFICO 3D (Three.js WebGL) ──
-    let scene, camera, renderer, crystalMesh, orbitRing1, orbitRing2, particleSystem;
-    let particleCount = 1500;
-    let particlesGeo;
-    let particleSpeeds = [];
-    let isWebGLLive = false;
-    let globalShockwaveIntensity = 0;
-    let rotationSpeedModifier = 1;
-
-    // Nebulosa GLSL (Fase 3 light: solo fondo, sin D20)
-    let nebulaMesh = null;
-    let nebulaUniforms = null;
-    let nebulaPressure = 0; // -1..+1 suavizado
-
-    const NEBULA_VERT = /* glsl */`
-      varying vec2 vUv;
-      void main(){
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `;
-
-    const NEBULA_FRAG = /* glsl */`
-      precision highp float;
-      varying vec2 vUv;
-      uniform float uTime;
-      uniform vec3  uColorA;     // mana jugador 1 (mitad superior visual)
-      uniform vec3  uColorB;     // mana jugador 2 (mitad inferior visual)
-      uniform float uPressure;   // -1 p1 perdiendo .. +1 p2 perdiendo
-      uniform vec2  uFlowDir;    // dirección del flujo
-      uniform float uShock;      // intensidad de shockwave (0..1)
-
-      float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
-      float vnoise(vec2 p){
-        vec2 i = floor(p), f = fract(p);
-        float a = hash(i);
-        float b = hash(i + vec2(1.0, 0.0));
-        float c = hash(i + vec2(0.0, 1.0));
-        float d = hash(i + vec2(1.0, 1.0));
-        vec2 u = f * f * (3.0 - 2.0 * f);
-        return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
-      }
-      float fbm(vec2 p){
-        float v = 0.0, a = 0.5;
-        for (int i = 0; i < 5; i++){ v += a * vnoise(p); p *= 2.02; a *= 0.5; }
-        return v;
-      }
-
-      void main(){
-        vec2 uv = vUv;
-        // El flujo arrastra el muestreo según la presión
-        vec2 flow = uFlowDir * (0.2 + abs(uPressure) * 0.35);
-        vec2 p = uv * 2.6 + flow * uTime * 0.15;
-
-        // Dos capas de fbm para profundidad
-        float n1 = fbm(p + vec2(uTime * 0.05, -uTime * 0.04));
-        float n2 = fbm(p * 1.7 + vec2(-uTime * 0.07, uTime * 0.06) + n1);
-
-        // El split divide la pantalla según presión (la zona del que pierde se invade)
-        float split = 0.5 + uPressure * 0.18;
-        float maskA = smoothstep(split + 0.10, split - 0.10, uv.y);
-
-        vec3 colA = uColorA * pow(n2, 1.4) * 1.25;
-        vec3 colB = uColorB * pow(n2, 1.4) * 1.25;
-        vec3 col  = mix(colB, colA, maskA);
-
-        // Vignette + base oscura para legibilidad de UI
-        vec2 d = uv - 0.5;
-        float vig = 1.0 - dot(d, d) * 1.45;
-        col *= max(0.0, vig);
-        col += vec3(0.02, 0.02, 0.03);
-
-        // Tinte global de shockwave (heredado de trigger3DShockwave)
-        col += vec3(uShock) * 0.20;
-
-        gl_FragColor = vec4(col, 1.0);
-      }
-    `;
-
-    function buildNebulaMesh() {
-      nebulaUniforms = {
-        uTime:     { value: 0 },
-        uColorA:   { value: new THREE.Color(S.colors[0]) },
-        uColorB:   { value: new THREE.Color(S.colors[1]) },
-        uPressure: { value: 0 },
-        uFlowDir:  { value: new THREE.Vector2(0, 0) },
-        uShock:    { value: 0 }
-      };
-      const mat = new THREE.ShaderMaterial({
-        vertexShader: NEBULA_VERT,
-        fragmentShader: NEBULA_FRAG,
-        uniforms: nebulaUniforms,
-        depthWrite: false,
-        depthTest: false
-      });
-      // Plano grande detrás del cristal y partículas
-      const geo = new THREE.PlaneGeometry(80, 140, 1, 1);
-      const m = new THREE.Mesh(geo, mat);
-      m.position.z = -25;
-      m.renderOrder = -10;
-      return m;
-    }
-
-    function refreshNebulaColors() {
-      if (!nebulaUniforms) return;
-      nebulaUniforms.uColorA.value.set(S.colors[0]);
-      nebulaUniforms.uColorB.value.set(S.colors[1]);
-    }
-
-    function initThreeJSEngine() {
-      const canvas = $('webgl-canvas');
-      if (canvas) canvas.style.display = 'none';
-      isWebGLLive = false;
+    // ── FONDO ESTATICO ──
+    // El motor 3D (Three.js) se retiro por completo. Estaba desactivado desde que
+    // initThreeJSEngine() empezaba con un "return": ~440 lineas inalcanzables
+    // (shaders GLSL de la nebulosa, sistema de particulas, parallax, watchdog de FPS)
+    // que nadie podia ejecutar. Lo unico que hacia de verdad es lo de aqui abajo.
+    function initStaticBackground() {
       const fallbackBg = $('fallback-bg');
       if (fallbackBg) fallbackBg.classList.add('active');
-      return; // 3D disabled completely by user request (ugly 3D gem)
-      
-      try {
-        isWebGLLive = true;
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.z = 18;
-
-        // 120Hz: Safari iOS ProMotion ya sincroniza rAF a la frecuencia nativa del display.
-        // setPixelRatio capado a 2 para no quemar GPU/batería en la Retina ultra-densa.
-        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        // Fondo procedural GLSL (Nebulosa de Presión)
-        nebulaMesh = buildNebulaMesh();
-        scene.add(nebulaMesh);
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-        scene.add(ambientLight);
-
-        const pointLight1 = new THREE.PointLight(0x00f0ff, 1.5, 40);
-        pointLight1.position.set(10, 10, 10);
-        scene.add(pointLight1);
-
-        const pointLight2 = new THREE.PointLight(0xff0055, 1.5, 40);
-        pointLight2.position.set(-10, -10, 10);
-        scene.add(pointLight2);
-
-        // Cristal rúnico flotante (MeshPhysicalMaterial facetado sólido premium con refracción)
-        const gemGeometry = new THREE.IcosahedronGeometry(2.4, 0);
-        const gemMaterial = new THREE.MeshPhysicalMaterial({
-          color: 0x00f0ff,
-          emissive: 0x001122,
-          roughness: 0.15,
-          metalness: 0.1,
-          transmission: 0.7,
-          thickness: 1.5,
-          ior: 1.5,
-          transparent: true,
-          opacity: 0.75,
-          flatShading: true,
-          clearcoat: 1.0,
-          clearcoatRoughness: 0.05
-        });
-        crystalMesh = new THREE.Mesh(gemGeometry, gemMaterial);
-        scene.add(crystalMesh);
-
-        // Anillos concéntricos orbitales rúnicos (runas de maná P1 y P2)
-        const ringGeo1 = new THREE.RingGeometry(3.3, 3.4, 32);
-        const ringMat1 = new THREE.MeshBasicMaterial({
-          color: 0x00f0ff,
-          side: THREE.DoubleSide,
-          transparent: true,
-          opacity: 0.5,
-          blending: THREE.AdditiveBlending
-        });
-        orbitRing1 = new THREE.Mesh(ringGeo1, ringMat1);
-        orbitRing1.rotation.x = Math.PI / 3;
-        scene.add(orbitRing1);
-
-        const ringGeo2 = new THREE.RingGeometry(3.7, 3.8, 32);
-        const ringMat2 = new THREE.MeshBasicMaterial({
-          color: 0xff0055,
-          side: THREE.DoubleSide,
-          transparent: true,
-          opacity: 0.5,
-          blending: THREE.AdditiveBlending
-        });
-        orbitRing2 = new THREE.Mesh(ringGeo2, ringMat2);
-        orbitRing2.rotation.x = -Math.PI / 3;
-        scene.add(orbitRing2);
-
-        // Sistema de partículas
-        if (window.innerWidth < 600) particleCount = 500;
-
-        particlesGeo = new THREE.BufferGeometry();
-        const positions = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
-
-        for (let i = 0; i < particleCount; i++) {
-          const r = 8 + Math.random() * 22;
-          const theta = Math.random() * Math.PI * 2;
-          const phi = Math.acos((Math.random() * 2) - 1);
-
-          positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-          positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-          positions[i * 3 + 2] = r * Math.cos(phi);
-
-          const isCyan = Math.random() > 0.5;
-          colors[i * 3] = isCyan ? 0.0 : 1.0;
-          colors[i * 3 + 1] = isCyan ? 0.94 : 0.0;
-          colors[i * 3 + 2] = isCyan ? 1.0 : 0.33;
-
-          particleSpeeds.push({
-            x: (Math.random() - 0.5) * 0.02,
-            y: (Math.random() - 0.5) * 0.02,
-            z: (Math.random() - 0.5) * 0.02,
-            baseRadius: r
-          });
-        }
-
-        particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particlesGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-        const pTexture = createProceduralStarTexture();
-        const particlesMat = new THREE.PointsMaterial({
-          size: 0.38,
-          map: pTexture,
-          transparent: true,
-          vertexColors: true,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false
-        });
-
-        particleSystem = new THREE.Points(particlesGeo, particlesMat);
-        scene.add(particleSystem);
-
-        setupThreeParallax();
-        animateWebGLScene();
-
-        window.addEventListener('resize', onWindowResize);
-      } catch (err) {
-        console.error(err);
-        isWebGLLive = false;
-        $('fallback-bg').classList.add('active');
-      }
-    }
-
-    function createProceduralStarTexture() {
-      const canvas = document.createElement('canvas');
-      canvas.width = 32; canvas.height = 32;
-      const ctx = canvas.getContext('2d');
-      const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      grad.addColorStop(0.2, 'rgba(255, 255, 255, 0.85)');
-      grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
-      grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, 32, 32);
-      const texture = new THREE.Texture(canvas);
-      texture.needsUpdate = true;
-      return texture;
-    }
-
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    let targetCameraX = 0, targetCameraY = 0;
-    function setupThreeParallax() {
-      document.addEventListener('mousemove', (e) => {
-        targetCameraX = ((e.clientX / window.innerWidth) - 0.5) * 6;
-        targetCameraY = -((e.clientY / window.innerHeight) - 0.5) * 6;
-      });
-      if (typeof DeviceOrientationEvent !== 'undefined') {
-        window.addEventListener('deviceorientation', (e) => {
-          if (!e.gamma || !e.beta) return;
-          targetCameraX = Math.max(-5, Math.min(5, e.gamma)) * 0.45;
-          targetCameraY = Math.max(-5, Math.min(5, e.beta - 45)) * 0.45;
-        });
-      }
-    }
-
-    // Ondas expansivas e hiper-aceleración para victorias
-    function trigger3DShockwave(colorHex, customIntensity = 2.5) {
-      if (!isWebGLLive) return;
-      crystalMesh.material.color.setHex(parseInt(colorHex.replace('#', '0x')));
-      crystalMesh.material.opacity = 0.95;
-      crystalMesh.scale.set(1.4, 1.4, 1.4);
-      globalShockwaveIntensity = customIntensity;
-      rotationSpeedModifier = customIntensity * 2.4;
-
-      let decay = setInterval(() => {
-        globalShockwaveIntensity *= 0.88;
-        rotationSpeedModifier = 1.0 + (rotationSpeedModifier - 1.0) * 0.85;
-        crystalMesh.scale.x -= (crystalMesh.scale.x - 1.0) * 0.15;
-        crystalMesh.scale.y = crystalMesh.scale.x;
-        crystalMesh.scale.z = crystalMesh.scale.x;
-
-        if (globalShockwaveIntensity < 0.05) {
-          clearInterval(decay);
-          globalShockwaveIntensity = 0;
-          rotationSpeedModifier = 1.0;
-          crystalMesh.material.color.setHex(0x00f0ff);
-          crystalMesh.material.opacity = 0.75;
-        }
-      }, 30);
-    }
-
-    function animateWebGLScene() {
-      if (!isWebGLLive) return;
-      raf(animateWebGLScene);
-
-      camera.position.x += (targetCameraX - camera.position.x) * 0.08;
-      camera.position.y += (targetCameraY - camera.position.y) * 0.08;
-      camera.lookAt(scene.position);
-
-      // ── Nebulosa de Presión: lerp suave hacia la diferencia de vidas ──
-      if (nebulaUniforms) {
-        const tNow = performance.now() * 0.001;
-        const lifeDiff = (S.lives[1] - S.lives[0]) / 20; // signo: + = p2 va perdiendo
-        const targetPressure = Math.max(-1, Math.min(1, lifeDiff));
-        nebulaPressure += (targetPressure - nebulaPressure) * 0.04;
-        nebulaUniforms.uTime.value = tNow;
-        nebulaUniforms.uPressure.value = nebulaPressure;
-        // Dirección: hacia el jugador que va por debajo (p1 arriba en pantalla)
-        nebulaUniforms.uFlowDir.value.set(0, -nebulaPressure);
-        nebulaUniforms.uShock.value = Math.min(1, globalShockwaveIntensity * 0.4);
-      }
-
-      crystalMesh.rotation.y += 0.006 * rotationSpeedModifier;
-      crystalMesh.rotation.x += 0.003 * rotationSpeedModifier;
-
-      // Animar y sincronizar los anillos orbitales si existen en escena
-      if (orbitRing1 && orbitRing2) {
-        orbitRing1.rotation.z += 0.008 * rotationSpeedModifier;
-        orbitRing2.rotation.z -= 0.005 * rotationSpeedModifier;
-
-        // Sincronizar colores dinámicamente con los de los jugadores
-        orbitRing1.material.color.setHex(parseInt(S.colors[0].replace('#', '0x')));
-        orbitRing2.material.color.setHex(parseInt(S.colors[1].replace('#', '0x')));
-
-        // Latidos / pulsos de la gema física si un jugador baja de 5 vidas
-        if (crystalMesh.material && typeof crystalMesh.material.opacity !== 'undefined' && globalShockwaveIntensity === 0) {
-          const p1Danger = S.lives[0] <= 5;
-          const p2Danger = S.lives[1] <= 5;
-          if (p1Danger || p2Danger) {
-            const pulseSpeed = (p1Danger && p2Danger) ? 20 : 10;
-            const pulse = 0.55 + Math.sin(performance.now() * 0.001 * pulseSpeed) * 0.2;
-            crystalMesh.material.opacity = pulse;
-            // Aumentar brillo emisivo en peligro
-            crystalMesh.material.emissive.setHex(p1Danger ? 0x330011 : 0x001133);
-          } else {
-            crystalMesh.material.opacity = 0.75;
-            crystalMesh.material.emissive.setHex(0x001122);
-          }
-        }
-      }
-
-      const positions = particlesGeo.attributes.position.array;
-      const waveFreq = Date.now() * 0.003;
-
-      for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] += particleSpeeds[i].x * rotationSpeedModifier;
-        positions[i * 3 + 1] += particleSpeeds[i].y * rotationSpeedModifier;
-        positions[i * 3 + 2] += particleSpeeds[i].z * rotationSpeedModifier;
-
-        if (globalShockwaveIntensity > 0) {
-          const px = positions[i * 3];
-          const py = positions[i * 3 + 1];
-          const pz = positions[i * 3 + 2];
-          const dist = Math.sqrt(px*px + py*py + pz*pz);
-          const wavePush = Math.sin(dist - waveFreq) * globalShockwaveIntensity * 0.15;
-          positions[i * 3] += (px / dist) * wavePush;
-          positions[i * 3 + 1] += (py / dist) * wavePush;
-          positions[i * 3 + 2] += (pz / dist) * wavePush;
-        }
-
-        const rad = Math.sqrt(positions[i * 3]**2 + positions[i * 3 + 1]**2 + positions[i * 3 + 2]**2);
-        if (rad > 32) {
-          positions[i * 3] *= 0.35;
-          positions[i * 3 + 1] *= 0.35;
-          positions[i * 3 + 2] *= 0.35;
-        }
-      }
-      particlesGeo.attributes.position.needsUpdate = true;
-      renderer.render(scene, camera);
-    }
-
-    // ── Watchdog de rendimiento: pausa Three.js si bajo consumo / FPS pobre ──
-    let perfDowngraded = false;
-    function downgradeToFallback(reason) {
-      if (perfDowngraded) return;
-      perfDowngraded = true;
-      isWebGLLive = false;
-      const c = $('webgl-canvas');
-      if (c) c.style.display = 'none';
-      $('fallback-bg').classList.add('active');
-      // Pista para debugging local (no se ve en producción si DevTools cerrado)
-      if (window.console) console.info('[perf] downgrade →', reason);
-    }
-
-    function initPerfWatchdog() {
-      // 1) Battery Status API (Safari iOS no la expone, pero Android/Chromium sí)
-      if (navigator.getBattery) {
-        navigator.getBattery().then(b => {
-          const check = () => {
-            if (!b.charging && b.level <= 0.20) downgradeToFallback('batería baja (' + Math.round(b.level * 100) + '%)');
-          };
-          b.addEventListener('levelchange', check);
-          b.addEventListener('chargingchange', check);
-          check();
-        }).catch(() => {});
-      }
-
-      // 2) Watchdog de FPS (vale para iOS donde no hay Battery API)
-      let frames = 0, t0 = performance.now(), slowStreak = 0;
-      function tick() {
-        if (perfDowngraded) return;
-        frames++;
-        const now = performance.now();
-        if (now - t0 >= 1000) {
-          const fps = (frames * 1000) / (now - t0);
-          // 120Hz nativo en iPhone — si bajamos consistentemente <40fps el 3D no compensa
-          if (fps < 40) slowStreak++; else slowStreak = 0;
-          if (slowStreak >= 4) downgradeToFallback('FPS sostenido <40 (' + fps.toFixed(0) + ')');
-          frames = 0; t0 = now;
-        }
-        raf(tick);
-      }
-      raf(tick);
-
-      // 3) Pausa al ocultar la pestaña (Background Throttling — ahorra batería)
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden && S.clock.running) {
-          // El reloj de torneo sigue contando con setInterval — eso es correcto
-          // Solo congelamos el render: el rAF ya se pausa automáticamente cuando la pestaña está oculta
-        }
-      });
     }
 
     // ── CAMBIO DE VIDAS ──
@@ -3424,7 +2899,6 @@
       
       vib(v < 0 ? [20, 10, 20] : [14]);
       playSynthSound(v < 0 ? 'dmg' : 'heal', p, v);
-      trigger3DShockwave(v < 0 ? S.colors[p - 1] : '#39ff14');
 
       renderLife(p, v);
       renderHistory(p);
@@ -3578,8 +3052,6 @@
         pel.classList.add('danger');
       }
 
-      // Actualizar diales y alarmas interactivas de la consola Simpsons
-      updateSimpsonsConsole(p, v);
     }
 
     function spawnReiatsuParticles(p, v) {
@@ -3686,49 +3158,6 @@
       setTimeout(() => coin.remove(), 600);
     }
 
-    function updateSimpsonsConsole(p, v) {
-      if (document.body.dataset.theme !== 'simpsons') return;
-      try {
-        const startingLife = (selectedMode === 'commander') ? 40 : 20;
-        // Jugador 1 (Oponente - Arriba)
-        const life1 = S.lives[0];
-        const rot1 = Math.max(-90, Math.min(90, -90 + (life1 / startingLife) * 180));
-        const needleT1 = $('simpNeedleT1');
-        const needleT2 = $('simpNeedleT2');
-        if (needleT1) needleT1.style.transform = `rotate(${rot1}deg)`;
-        if (needleT2) needleT2.style.transform = `rotate(${rot1}deg)`;
-        
-        const alarmTL = $('simpAlarmTopL');
-        const alarmTR = $('simpAlarmTopR');
-        if (alarmTL && alarmTR) {
-          const active1 = life1 <= 5 && life1 > 0;
-          alarmTL.classList.toggle('active', active1);
-          alarmTR.classList.toggle('active', active1);
-        }
-
-        // Jugador 2 (Local - Abajo)
-        const life2 = S.lives[1];
-        const rot2 = Math.max(-90, Math.min(90, -90 + (life2 / startingLife) * 180));
-        const needleB1 = $('simpNeedleB1');
-        const needleB2 = $('simpNeedleB2');
-        if (needleB1) needleB1.style.transform = `rotate(${rot2}deg)`;
-        if (needleB2) needleB2.style.transform = `rotate(${rot2}deg)`;
-        
-        const panicL = $('simpPanicLight');
-        if (panicL) {
-          panicL.classList.toggle('active', life2 <= 5 && life2 > 0);
-        }
-
-        // Giro del logotipo de peligro nuclear al recibir daño (v < 0)
-        if (v < 0) {
-          const logo = $('simpNuclearLogo');
-          if (logo) {
-            logo.classList.add('spinning');
-            setTimeout(() => logo.classList.remove('spinning'), 1500);
-          }
-        }
-      } catch (err) { console.error(err); }
-    }
 
     function spawnFloatingDelta(p, val) {
       const area = $(`la${p}`);
@@ -3771,6 +3200,15 @@
 
     // ── GESTOR ESTRATÉGICO DE ENCUENTRO BO3 (Best of 3) ──
     function evalBO3MatchEnd(winnerPlayer) {
+      // Commander no es un match al mejor de 3: una partida, un ganador.
+      // Sin esta guarda, llegar a 0 vidas en Commander abria la fase de
+      // sideboard e incrementaba S.currentGame como si fuera BO3.
+      if (selectedMode === 'commander') {
+        addMatchLog(`⭐ ${S.names[winnerPlayer - 1]} gana la partida`);
+        triggerGrandMatchVictory(winnerPlayer);
+        return;
+      }
+
       // 1. Asignar ronda ganada en el marcador de la mesa
       const rSlot = S.rounds[winnerPlayer - 1][0] ? 1 : 0;
       S.rounds[winnerPlayer - 1][rSlot] = true;
@@ -3871,12 +3309,11 @@
       $('matchPhaseDisp').textContent = `JUEGO ${S.currentGame}`;
       $('matchPhaseDisp').className = '';
 
-      // Reset de vidas, poison, mulligans individuales para el juego
+      // Reset de vidas y poison individuales para el juego
       S.lives = [20, 20];
       S.prevLives = [20, 20];
       S.history = [[], []];
       S.poison = [0, 0];
-      S.mulligans = [0, 0];
 
       // Reset de UI de los jugadores
       [1, 2].forEach(p => {
@@ -3925,7 +3362,6 @@
       addMatchLog(`🏆🏆 ¡${S.names[winnerPlayer - 1]} HA GANADO EL MATCH BO3 (${p1Wins}-${p2Wins})! 🏆🏆`);
 
       // 2. WebGL Overdrive (Hiper-explosión de polvo de estrellas)
-      trigger3DShockwave(S.colors[winnerPlayer - 1], 8.5);
 
       // 3. Synthesizer de marcha triunfal
       playSynthSound('victory');
@@ -3933,23 +3369,6 @@
     }
 
     // Rondas (Slots individuales)
-    function toggleRound(p, slot) {
-      S.rounds[p - 1][slot] = !S.rounds[p - 1][slot];
-      renderRounds(p);
-      playSynthSound('lock');
-      
-      // Registrar en el historial
-      addMatchLog(`⭐ Ronda ${slot + 1} de ${S.names[p - 1]} cambiada a: ${S.rounds[p - 1][slot] ? 'GANADA' : 'PENDIENTE'}`);
-
-      // Evaluar si clicando manualmente alcanza la victoria del match
-      const wins = S.rounds[p - 1].filter(Boolean).length;
-      if (wins >= 2) {
-        triggerGrandMatchVictory(p);
-      } else {
-        $(`p${p}`).classList.remove('winner');
-        saveMatchState();
-      }
-    }
 
     function renderRounds(p) {
       ['a', 'b'].forEach((l, s) => $('r' + p + l).classList.toggle('won', S.rounds[p - 1][s]));
@@ -4011,9 +3430,6 @@
       $('clkDisp').className = 'clk-disp' + (c.running ? ' run' : c.secs === 0 ? ' exp' : '');
       $('clkPlay').textContent = c.running ? '⏸' : '▶';
       $('clkPlay').className = 'btn-clk' + (c.running ? ' run' : '');
-      
-      const sfTimer = $('sfCarTimerVal');
-      if (sfTimer) sfTimer.textContent = timeStr;
     }
 
     function fireTimeAlert() {
@@ -4024,23 +3440,12 @@
     }
 
     // Sideboard manual
-    function toggleSB(p) {
-      const tog = $('sbt' + p), notes = $('sbn' + p);
-      if (!notes) return;
-      const open = notes.classList.toggle('open');
-      if (tog) {
-        tog.classList.toggle('open', open);
-        tog.textContent = (open ? '▲' : '▼') + ' SIDEBOARD';
-      }
-      playSynthSound('lock');
-    }
 
     // Veneno
     function changePoison(p, v) {
       S.poison[p - 1] = Math.max(0, S.poison[p - 1] + v);
       vib(v > 0 ? [15, 8, 15] : [10]);
       playSynthSound('poison');
-      trigger3DShockwave('#ba55d3');
 
       const area = $(`la${p}`);
       const popup = document.createElement('div');
@@ -4075,24 +3480,7 @@
       el.className = 'poison-num' + (n >= 10 ? ' crit' : n >= 7 ? ' warn' : '');
     }
 
-    // Mulligans
-    function changeMulligan(p) {
-      S.mulligans[p - 1]++;
-      vib([12]);
-      playSynthSound('lock');
-      renderMulligan(p);
 
-      // Registrar mulligan
-      addMatchLog(`🃏 ${S.names[p - 1]} Mulligan ➔ ${S.mulligans[p - 1]}`);
-    }
-
-    function renderMulligan(p) {
-      const el = $('mgc' + p);
-      if (!el) return;
-      const n = S.mulligans[p - 1];
-      el.textContent = n;
-      el.classList.toggle('on', n > 0);
-    }
 
     // Turno Primero
     function toggleFirst() {
@@ -4125,7 +3513,6 @@
       S.prevLives = [startLives, startLives];
       S.history = [[], []];
       S.poison = [0, 0];
-      S.mulligans = [0, 0];
       
       vib([25, 12, 25]);
       playSynthSound('reset');
@@ -4136,9 +3523,7 @@
         $('p' + p).classList.remove('danger', 'dead', 'winner');
         renderHistory(p);
         renderPoison(p);
-        renderMulligan(p);
       });
-      updateSFCarState();
 
       // Registrar reinicio de juego
       addMatchLog(`🔄 Juego ${S.currentGame} reiniciado`);
@@ -4151,7 +3536,6 @@
       S.history = [[], []];
       S.rounds = [[false, false], [false, false]];
       S.poison = [0, 0];
-      S.mulligans = [0, 0];
       S.goesFirst = 0;
       S.currentGame = 1;
       S.inSideboardPhase = false;
@@ -4186,10 +3570,8 @@
         }
         renderHistory(p);
         renderPoison(p);
-        renderMulligan(p);
       });
       renderFirst();
-      updateSFCarState();
 
       // Limpiar caché de localStorage para empezar limpio
       try {
@@ -4205,9 +3587,6 @@
       addMatchLog(`🧹 Encuentro reiniciado por completo (Nuevo Match BO3)`);
     }
 
-    function updateSFCarState() {
-      // Función placeholder para evitar crash de JS
-    }
 
     // LongPress reset
     function initResetLongPress() {
