@@ -1,10 +1,19 @@
 // Service Worker — Magic BO3 Counter
 // Rutas relativas para que funcione bajo cualquier subpath de GitHub Pages.
+//
+// Estrategia (v96):
+//   · Shell (html/css/js)  → cache-first + revalidación en segundo plano  ⇒ arranque instantáneo
+//   · Imágenes             → cache-first, se llenan al usarlas            ⇒ sin descargas repetidas
+//   · Audio/vídeo          → cache-first + soporte Range (iOS Safari)     ⇒ sin descargar 5MB al instalar
+//   · Resto (CDN, fuentes) → cache-first con red de respaldo
+//
+// El install ya NO precachea los 86 MP3 (5,1 MB): cada tema cachea sus sonidos
+// la primera vez que se selecciona/reproduce. Instalación más rápida y, sobre todo,
+// tolerante a fallos: un archivo que falte ya no tumba el Service Worker entero.
 
-const CACHE = 'magic-bo3-v94';
+const CACHE = 'magic-bo3-v96';
 
-
-// Activos críticos para arrancar 100% offline
+// ── Nivel 1: shell mínimo imprescindible. Bloquea el install. ──────────────
 const CORE_ASSETS = [
   './',
   './contador.html',
@@ -17,122 +26,36 @@ const CORE_ASSETS = [
   './assets/mode_commander.webp',
   './icon-180.png',
   './icon-192.png',
-  './icon-512.png',
-  // ── Bleach ──────────────────────────────────────────
-  './themes/bleach/+5.mp3',
-  './themes/bleach/-1.mp3',
-  './themes/bleach/dmg.mp3',
-  './themes/bleach/heal.mp3',
-  './themes/bleach/intro.mp3',
-  './themes/bleach/victory.mp3',
-  // ── Back to the Future ──────────────────────────────
-  './themes/bttf/+1.mp3',
-  './themes/bttf/+5.mp3',
-  './themes/bttf/-1.mp3',
-  './themes/bttf/-5.mp3',
-  './themes/bttf/dmg.mp3',
-  './themes/bttf/heal.mp3',
-  './themes/bttf/loading song.mp3',
-  './themes/bttf/victory.mp3',
-  // ── Demon Slayer ────────────────────────────────────
-  './themes/demonslayer/+1.mp3',
-  './themes/demonslayer/dmg.mp3',
-  './themes/demonslayer/heal.mp3',
-  './themes/demonslayer/intro.mp3',
-  './themes/demonslayer/victory.mp3',
-  // ── Dragon Ball ─────────────────────────────────────
-  './themes/dragonball/+1.mp3',
-  './themes/dragonball/-1.mp3',
-  './themes/dragonball/-5.mp3',
-  './themes/dragonball/dmg.mp3',
-  './themes/dragonball/heal.mp3',
-  './themes/dragonball/intro.mp3',
-  './themes/dragonball/p1_dmg.mp3',
-  './themes/dragonball/p1_heal.mp3',
-  './themes/dragonball/p2_dmg.mp3',
-  './themes/dragonball/p2_heal.mp3',
-  './themes/dragonball/victory.mp3',
-  // ── Mario ───────────────────────────────────────────
-  './themes/mario/+1.mp3',
-  './themes/mario/+5.mp3',
-  './themes/mario/-1.mp3',
-  './themes/mario/-5.mp3',
-  './themes/mario/dmg.mp3',
-  './themes/mario/heal.mp3',
-  './themes/mario/intro.mp3',
-  './themes/mario/victory.mp3',
-  // ── Naruto ──────────────────────────────────────────
-  './themes/naruto/+1.mp3',
-  './themes/naruto/+5.mp3',
-  './themes/naruto/-1.mp3',
-  './themes/naruto/-5.mp3',
-  './themes/naruto/dmg.mp3',
-  './themes/naruto/heal.mp3',
-  './themes/naruto/intro.mp3',
-  './themes/naruto/p1_dmg.mp3',
-  './themes/naruto/p1_heal.mp3',
-  './themes/naruto/p2_dmg.mp3',
-  './themes/naruto/p2_heal.mp3',
-  './themes/naruto/victory.mp3',
-  // ── One Piece ───────────────────────────────────────
-  './themes/onepiece/dmg.mp3',
-  './themes/onepiece/heal.mp3',
-  './themes/onepiece/intro.mp3',
-  './themes/onepiece/p1_dmg.mp3',
-  './themes/onepiece/p1_heal.mp3',
-  './themes/onepiece/p2_dmg.mp3',
-  './themes/onepiece/p2_heal.mp3',
-  './themes/onepiece/victory.mp3',
-  // ── Rick & Morty ────────────────────────────────────
-  './themes/rickmorty/-1.mp3',
-  './themes/rickmorty/dmg.mp3',
-  './themes/rickmorty/heal.mp3',
-  './themes/rickmorty/intro.mp3',
-  './themes/rickmorty/victory.mp3',
-  // ── Simpsons ────────────────────────────────────────
-  './themes/simpsons/+1.mp3',
-  './themes/simpsons/+5.mp3',
-  './themes/simpsons/-1.mp3',
-  './themes/simpsons/-5.mp3',
-  './themes/simpsons/dmg.mp3',
-  './themes/simpsons/heal.mp3',
-  './themes/simpsons/intro.mp3',
-  './themes/simpsons/victory.mp3',
-  // ── Street Fighter ──────────────────────────────────
-  './themes/streetfighter/coin.mp3',
-  './themes/streetfighter/dmg.mp3',
-  './themes/streetfighter/fight.mp3',
-  './themes/streetfighter/gameover.mp3',
-  './themes/streetfighter/hadouken.mp3',
-  './themes/streetfighter/heal.mp3',
-  './themes/streetfighter/intro.mp3',
-  './themes/streetfighter/p1_dmg.mp3',
-  './themes/streetfighter/p1_heal.mp3',
-  './themes/streetfighter/p2_dmg.mp3',
-  './themes/streetfighter/p2_heal.mp3',
-  './themes/streetfighter/perfect.mp3',
-  './themes/streetfighter/shoryuken.mp3',
-  './themes/streetfighter/tatsumaki.mp3',
-  './themes/streetfighter/victory.mp3'
+  './icon-512.png'
 ];
 
-// Activos CDN — cache opportunista (no bloqueamos install si fallan)
+// ── Nivel 2: previews del lobby. Best-effort, NO bloquea el install. ───────
+const THEME_IDS = [
+  'bleach', 'bttf', 'demonslayer', 'dragonball', 'mario',
+  'naruto', 'onepiece', 'rickmorty', 'simpsons', 'streetfighter'
+];
+const PREVIEW_ASSETS = THEME_IDS.map(id => `./themes/${id}/preview.webp`);
+
+// ── Nivel 3: CDN. Best-effort. ────────────────────────────────────────────
 const CDN_ASSETS = [
-  'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js',
   'https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@900&family=Lilita+One&family=Orbitron:wght@500;800;900&family=Outfit:wght@300;400;600;800&family=Permanent+Marker&family=Pirata+One&family=Press+Start+2P&family=Russo+One&family=Shojumaru&family=VT323&display=swap'
 ];
 
+// Añade sin dejar que un fallo aislado rompa la instalación completa.
+async function addAllTolerant(cache, urls) {
+  const results = await Promise.allSettled(urls.map(u => cache.add(u)));
+  const failed = results
+    .map((r, i) => (r.status === 'rejected' ? urls[i] : null))
+    .filter(Boolean);
+  if (failed.length) console.warn('[SW] No se pudieron cachear:', failed);
+  return failed;
+}
+
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-    await cache.addAll(CORE_ASSETS);
-    // CDN: best-effort (cdnjs/Google Fonts pueden bloquear no-cors según política)
-    await Promise.all(CDN_ASSETS.map(url =>
-      fetch(url, { mode: 'no-cors' })
-        .then(res => cache.put(url, res))
-        .catch(() => {})
-    ));
+    await addAllTolerant(cache, CORE_ASSETS);
     self.skipWaiting();
   })());
 });
@@ -142,29 +65,55 @@ self.addEventListener('activate', event => {
     const keys = await caches.keys();
     await Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)));
     await self.clients.claim();
+
+    // Previews y CDN en segundo plano: la app ya es usable mientras esto baja.
+    const cache = await caches.open(CACHE);
+    addAllTolerant(cache, PREVIEW_ASSETS);
+    Promise.all(CDN_ASSETS.map(url =>
+      fetch(url, { mode: 'no-cors' })
+        .then(res => cache.put(url, res))
+        .catch(() => {})
+    ));
   })());
 });
 
-// Estrategia: Network-First (con fallback a caché si no hay conexión)
+// Busca en caché ignorando el ?v=NN de cache-busting, para que style.css?v=96
+// encuentre el './style.css' precacheado sin tener que volver a descargarlo.
+async function matchCache(req) {
+  const cache = await caches.open(CACHE);
+  return (await cache.match(req)) || (await cache.match(req, { ignoreSearch: true }));
+}
+
+// Refresca en segundo plano sin hacer esperar al usuario.
+function revalidate(req) {
+  fetch(req)
+    .then(res => {
+      if (res && res.status === 200 && res.type !== 'opaqueredirect') {
+        caches.open(CACHE).then(c => c.put(req, res.clone())).catch(() => {});
+      }
+    })
+    .catch(() => {});
+}
+
 self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
-
-  // Evitar interceptar esquemas no HTTP/HTTPS (como extensiones del navegador)
   if (!req.url.startsWith('http')) return;
 
-  // Manejo de Audio y Video con soporte de Range Requests para iOS Safari offline
-  const isAudioOrVideo = req.destination === 'video' || req.destination === 'audio' || req.url.match(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i);
+  const isAudioOrVideo =
+    req.destination === 'video' ||
+    req.destination === 'audio' ||
+    /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(req.url);
+
+  // ── Audio y vídeo: cache-first + Range para iOS Safari ──────────────────
   if (isAudioOrVideo) {
     event.respondWith((async () => {
-      const cache = await caches.open(CACHE);
-      const cached = await cache.match(req);
-      if (cached) {
-        return handleRangeRequest(req, cached);
-      }
+      const cached = await matchCache(req);
+      if (cached) return handleRangeRequest(req, cached);
       try {
         const fresh = await fetch(req);
         if (fresh && fresh.status === 200) {
+          const cache = await caches.open(CACHE);
           cache.put(req, fresh.clone()).catch(() => {});
         }
         return fresh;
@@ -175,25 +124,46 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  const isImage =
+    req.destination === 'image' ||
+    /\.(webp|png|jpe?g|gif|svg|avif)(\?.*)?$/i.test(req.url);
+
+  // ── Imágenes: cache-first puro, se llenan al usarlas ────────────────────
+  if (isImage) {
+    event.respondWith((async () => {
+      const cached = await matchCache(req);
+      if (cached) return cached;
+      try {
+        const fresh = await fetch(req);
+        if (fresh && fresh.status === 200) {
+          const cache = await caches.open(CACHE);
+          cache.put(req, fresh.clone()).catch(() => {});
+        }
+        return fresh;
+      } catch (err) {
+        return new Response('', { status: 503 });
+      }
+    })());
+    return;
+  }
+
+  // ── Shell y resto: cache-first con revalidación en segundo plano ────────
   event.respondWith((async () => {
+    const cached = await matchCache(req);
+    if (cached) {
+      revalidate(req);          // se actualizará para la próxima carga
+      return cached;            // pintado inmediato, sin esperar a la red
+    }
     try {
-      // Intentar primero obtener de la red
       const fresh = await fetch(req);
-      
-      // Si la respuesta es válida, actualizar la caché en segundo plano
       if (fresh && fresh.status === 200 && fresh.type !== 'opaqueredirect') {
         const cache = await caches.open(CACHE);
         cache.put(req, fresh.clone()).catch(() => {});
       }
       return fresh;
     } catch (err) {
-      // Si falla la red (offline), buscar en la caché
-      const cached = await caches.match(req);
-      if (cached) return cached;
-      
-      // Si no está en caché y es una navegación de página, servir contador.html
       if (req.mode === 'navigate') {
-        const shell = await caches.match('./contador.html');
+        const shell = await matchCache(new Request('./contador.html'));
         if (shell) return shell;
       }
       return new Response('Offline', { status: 503, statusText: 'Offline' });
@@ -201,35 +171,35 @@ self.addEventListener('fetch', event => {
   })());
 });
 
-// Manejador de Range Requests para archivos binarios de audio/video en caché
+// Manejador de Range Requests para archivos binarios de audio/vídeo en caché
 async function handleRangeRequest(request, cachedResponse) {
   const rangeHeader = request.headers.get('range');
   if (!rangeHeader) return cachedResponse;
 
   try {
     const arrayBuffer = await cachedResponse.arrayBuffer();
-    const parts = rangeHeader.replace(/bytes=/, "").split("-");
+    const parts = rangeHeader.replace(/bytes=/, '').split('-');
     const start = parseInt(parts[0], 10);
     const end = parts[1] ? parseInt(parts[1], 10) : arrayBuffer.byteLength - 1;
 
     if (start >= arrayBuffer.byteLength || end >= arrayBuffer.byteLength) {
-      return new Response("", {
+      return new Response('', {
         status: 416,
-        statusText: "Range Not Satisfiable",
-        headers: { "Content-Range": `bytes */${arrayBuffer.byteLength}` }
+        statusText: 'Range Not Satisfiable',
+        headers: { 'Content-Range': `bytes */${arrayBuffer.byteLength}` }
       });
     }
 
     const sliced = arrayBuffer.slice(start, end + 1);
-    const contentType = cachedResponse.headers.get("content-type") || "audio/mp3";
+    const contentType = cachedResponse.headers.get('content-type') || 'audio/mp3';
     return new Response(sliced, {
       status: 206,
-      statusText: "Partial Content",
+      statusText: 'Partial Content',
       headers: {
-        "Content-Type": contentType,
-        "Content-Range": `bytes ${start}-${end}/${arrayBuffer.byteLength}`,
-        "Content-Length": sliced.byteLength.toString(),
-        "Accept-Ranges": "bytes"
+        'Content-Type': contentType,
+        'Content-Range': `bytes ${start}-${end}/${arrayBuffer.byteLength}`,
+        'Content-Length': sliced.byteLength.toString(),
+        'Accept-Ranges': 'bytes'
       }
     });
   } catch (err) {

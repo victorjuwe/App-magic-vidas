@@ -58,25 +58,30 @@
 
     // MAPA GLOBAL PARA PRECARGA DE AUDIOS
     const preloadedAudios = {};
+    // Manifiesto real de audios por tema. Antes se pedian 19 rutas fijas para todos
+    // los temas, de las cuales hasta 15 no existian (p1_+1.mp3, p2_-5.mp3...) y se
+    // saldaban con un 404 por tema en cada arranque. Ahora solo se pide lo que hay.
+    const THEME_AUDIO_MANIFEST = {
+      bleach:        ['victory.mp3', 'dmg.mp3', 'heal.mp3', '+5.mp3', '-1.mp3'],
+      bttf:          ['victory.mp3', 'dmg.mp3', 'heal.mp3', '+1.mp3', '+5.mp3', '-1.mp3', '-5.mp3'],
+      demonslayer:   ['victory.mp3', 'dmg.mp3', 'heal.mp3', '+1.mp3'],
+      dragonball:    ['victory.mp3', 'dmg.mp3', 'heal.mp3', '+1.mp3', '-1.mp3', '-5.mp3', 'p1_dmg.mp3', 'p1_heal.mp3', 'p2_dmg.mp3', 'p2_heal.mp3'],
+      mario:         ['victory.mp3', 'dmg.mp3', 'heal.mp3', '+1.mp3', '+5.mp3', '-1.mp3', '-5.mp3'],
+      naruto:        ['victory.mp3', 'dmg.mp3', 'heal.mp3', '+1.mp3', '+5.mp3', '-1.mp3', '-5.mp3', 'p1_dmg.mp3', 'p1_heal.mp3', 'p2_dmg.mp3', 'p2_heal.mp3'],
+      onepiece:      ['victory.mp3', 'dmg.mp3', 'heal.mp3', 'p1_dmg.mp3', 'p1_heal.mp3', 'p2_dmg.mp3', 'p2_heal.mp3'],
+      rickmorty:     ['victory.mp3', 'dmg.mp3', 'heal.mp3', '-1.mp3'],
+      simpsons:      ['victory.mp3', 'dmg.mp3', 'heal.mp3', '+1.mp3', '+5.mp3', '-1.mp3', '-5.mp3'],
+      streetfighter: ['victory.mp3', 'dmg.mp3', 'heal.mp3', 'hadouken.mp3', 'shoryuken.mp3', 'tatsumaki.mp3', 'perfect.mp3', 'coin.mp3', 'fight.mp3', 'gameover.mp3', 'p1_dmg.mp3', 'p2_dmg.mp3', 'p1_heal.mp3', 'p2_heal.mp3']
+    };
+
     function preloadThemeSounds(themeId) {
       if (!themeId) return;
       try {
-        const files = [];
-        if (themeId === 'streetfighter') {
-          files.push(
-            'victory.mp3', 'hadouken.mp3', 'shoryuken.mp3', 'tatsumaki.mp3', 'perfect.mp3',
-            'coin.mp3', 'fight.mp3', 'gameover.mp3', 'p1_dmg.mp3', 'p2_dmg.mp3', 'p1_heal.mp3', 'p2_heal.mp3'
-          );
-        } else {
-          files.push(
-            'victory.mp3', '+1.mp3', '+5.mp3', '-1.mp3', '-5.mp3', 'dmg.mp3', 'heal.mp3',
-            'p1_+1.mp3', 'p2_+1.mp3', 'p1_+5.mp3', 'p2_+5.mp3', 'p1_-1.mp3', 'p2_-1.mp3',
-            'p1_-5.mp3', 'p2_-5.mp3', 'p1_dmg.mp3', 'p2_dmg.mp3', 'p1_heal.mp3', 'p2_heal.mp3'
-          );
-        }
-        
+        const files = THEME_AUDIO_MANIFEST[themeId];
+        if (!files) return;
+
         preloadedAudios[themeId] = preloadedAudios[themeId] || {};
-        
+
         files.forEach(file => {
           const path = `./themes/${themeId}/${file}`;
           if (!preloadedAudios[themeId][file]) {
@@ -1120,7 +1125,53 @@
 
     let audioCtx = null;
     let activeAudioInstance = null;
-    
+
+    // ── Igualación de audio entre temas (magnitud + jugador) ──
+    // Pitch/velocidad según la magnitud del cambio (solo cuando usamos el MP3 genérico,
+    // para no distorsionar archivos hechos a propósito como +5.mp3).
+    function computeAudioRate(type, value) {
+      if (value === null || value === undefined) return 1;
+      const mag = Math.abs(value);
+      if (mag < 5) return 1;
+      return type === 'heal' ? 1.12 : 0.82; // cura +5 más brillante, daño -5 más grave/pesado
+    }
+
+    // Paneo estéreo suave según el jugador (P1 izquierda, P2 derecha).
+    function panForPlayer(playerNum) {
+      if (playerNum === 1) return -0.35;
+      if (playerNum === 2) return 0.35;
+      return 0;
+    }
+
+    // Reproduce un MP3 con tono (rate) y paneo opcionales, con degradación robusta.
+    function playThemedAudio(path, opts = {}) {
+      const { rate = 1, pan = 0, onError = null } = opts;
+      const audio = new Audio(path);
+      if (rate && rate !== 1) {
+        try { audio.playbackRate = rate; } catch (_) {}
+      }
+      activeAudioInstance = audio;
+      // Solo enrutamos por Web Audio si el contexto está activo: si estuviera suspendido,
+      // createMediaElementSource desviaría el audio y quedaría mudo. En ese caso suena normal.
+      if (pan && audioCtx && audioCtx.state === 'running') {
+        try {
+          const src = audioCtx.createMediaElementSource(audio);
+          const panner = audioCtx.createStereoPanner();
+          panner.pan.value = Math.max(-1, Math.min(1, pan));
+          src.connect(panner);
+          panner.connect(audioCtx.destination);
+        } catch (_) { /* sin paneo: suena igualmente por la salida por defecto */ }
+      }
+      const p = audio.play();
+      if (p && p.catch) {
+        p.catch((err) => {
+          if (err && err.name === 'AbortError') return;
+          if (onError) onError(err);
+        });
+      }
+      return audio;
+    }
+
     function playSynthSound(type, playerNum = null, value = null) {
       if (S.muted) return;
       try {
@@ -1157,18 +1208,19 @@
             }
           }
 
+          const pan = type !== 'victory' ? panForPlayer(playerNum) : 0;
           const playWithFallback = (path, fallbackPath) => {
-            const audio = new Audio(path);
-            activeAudioInstance = audio;
-            audio.play().catch(() => {
-              if (fallbackPath) {
-                const fbAudio = new Audio(fallbackPath);
-                activeAudioInstance = fbAudio;
-                fbAudio.play().catch(() => {
+            playThemedAudio(path, {
+              pan,
+              onError: () => {
+                if (fallbackPath) {
+                  playThemedAudio(fallbackPath, {
+                    pan,
+                    onError: () => triggerSynthFallback('streetfighter', type, now, value)
+                  });
+                } else {
                   triggerSynthFallback('streetfighter', type, now, value);
-                });
-              } else {
-                triggerSynthFallback('streetfighter', type, now, value);
+                }
               }
             });
           };
@@ -1185,39 +1237,36 @@
         // Intentar reproducir MP3 local para temas con audio externo
         const themesWithAudio = ['simpsons', 'rickmorty', 'bttf', 'bleach', 'onepiece', 'naruto', 'dragonball', 'mario', 'demonslayer'];
         if (currentTheme && themesWithAudio.includes(currentTheme) && (type === 'dmg' || type === 'heal' || type === 'victory')) {
+          // Cada entrada marca si es el MP3 genérico (al que aplicamos magnitud) o uno
+          // específico hecho a propósito (que reproducimos tal cual, sin alterar el tono).
           const pathsToTry = [];
           if (type === 'victory') {
-            pathsToTry.push(`./themes/${currentTheme}/victory.mp3`);
+            pathsToTry.push({ path: `./themes/${currentTheme}/victory.mp3`, generic: false });
           } else if (type === 'dmg' || type === 'heal') {
             const valStr = value !== null ? (value > 0 ? `+${value}` : `${value}`) : null;
             if (playerNum && valStr) {
-              pathsToTry.push(`./themes/${currentTheme}/p${playerNum}_${valStr}.mp3`);
+              pathsToTry.push({ path: `./themes/${currentTheme}/p${playerNum}_${valStr}.mp3`, generic: false });
             }
             if (valStr) {
-              pathsToTry.push(`./themes/${currentTheme}/${valStr}.mp3`);
+              pathsToTry.push({ path: `./themes/${currentTheme}/${valStr}.mp3`, generic: false });
             }
             if (playerNum) {
-              pathsToTry.push(`./themes/${currentTheme}/p${playerNum}_${type}.mp3`);
+              pathsToTry.push({ path: `./themes/${currentTheme}/p${playerNum}_${type}.mp3`, generic: true });
             }
-            pathsToTry.push(`./themes/${currentTheme}/${type}.mp3`);
+            pathsToTry.push({ path: `./themes/${currentTheme}/${type}.mp3`, generic: true });
           }
 
+          const pan = type !== 'victory' ? panForPlayer(playerNum) : 0;
           let attemptIdx = 0;
           function tryNextPath() {
             if (attemptIdx >= pathsToTry.length) {
               triggerSynthFallback(currentTheme, type, now, value);
               return;
             }
-            const path = pathsToTry[attemptIdx];
+            const entry = pathsToTry[attemptIdx];
             attemptIdx++;
-            const audio = new Audio(path);
-            activeAudioInstance = audio;
-            audio.play().then(() => {
-              // Exitoso
-            }).catch((err) => {
-              if (err && err.name === 'AbortError') return;
-              tryNextPath();
-            });
+            const rate = (entry.generic && type !== 'victory') ? computeAudioRate(type, value) : 1;
+            playThemedAudio(entry.path, { rate, pan, onError: tryNextPath });
           }
           tryNextPath();
           return;

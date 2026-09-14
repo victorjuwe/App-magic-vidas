@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@900&family=Lilita+One&family=Orbitron:wght@500;800;900&family=Outfit:wght@300;400;600;800&family=Permanent+Marker&family=Pirata+One&family=Press+Start+2P&family=Russo+One&family=Shojumaru&family=VT323&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="./style.css?v=92">
+  <link rel="stylesheet" href="./style.css?v=96">
   <script>
     window.onerror = function(msg, url, line, col, error) {
       const errStr = "⚠️ Error detectado:\n" + msg + "\nEn: " + url + ":" + line + (col ? ":" + col : "");
@@ -496,118 +496,102 @@
     </div>
   </div>
 
-  <!-- ── CARGA DINÁMICA DE LIBRERÍAS CON FALLBACK OFFLINE ── -->
+  <!-- ── ARRANQUE: LIBRERÍAS + SPLASH ── -->
   <script>
+    // three.js se eliminó del arranque: el motor 3D está desactivado en engine.js
+    // (initThreeJSEngine hace return inmediato), así que descargarlo era ~600KB tirados.
     window.THREE = null;
     window.anime = null;
 
     function loadLibrary(url) {
       return new Promise((resolve) => {
-        const timeout = setTimeout(() => {
-          console.warn("Library loading timed out: " + url);
-          resolve(false);
-        }, 1500);
-
+        const timeout = setTimeout(() => resolve(false), 3000);
         try {
           const script = document.createElement('script');
           script.src = url;
-          script.onload = () => {
-            clearTimeout(timeout);
-            resolve(true);
-          };
-          script.onerror = () => {
-            clearTimeout(timeout);
-            resolve(false);
-          };
+          script.onload = () => { clearTimeout(timeout); resolve(true); };
+          script.onerror = () => { clearTimeout(timeout); resolve(false); };
           document.head.appendChild(script);
         } catch (e) {
           clearTimeout(timeout);
-          console.error("Error loading library: " + url, e);
           resolve(false);
         }
       });
     }
 
+    // Arranca la descarga YA, en paralelo al splash. No bloquea nada.
+    const libsReady = loadLibrary('https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js');
+
+    // Service Worker: se registra de inmediato, no en mitad de la secuencia de carga.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js').then(reg => {
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              window.location.reload();
+            }
+          });
+        });
+      }).catch(() => {});
+    }
+
     window.addEventListener('DOMContentLoaded', async () => {
-      // ── Splash estático ya cargado directamente vía HTML ──
-
-      // ── Carrusel de Temas: Inicializado dinámicamente desde engine.js ──
-
+      const screen   = document.getElementById('loading-screen');
       const progress = document.getElementById('loadProgress');
-      const status = document.getElementById('loadStatus');
+      const status   = document.getElementById('loadStatus');
 
-      const updateProgressWidth = (pct) => {
-        progress.style.width = pct + '%';
-      };
+      // Un toque en cualquier punto del splash lo salta entero.
+      let skipped = false;
+      const skip = () => { skipped = true; };
+      screen.addEventListener('pointerdown', skip, { once: true, passive: true });
 
-      const typeText = (element, text, speed = 15) => {
+      const updateProgressWidth = (pct) => { progress.style.width = pct + '%'; };
+
+      const typeText = (element, text, speed = 6) => {
         return new Promise((resolve) => {
+          if (skipped) { element.textContent = text; return resolve(); }
           let i = 0;
           element.textContent = "";
           const timer = setInterval(() => {
-            if (i < text.length) {
-              element.textContent += text.charAt(i);
-              i++;
-            } else {
+            if (skipped || i >= text.length) {
               clearInterval(timer);
-              resolve();
+              element.textContent = text;
+              return resolve();
             }
+            element.textContent += text.charAt(i);
+            i++;
           }, speed);
         });
       };
 
-      // Paso 1: Conexión inicial
-      updateProgressWidth(10);
+      const wait = (ms) => new Promise(r => setTimeout(r, skipped ? 0 : ms));
+
+      updateProgressWidth(20);
       await typeText(status, '>> [CONECTANDO] CONECTANDO AL NÚCLEO JUWE...');
-      await new Promise(r => setTimeout(r, 150));
 
-      // Paso 2: Carga completada
-      updateProgressWidth(35);
-      await typeText(status, '>> [CARGANDO] CARGANDO SISTEMAS NATIVOS...');
-      
-      // Cargar librerías críticas en segundo plano con soporte offline
-      const libsLoaded = await Promise.all([
-        loadLibrary('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'),
-        loadLibrary('https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js')
-      ]);
+      updateProgressWidth(55);
+      await typeText(status, '>> [CARGANDO] SINTONIZANDO REJILLA CIBÉRNETICA DE ENERGÍA...');
+      await wait(80);
 
-      // Paso 3: Sintonización de rejilla y PWA offline
-      updateProgressWidth(65);
-      await typeText(status, '>> [INICIALIZANDO] SINTONIZANDO REJILLA CIBERNÉTICA DE ENERGÍA...');
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js').then(reg => {
-          reg.addEventListener('updatefound', () => {
-            const newWorker = reg.installing;
-            if (newWorker) {
-              newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  console.log("Nueva versión detectada. Recargando...");
-                  window.location.reload();
-                }
-              });
-            }
-          });
-        }).catch(() => {});
-      }
-      await new Promise(r => setTimeout(r, 200));
-
-      // Paso 4: Carga de voces e interfaz
       updateProgressWidth(85);
-      await typeText(status, '>> [COMPILANDO] PREPARANDO EFECTOS MÁGICOS Y VOCES EN JAPONÉS...');
-      await new Promise(r => setTimeout(r, 250));
+      await typeText(status, '>> [COMPILANDO] EFECTOS MÁGICOS Y VOCES...');
 
-      // Paso 5: Listo
+      // Solo aquí esperamos a anime.js, y como mucho lo que le quede de su propio timeout.
+      await libsReady;
+
       updateProgressWidth(100);
       await typeText(status, '>> [READY] NÚCLEO ACTIVO. ¡INICIA EL COMBATE!');
-      await new Promise(r => setTimeout(r, 350));
+      await wait(150);
 
-      document.getElementById('loading-screen').classList.add('fade-out');
+      screen.classList.add('fade-out');
       initAppEngine();
     });
   </script>
 
   <!-- ── CÓDIGO CORE BO3 ENCUENTRO ── -->
-  <script src="./engine.js?v=92"></script>
+  <script src="./engine.js?v=96"></script>
   </div>
 </body>
 </html>
