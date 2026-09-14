@@ -11,7 +11,7 @@
 // la primera vez que se selecciona/reproduce. Instalación más rápida y, sobre todo,
 // tolerante a fallos: un archivo que falte ya no tumba el Service Worker entero.
 
-const CACHE = 'magic-bo3-v97';
+const CACHE = 'magic-bo3-v99';
 
 // ── Nivel 1: shell mínimo imprescindible. Bloquea el install. ──────────────
 const CORE_ASSETS = [

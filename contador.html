@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@900&family=Lilita+One&family=Orbitron:wght@500;800;900&family=Outfit:wght@300;400;600;800&family=Permanent+Marker&family=Pirata+One&family=Press+Start+2P&family=Russo+One&family=Shojumaru&family=VT323&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="./style.css?v=97">
+  <link rel="stylesheet" href="./style.css?v=99">
   <script>
     // Aviso de error NO bloqueante. Antes esto era un alert(), que en mitad de una
     // partida congela la app entera hasta que alguien toca "Aceptar" en el movil.
@@ -168,7 +168,6 @@
         <div style="text-align: center; color: #555566; padding: 20px;">Sin historial todavía</div>
       </div>
       <button class="btn-modal-save" id="btnHistoryShare" style="background: #0088cc; color: #fff; margin-bottom: 8px; display: none;">📤 COMPARTIR HISTORIAL</button>
-      <button class="btn-modal-save" onclick="runDiagnostics()" style="background: #ff6a00; color: #fff; margin-bottom: 8px;">🧪 EJECUTAR AUTODIAGNÓSTICO</button>
       <button class="btn-modal-save" id="btnHistoryClose">CERRAR</button>
     </div>
   </div>
@@ -328,14 +327,14 @@
     <!-- ═══ JUGADOR 1 (Arriba, rotado 180°) ═══ -->
     <div class="player" id="p1">
       <!-- Barra de Salud Universal -->
-      <div class="health-bar-container" onclick="openProfileEdit(1)">
+      <div class="health-bar-container">
         <div class="health-bar-bg">
           <div class="health-bar-red" id="healthRedBarP1"></div>
           <div class="health-bar-fill" id="healthBarP1"></div>
         </div>
         <div class="health-bar-name">
           <span id="pn1">JUGADOR 1</span>
-          <div class="avatar-ph" id="av1">✦</div>
+          <div class="avatar-ph" id="av1" onclick="openProfileEdit(1)" title="Editar jugador">✦</div>
         </div>
       </div>
       <div class="flash" id="fl1"></div>
@@ -354,6 +353,8 @@
       </div>
 
       <div class="life-area" id="la1">
+        <div class="tap-zone tap-zone-plus" data-p="1" data-v="1"></div>
+        <div class="tap-zone tap-zone-minus" data-p="1" data-v="-1"></div>
         <div class="life-num-wrap">
           <div class="life-num" id="ln1">20</div>
         </div>
@@ -436,13 +437,13 @@
     <!-- ═══ JUGADOR 2 (Abajo) ═══ -->
     <div class="player" id="p2">
       <!-- Barra de Salud Universal -->
-      <div class="health-bar-container" onclick="openProfileEdit(2)">
+      <div class="health-bar-container">
         <div class="health-bar-bg">
           <div class="health-bar-red" id="healthRedBarP2"></div>
           <div class="health-bar-fill" id="healthBarP2"></div>
         </div>
         <div class="health-bar-name">
-          <div class="avatar-ph" id="av2">✦</div>
+          <div class="avatar-ph" id="av2" onclick="openProfileEdit(2)" title="Editar jugador">✦</div>
           <span id="pn2">JUGADOR 2</span>
         </div>
       </div>
@@ -463,6 +464,8 @@
       </div>
 
       <div class="life-area" id="la2">
+        <div class="tap-zone tap-zone-plus" data-p="2" data-v="1"></div>
+        <div class="tap-zone tap-zone-minus" data-p="2" data-v="-1"></div>
         <div class="life-num-wrap">
           <div class="life-num" id="ln2">20</div>
         </div>
@@ -608,7 +611,7 @@
   </script>
 
   <!-- ── CÓDIGO CORE BO3 ENCUENTRO ── -->
-  <script src="./engine.js?v=97"></script>
+  <script src="./engine.js?v=99"></script>
   </div>
 </body>
 </html>

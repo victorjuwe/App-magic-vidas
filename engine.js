@@ -865,6 +865,7 @@
       rounds: [[false, false], [false, false]],
       clock: { secs: 50 * 60, running: false, iv: null },
       poison: [0, 0],
+      cmdrDmg: [[0, 0, 0], [0, 0, 0]],
       goesFirst: 0,
       locked: false,
       muted: false,
@@ -955,6 +956,7 @@
           clockSecs: S.clock.secs,
           clockRunning: S.clock.running,
           poison: S.poison,
+          cmdrDmg: S.cmdrDmg,
           goesFirst: S.goesFirst,
           currentGame: S.currentGame,
           inSideboardPhase: S.inSideboardPhase,
@@ -981,6 +983,7 @@
         S.rounds = data.rounds;
         S.clock.secs = data.clockSecs;
         S.poison = data.poison;
+        S.cmdrDmg = data.cmdrDmg || [[0, 0, 0], [0, 0, 0]];
         S.goesFirst = data.goesFirst;
         S.currentGame = data.currentGame;
         S.inSideboardPhase = data.inSideboardPhase;
@@ -993,6 +996,7 @@
           $('ln' + p).textContent = S.lives[p - 1];
           renderHistory(p);
           renderPoison(p);
+          renderCmdrDmg(p);
           renderRounds(p);
           applyPlayerVisualTheme(p);
         });
@@ -2463,10 +2467,14 @@
     }
 
     function applySavedUIVisibility() {
-      let showPoison = false;
+      // Por defecto SI se ve el veneno: el checkbox del lobby viene con "checked"
+      // en el HTML, pero antes esto leia === 'true', asi que en una instalacion
+      // nueva (sin la clave en localStorage) salia false y ademas desmarcaba el
+      // checkbox. Resultado: nadie veia el veneno hasta activarlo a mano.
+      let showPoison = true;
       let showSideboard = true;
       try {
-        showPoison = localStorage.getItem('mtg_show_poison') === 'true';
+        showPoison = localStorage.getItem('mtg_show_poison') !== 'false';
         showSideboard = localStorage.getItem('mtg_show_sideboard') !== 'false';
       } catch(_) {}
       
@@ -2706,6 +2714,8 @@
       try { initResetLongPress(); } catch(e) { console.error("Error al iniciar LongPress reset:", e); }
       try { initLockScreenEngine(); } catch(e) { console.error("Error al iniciar pantalla de bloqueo:", e); }
       try { initTouchProtections(); } catch(e) { console.error("Error al iniciar TouchProtections:", e); }
+      try { initTapToChangeLife(); } catch(e) { console.error("Error al iniciar el toque de vidas:", e); }
+      try { initTapHint(); } catch(e) { console.error("Error al iniciar la pista de toque:", e); }
       try { setupEasterEggs(); } catch(e) { console.error("Error al iniciar Easter Eggs:", e); }
     }
 
@@ -3314,6 +3324,7 @@
       S.prevLives = [20, 20];
       S.history = [[], []];
       S.poison = [0, 0];
+      S.cmdrDmg = [[0, 0, 0], [0, 0, 0]];
 
       // Reset de UI de los jugadores
       [1, 2].forEach(p => {
@@ -3329,6 +3340,7 @@
         $('p' + p).classList.remove('danger', 'dead', 'winner');
         renderHistory(p);
         renderPoison(p);
+        renderCmdrDmg(p);
       });
 
       // Turno de juego
@@ -3480,6 +3492,62 @@
       el.className = 'poison-num' + (n >= 10 ? ' crit' : n >= 7 ? ' warn' : '');
     }
 
+    // ── DANO DE COMANDANTE (solo Commander) ──
+    // Los 12 botones del HTML llamaban a changeCmdrDmg(), que nunca llego a
+    // existir, y el grid estaba con display:none fijo. Regla oficial: 21 puntos
+    // de dano de un mismo comandante eliminan al jugador, aparte de sus vidas.
+    const CMDR_LETAL = 21;
+
+    function changeCmdrDmg(p, slot, v) {
+      if (S.locked) return;
+      if (selectedMode !== 'commander') return;
+
+      const antes = S.cmdrDmg[p - 1][slot - 1];
+      const ahora = Math.max(0, Math.min(CMDR_LETAL, antes + v));
+      if (ahora === antes) return;
+
+      S.cmdrDmg[p - 1][slot - 1] = ahora;
+      vib(v > 0 ? [14, 8, 14] : [10]);
+      renderCmdrDmg(p);
+
+      // El dano de comandante es dano normal: tambien baja las vidas.
+      // Asi un solo toque refleja lo que pasa en la mesa.
+      changeLife(p, -(ahora - antes));
+
+      addMatchLog(`⚔️ ${S.names[p - 1]} recibe dano del Comandante ${slot}: ${ahora}/${CMDR_LETAL}`);
+
+      if (ahora >= CMDR_LETAL) {
+        const pel = $('p' + p);
+        if (pel) {
+          pel.classList.remove('danger');
+          pel.classList.add('dead');
+        }
+        vib([80, 40, 80, 40, 200]);
+        addMatchLog(`☠️ ${S.names[p - 1]} eliminado por dano de comandante (${CMDR_LETAL})`);
+        evalBO3MatchEnd(p === 1 ? 2 : 1);
+      }
+    }
+
+    function renderCmdrDmg(p) {
+      for (let slot = 1; slot <= 3; slot++) {
+        const el = $(`cmd${p}_${slot}`);
+        if (!el) continue;
+        const n = S.cmdrDmg[p - 1][slot - 1];
+        el.textContent = n;
+        el.className = 'cmdr-num' + (n >= CMDR_LETAL ? ' crit' : n >= 14 ? ' warn' : '');
+      }
+    }
+
+    // Muestra el grid solo en Commander; en BO3 no pinta nada.
+    function applyCmdrVisibility() {
+      const esCommander = (selectedMode === 'commander');
+      [1, 2].forEach(p => {
+        const grid = $('cmdrGrid' + p);
+        if (grid) grid.style.display = esCommander ? 'flex' : 'none';
+        if (esCommander) renderCmdrDmg(p);
+      });
+    }
+
 
 
     // Turno Primero
@@ -3513,6 +3581,7 @@
       S.prevLives = [startLives, startLives];
       S.history = [[], []];
       S.poison = [0, 0];
+      S.cmdrDmg = [[0, 0, 0], [0, 0, 0]];
       
       vib([25, 12, 25]);
       playSynthSound('reset');
@@ -3523,6 +3592,7 @@
         $('p' + p).classList.remove('danger', 'dead', 'winner');
         renderHistory(p);
         renderPoison(p);
+        renderCmdrDmg(p);
       });
 
       // Registrar reinicio de juego
@@ -3536,6 +3606,7 @@
       S.history = [[], []];
       S.rounds = [[false, false], [false, false]];
       S.poison = [0, 0];
+      S.cmdrDmg = [[0, 0, 0], [0, 0, 0]];
       S.goesFirst = 0;
       S.currentGame = 1;
       S.inSideboardPhase = false;
@@ -3570,6 +3641,7 @@
         }
         renderHistory(p);
         renderPoison(p);
+        renderCmdrDmg(p);
       });
       renderFirst();
 
@@ -3743,6 +3815,43 @@
       // El zoom y comportamiento táctil se manejan mediante CSS (touch-action, overscroll-behavior)
     }
 
+    // ── TOCAR LA PROPIA MITAD PARA SUMAR O RESTAR VIDA ──
+    // Con cartas en la mano, acertar en un boton de ±1 es incomodo. Ahora la mitad
+    // de arriba de TU zona suma y la de abajo resta. Los botones ±1/±5 siguen igual.
+    // Ojo: #p1 va con transform:rotate(180deg), asi que para el jugador de arriba
+    // su "arriba" es la parte de abajo en coordenadas de pantalla -> invertimos.
+    function initTapToChangeLife() {
+      // Zonas explicitas en vez de calcular la mitad por coordenadas: asi no
+      // dependemos de que el punto tocado no lo tape la barra de nombre.
+      // El CSS ya las coloca girando con #p1, que va rotado 180deg.
+      document.querySelectorAll('.tap-zone').forEach(zona => {
+        zona.addEventListener('pointerdown', () => {
+          if (S.locked) return;
+          const p = Number(zona.dataset.p);
+          const v = Number(zona.dataset.v);
+          if ($('p' + p).classList.contains('dead')) return;
+
+          changeLife(p, v);
+
+          zona.classList.add('tocada');
+          setTimeout(() => zona.classList.remove('tocada'), 240);
+
+          // La pista visual solo hace falta hasta que se descubre el gesto.
+          if (!tapHintUsado) {
+            tapHintUsado = true;
+            try { localStorage.setItem('mtg_tap_hint_visto', '1'); } catch (_) {}
+            document.body.classList.remove('mostrar-pista-tap');
+          }
+        });
+      });
+    }
+
+    let tapHintUsado = false;
+    function initTapHint() {
+      try { tapHintUsado = localStorage.getItem('mtg_tap_hint_visto') === '1'; } catch (_) {}
+      if (!tapHintUsado) document.body.classList.add('mostrar-pista-tap');
+    }
+
 // LOBBY LOGIC
 let selectedMode = 'bo3';
 let selectedLobbyTheme = '';
@@ -3879,6 +3988,7 @@ $('btnStartGame').addEventListener('click', () => {
       $('lobby-screen').classList.add('hidden');
       $('game-screen').style.display = 'flex';
       document.body.dataset.mode = selectedMode;
+      applyCmdrVisibility();
       try { requestWakeLock(); } catch(_) {}
 
       // Set lives based on mode
